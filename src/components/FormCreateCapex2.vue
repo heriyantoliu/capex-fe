@@ -1,12 +1,7 @@
 <template>
   <div>
     <b-overlay :show="overlay" rounded="sm">
-      <form
-        class="m-form"
-        id="m_form_1"
-        v-on:submit.prevent
-        :aria-hidden="overlay ? 'true' : null"
-      >
+      <form class="m-form" id="m_form_1" v-on:submit.prevent :aria-hidden="overlay ? 'true' : null">
         <div class="m-portlet">
           <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
@@ -23,11 +18,7 @@
                     <label>Budget Owner Name</label>
                   </b-col>
                   <b-col sm="8">
-                    <b-form-input
-                      size
-                      disabled
-                      v-model="budgetOwnerInfo.ownerName"
-                    ></b-form-input>
+                    <b-form-input size disabled v-model="budgetOwnerInfo.ownerName"></b-form-input>
                   </b-col>
                 </b-row>
 
@@ -36,11 +27,7 @@
                     <label>Budget Owner Position</label>
                   </b-col>
                   <b-col sm="8">
-                    <b-form-input
-                      size
-                      disabled
-                      v-model="budgetOwnerInfo.position"
-                    ></b-form-input>
+                    <b-form-input size disabled v-model="budgetOwnerInfo.position"></b-form-input>
                   </b-col>
                 </b-row>
                 <b-row class="my-1">
@@ -48,11 +35,7 @@
                     <label>Budget Owner Payroll ID</label>
                   </b-col>
                   <b-col sm="8">
-                    <b-form-input
-                      size
-                      disabled
-                      v-model="budgetOwnerInfo.payrollID"
-                    ></b-form-input>
+                    <b-form-input size disabled v-model="budgetOwnerInfo.payrollID"></b-form-input>
                   </b-col>
                 </b-row>
                 <b-row class="my-1">
@@ -75,14 +58,10 @@
                       "
                     >
                       <template v-slot:first>
-                        <b-form-select-option value disabled
-                          >-- Please select an option --</b-form-select-option
-                        >
+                        <b-form-select-option value disabled>-- Please select an option --</b-form-select-option>
                       </template>
                     </b-form-select>
-                    <b-form-invalid-feedback id="cost-center-feedback"
-                      >Please select Cost Center.</b-form-invalid-feedback
-                    >
+                    <b-form-invalid-feedback id="cost-center-feedback">Please select Cost Center.</b-form-invalid-feedback>
                   </b-col>
                 </b-row>
               </b-container>
@@ -93,9 +72,7 @@
           <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
               <div class="m-portlet__head-title">
-                <h3 class="m-portlet__head-text">
-                  Capital Expenditure Information
-                </h3>
+                <h3 class="m-portlet__head-text">Capital Expenditure Information</h3>
               </div>
             </div>
           </div>
@@ -122,14 +99,10 @@
                       "
                     >
                       <template v-slot:first>
-                        <b-form-select-option value disabled
-                          >-- Please select an option --</b-form-select-option
-                        >
+                        <b-form-select-option value disabled>-- Please select an option --</b-form-select-option>
                       </template>
                     </b-form-select>
-                    <b-form-invalid-feedback id="purpose-feedback"
-                      >Please select purpose.</b-form-invalid-feedback
-                    >
+                    <b-form-invalid-feedback id="purpose-feedback">Please select purpose.</b-form-invalid-feedback>
                   </b-col>
                 </b-row>
 
@@ -157,22 +130,18 @@
                       aria-describedby="budget-appr-feedback"
                     >
                       <template v-slot:first>
-                        <b-form-select-option value disabled
-                          >-- Please select an option --</b-form-select-option
-                        >
+                        <b-form-select-option value disabled>-- Please select an option --</b-form-select-option>
                       </template>
                     </b-form-select>
 
-                    <b-form-invalid-feedback id="budget-appr-feedback">
-                      Select Budget Approval Code Or Tick Unbudgetted.
-                    </b-form-invalid-feedback>
+                    <b-form-invalid-feedback
+                      id="budget-appr-feedback"
+                    >Select Budget Approval Code Or Tick Unbudgetted.</b-form-invalid-feedback>
                   </b-col>
                 </b-row>
                 <b-row class="my-1">
                   <b-col sm="8" offset-sm="4">
-                    <b-form-checkbox v-model="unbudget"
-                      >Unbudgetted</b-form-checkbox
-                    >
+                    <b-form-checkbox v-model="unbudget">Unbudgetted</b-form-checkbox>
                   </b-col>
                 </b-row>
                 <b-row class="my-1">
@@ -202,8 +171,7 @@
                     <b-form-invalid-feedback
                       id="deskripsi-feedback"
                       v-if="!$v.description.required && $v.description.$error"
-                      >This field must not be empty.</b-form-invalid-feedback
-                    >
+                    >This field must not be empty.</b-form-invalid-feedback>
                   </b-col>
                 </b-row>
 
@@ -221,12 +189,7 @@
                     <label>Quantity</label>
                   </b-col>
                   <b-col sm="8">
-                    <b-form-input
-                      size
-                      type="number"
-                      class="text-right"
-                      v-model="quantity"
-                    ></b-form-input>
+                    <b-form-input size type="number" class="text-right" v-model="quantity"></b-form-input>
                   </b-col>
                 </b-row>
 
@@ -244,9 +207,7 @@
                       style="font-size: 17.6px"
                     >
                       <template v-slot:first>
-                        <b-form-select-option value disabled
-                          >-- Please select an option --</b-form-select-option
-                        >
+                        <b-form-select-option value disabled>-- Please select an option --</b-form-select-option>
                       </template>
                     </b-form-select>
                   </b-col>
@@ -257,11 +218,7 @@
                     <label>Delivery Date</label>
                   </b-col>
                   <b-col sm="8">
-                    <b-form-datepicker
-                      size
-                      type="date"
-                      v-model="deliveryDate"
-                    ></b-form-datepicker>
+                    <b-form-datepicker size type="date" v-model="deliveryDate"></b-form-datepicker>
                   </b-col>
                 </b-row>
 
@@ -296,8 +253,7 @@
                       v-if="
                         !$v.justification.required && $v.justification.$error
                       "
-                      >This field must not be empty.</b-form-invalid-feedback
-                    >
+                    >This field must not be empty.</b-form-invalid-feedback>
                   </b-col>
                 </b-row>
 
@@ -309,6 +265,7 @@
                     <b-input-group size prepend="Rp">
                       <b-form-input
                         size
+                        inputmode="numeric"
                         class="text-right"
                         :value="totalAmountText"
                         @input="onInputNumber"
@@ -329,16 +286,14 @@
                           !$v.totalAmountText.requiredNumber &&
                             $v.totalAmountText.$error
                         "
-                        >This field must not be empty</b-form-invalid-feedback
-                      >
+                      >This field must not be empty</b-form-invalid-feedback>
                       <b-form-invalid-feedback
                         id="amount-feedback"
                         v-if="
                           !$v.totalAmountText.remainingPositif &&
                             $v.totalAmountText.$error
                         "
-                        >Insufficient budget</b-form-invalid-feedback
-                      >
+                      >Insufficient budget</b-form-invalid-feedback>
                     </b-input-group>
                   </b-col>
                 </b-row>
@@ -393,9 +348,7 @@
                       "
                     >
                       <template v-slot:first>
-                        <b-form-select-option value disabled
-                          >-- Please select an option --</b-form-select-option
-                        >
+                        <b-form-select-option value disabled>-- Please select an option --</b-form-select-option>
                       </template>
                     </b-form-select>
                     <b-form-invalid-feedback
@@ -403,8 +356,7 @@
                       v-if="
                         !$v.justification.required && $v.justification.$error
                       "
-                      >Please select plant.</b-form-invalid-feedback
-                    >
+                    >Please select plant.</b-form-invalid-feedback>
                   </b-col>
                 </b-row>
 
@@ -428,9 +380,7 @@
                       "
                     >
                       <template v-slot:first>
-                        <b-form-select-option value disabled
-                          >-- Please select an option --</b-form-select-option
-                        >
+                        <b-form-select-option value disabled>-- Please select an option --</b-form-select-option>
                       </template>
                     </b-form-select>
                     <b-form-invalid-feedback
@@ -438,8 +388,7 @@
                       v-if="
                         !$v.justification.required && $v.justification.$error
                       "
-                      >Please select storage location.</b-form-invalid-feedback
-                    >
+                    >Please select storage location.</b-form-invalid-feedback>
                   </b-col>
                 </b-row>
 
@@ -448,9 +397,7 @@
                     <b-button variant="danger">Clear</b-button>
                   </b-col>
                   <b-col cols="5" class="text-left">
-                    <b-button variant="success" @click="validate"
-                      >Submit</b-button
-                    >
+                    <b-button variant="success" @click="validate">Submit</b-button>
                   </b-col>
                 </b-row>
               </b-container>
