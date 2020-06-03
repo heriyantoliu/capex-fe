@@ -13,11 +13,23 @@
 <script>
 export default {
   created() {
-    this.$store.dispatch("tryAutoLogin");
+    this.$store.dispatch('tryAutoLogin');
   }
 };
 </script>
 
 
 <style>
+.sm_toast {
+  max-width: 350px;
+  overflow: hidden;
+  font-size: 0.875rem;
+  border-radius: 0.25rem;
+  border: 1px solid;
+}
+
+.sm_toast__body {
+  padding: 0.75rem;
+  text-align: center;
+}
 </style>

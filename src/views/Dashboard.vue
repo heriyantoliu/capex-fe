@@ -126,6 +126,10 @@
                                 href
                                 class="m-card-user__email m--font-weight-300"
                               >{{$store.state.email}}</span>
+                              <button
+                                class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder"
+                                @click="logout"
+                              >Logout</button>
                             </div>
                           </div>
                         </div>
@@ -136,12 +140,18 @@
                                 <span class="m-nav__section-text">Section</span>
                               </li>
 
-                              <li class="m-nav__separator m-nav__separator--fit"></li>
-                              <li class="m-nav__item">
-                                <button
-                                  class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder"
-                                  @click="logout"
-                                >Logout</button>
+                              <li class="nav__item">
+                                <router-link
+                                  :to="'/profile/' + $store.state.userId"
+                                  class="nav__link"
+                                  style="text-decoration : none"
+                                >
+                                  <span class="m-nav__link-title">
+                                    <span class="m-nav__link-wrap">
+                                      <span class="m-nav__link-text">My Profile</span>
+                                    </span>
+                                  </span>
+                                </router-link>
                               </li>
                             </ul>
                           </div>
@@ -280,7 +290,6 @@ export default {
       this.$router.push('/signin');
     },
     toggleLeftPanel(show) {
-      console.log('Left Panel Show:', show);
       if (show) {
         document.body.classList.remove(
           'm-brand--minimize',
@@ -294,7 +303,6 @@ export default {
       }
     },
     toggleLeftPanelMobile(show) {
-      console.log('Left Panel Mobile Show:', show);
       if (show) {
         document.body.classList.add('m-aside-left--on');
       } else {

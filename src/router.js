@@ -9,6 +9,7 @@ import ListCapex from './views/ListCapex';
 import DetailCapex from './views/DetailCapex';
 import ApprCapex from './views/ListApprCapex';
 import ACCCapex from './views/ListACCCapex';
+import Profile from './views/Profile';
 import NotFound from './views/NotFound';
 
 Vue.use(Router);
@@ -31,9 +32,10 @@ const router = new Router({
       children: [
         { path: 'create', name: 'create', component: CreateCapex },
         { path: '', name: 'apprCapex', component: ApprCapex },
-        { path: '/myCapex', name: 'myCapex', component: ListCapex },
-        { path: 'waitAppr', name: 'apprCapex', component: ApprCapex },
+        { path: 'myCapex', name: 'myCapex', component: ListCapex },
+        { path: 'waitAppr', name: 'waitCapex', component: ApprCapex },
         { path: 'accAppr', name: 'accCapex', component: ACCCapex },
+        { path: 'profile/:ID', name: 'profile', component: Profile },
         {
           path: '/capex/:ID',
           name: 'capexDet',

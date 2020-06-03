@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import { axiosCapex } from "../axios-instance";
-import ListTableCapex from "../components/ListTableCapex";
+import { axiosCapex } from '../axios-instance';
+import ListTableCapex from '../components/ListTableCapex';
 
 export default {
   components: {
@@ -28,28 +28,26 @@ export default {
   },
   computed: {
     hasCreate() {
-      return this.$store.getters.findRule("CREATOR");
+      return this.$store.getters.findRule('CREATOR');
     },
     hasViewer() {
-      return this.$store.getters.findRule("VIEWER");
+      return this.$store.getters.findRule('VIEWER');
     },
     hasApprover() {
-      return this.$store.getters.findRule("APPROVER");
+      return this.$store.getters.findRule('APPROVER');
     },
     hasACCApprover() {
-      return this.$store.getters.findRule("ACCAPPROVER");
+      return this.$store.getters.findRule('ACCAPPROVER');
     }
   },
   created() {
     axiosCapex
-      .get("/capexTrx?created=" + this.$store.state.userId)
+      .get('/capexTrx?created=' + this.$store.state.userId)
       .then(result => {
         this.capexTrx = result.data;
         this.totalRows = this.capexTrx.length;
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch();
   }
 };
 </script>

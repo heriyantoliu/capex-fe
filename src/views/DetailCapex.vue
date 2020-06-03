@@ -534,7 +534,6 @@ export default {
     },
     async updateCapex() {
       this.$v.$touch();
-      console.log('update', this.$v.$invalid);
 
       if (!this.$v.$invalid) {
         try {
@@ -582,9 +581,6 @@ export default {
       }
     },
     async rejectCapex() {
-      // this.rejectDialog = false;
-      // this.disableApprRejctButton = true;
-      console.log(this.rejectNote);
       let seq = 0;
       for (let approver of this.capexApprover) {
         if (approver.Status == '' && approver.Approver == this.userId) {
@@ -612,6 +608,14 @@ export default {
             capexID: this.capexInfo.ID,
             seq,
             remark: this.rejectNote
+          });
+          this.$root.$bvToast.toast(`Capex ${this.capexInfo.ID} rejected`, {
+            variant: 'primary',
+            toastClass: 'sm_toast',
+            bodyClass: 'sm_toast__body ',
+            noCloseButton: true,
+            toaster: 'b-toaster-bottom-center',
+            autoHideDelay: 3000
           });
           this.$router.push('/waitAppr');
         }
@@ -659,6 +663,14 @@ export default {
             capexID: this.capexInfo.ID,
             seq
           });
+          this.$root.$bvToast.toast(`Capex ${this.capexInfo.ID} approved`, {
+            variant: 'primary',
+            toastClass: 'sm_toast',
+            bodyClass: 'sm_toast__body ',
+            noCloseButton: true,
+            toaster: 'b-toaster-bottom-center',
+            autoHideDelay: 3000
+          });
           this.$router.push('/waitAppr');
         }
       } catch (err) {
@@ -681,6 +693,14 @@ export default {
           assetClass: this.assetClass,
           assetActivityType: this.capexInfo.assetActivityType,
           assetGroup: this.capexInfo.assetGroup
+        });
+        this.$root.$bvToast.toast(`Capex ${ID} updated`, {
+          variant: 'primary',
+          toastClass: 'sm_toast',
+          bodyClass: 'sm_toast__body ',
+          noCloseButton: true,
+          toaster: 'b-toaster-bottom-center',
+          autoHideDelay: 3000
         });
         this.$router.push('/waitAppr');
       } catch (err) {
@@ -717,10 +737,18 @@ export default {
 
           this.remainingBudget =
             this.capexInfo.totalBudget - this.capexInfo.totalAmount;
-          console.log(this.requestorInfo);
         })
         .catch(err => {
-          console.log(err);
+          this.$bvModal.msgBoxOk(err.response.data.message, {
+            title: 'Error',
+            size: 'sm',
+            buttonSize: 'sm',
+            okVariant: 'danger',
+            headerClass: 'p-2 border-bottom-0',
+            footerClass: 'p-2 border-top-0',
+            centered: true
+          });
+          this.$router.push('/');
         });
     },
     cancelEdit() {
@@ -752,7 +780,16 @@ export default {
         this.fetchCapex(this.$route.params.ID);
       })
       .catch(err => {
-        console.log(err);
+        this.$bvModal.msgBoxOk(err.response.data.message, {
+          title: 'Error',
+          size: 'sm',
+          buttonSize: 'sm',
+          okVariant: 'danger',
+          headerClass: 'p-2 border-bottom-0',
+          footerClass: 'p-2 border-top-0',
+          centered: true
+        });
+        this.$router.push('/');
       });
   }
 };

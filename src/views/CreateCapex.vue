@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import FormCreateCapex from "@/components/FormCreateCapex2.vue";
+import FormCreateCapex from '@/components/FormCreateCapex.vue';
 export default {
   components: {
     FormCreateCapex

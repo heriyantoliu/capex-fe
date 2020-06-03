@@ -43,42 +43,39 @@
 </template>
 
 <script>
-import { axiosCapex } from "../axios-instance";
-import { capexMixin } from "../mixins";
+import { axiosCapex } from '../axios-instance';
+import { capexMixin } from '../mixins';
 
 export default {
   mixins: [capexMixin],
   data() {
     return {
-      search: "",
+      search: '',
       headers: [
         {
-          text: "Capex ID",
-          align: "left",
-          value: "ID"
+          text: 'Capex ID',
+          align: 'left',
+          value: 'ID'
         },
-        { text: "Description", value: "description" },
-        { text: "Amount", value: "totalAmount" },
-        { text: "Status", value: "status" }
+        { text: 'Description', value: 'description' },
+        { text: 'Amount', value: 'totalAmount' },
+        { text: 'Status', value: 'status' }
       ],
       capexTrx: []
     };
   },
   methods: {
     showDetail(ID) {
-      this.$router.push("/capex/" + ID);
+      this.$router.push('/capex/' + ID);
     }
   },
   created() {
     axiosCapex
-      .get("/capexTrx?acc_appr=" + this.$store.state.userId)
+      .get('/capexTrx?acc_appr=' + this.$store.state.userId)
       .then(result => {
         this.capexTrx = result.data;
-        // console.log(this.data.rows[1]);
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch();
   }
   // mounted() {
   //   $(document).ready(function() {
