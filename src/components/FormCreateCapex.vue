@@ -300,7 +300,7 @@
 
                 <b-row class="my-1">
                   <b-col sm="4">
-                    <label>Total Budget</label>
+                    <label>Total Available Budget</label>
                   </b-col>
                   <b-col sm="8">
                     <b-input-group size prepend="Rp">

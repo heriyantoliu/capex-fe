@@ -48,7 +48,7 @@
                     <label>Requestor Position</label>
                   </b-col>
                   <b-col sm="8">
-                    <b-form-input disabled :value="requestorInfo.Position"></b-form-input>
+                    <b-form-input disabled :value="capexInfo.requestorPosition"></b-form-input>
                   </b-col>
                 </b-row>
                 <b-row class="my-1">
@@ -278,7 +278,11 @@
                   </b-col>
                   <b-col sm="8">
                     <b-input-group size prepend="Rp">
-                      <b-form-input class="text-right" disabled :value="capexInfo.remainingBudget" />
+                      <b-form-input
+                        class="text-right"
+                        disabled
+                        :value="budgetInfo.budgetRemaining | toCurrency"
+                      />
                     </b-input-group>
                   </b-col>
                 </b-row>
