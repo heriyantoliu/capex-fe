@@ -122,10 +122,10 @@
                               <span
                                 class="m-card-user__name m--font-weight-500"
                               >{{$store.state.name}}</span>
-                              <span
+                              <!-- <span
                                 href
                                 class="m-card-user__email m--font-weight-300"
-                              >{{$store.state.email}}</span>
+                              >{{$store.state.email}}</span>-->
                               <button
                                 class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder"
                                 @click="logout"
