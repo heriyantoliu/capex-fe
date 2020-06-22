@@ -9,6 +9,13 @@
                 <h3 class="m-portlet__head-text">Requester Information</h3>
               </div>
             </div>
+            <b-button
+              v-if="capexInfo.status == 'A'"
+              class="m-3"
+              variant="info"
+              @click="
+            replicate"
+            >Replicate to SAP</b-button>
           </div>
           <div class="m-portlet__body">
             <div class="m-form__section m-form__section--first">
@@ -191,7 +198,6 @@
                   </b-col>
                   <b-col sm="8">
                     <b-form-input
-                      size
                       type="number"
                       class="text-right"
                       v-model="capexInfo.quantity"
@@ -402,6 +408,47 @@
                   </b-col>
                 </b-row>
 
+                <div v-if="capexInfo.SAPCompanyCode">
+                  <b-row class="my-1">
+                    <b-col sm="4">
+                      <label>SAP Company Code</label>
+                    </b-col>
+                    <b-col sm="8">
+                      <b-form-input
+                        :value="capexInfo.SAPCompanyCode"
+                        disabled
+                        style="font-size: 17.6px"
+                      />
+                    </b-col>
+                  </b-row>
+
+                  <b-row class="my-1">
+                    <b-col sm="4">
+                      <label>SAP Asset Number</label>
+                    </b-col>
+                    <b-col sm="8">
+                      <b-form-input
+                        :value="capexInfo.SAPAssetNo"
+                        disabled
+                        style="font-size: 17.6px"
+                      />
+                    </b-col>
+                  </b-row>
+
+                  <b-row class="my-1">
+                    <b-col sm="4">
+                      <label>SAP Sub Asset Number</label>
+                    </b-col>
+                    <b-col sm="8">
+                      <b-form-input
+                        :value="capexInfo.SAPAssetSubNo"
+                        disabled
+                        style="font-size: 17.6px"
+                      />
+                    </b-col>
+                  </b-row>
+                </div>
+
                 <div
                   v-if="
                     capexInfo.nextApproval == userId &&
@@ -535,6 +582,52 @@ export default {
       this.assetClass = '';
       this.capexInfo.assetActivityType = '';
       this.capexInfo.assetGroup = '';
+    },
+
+    async replicate() {
+      try {
+        let result = await this.$bvModal.msgBoxConfirm(
+          'Yakin untuk replikasi capex ke SAP?',
+          {
+            title: 'Replikasi Capex',
+            size: 'sm',
+            buttonSize: 'sm',
+            okVariant: 'danger',
+            okTitle: 'YES',
+            cancelTitle: 'NO',
+            footerClass: 'p-2',
+            hideHeaderClose: true,
+            centered: true
+          }
+        );
+        if (result) {
+          this.overlay = true;
+          await axiosCapex.post(`/capexTrx/${this.capexInfo.ID}/replicate`);
+          this.$root.$bvToast.toast(
+            `Capex ${this.capexInfo.ID} submitted to SAP`,
+            {
+              variant: 'primary',
+              toastClass: 'sm_toast',
+              bodyClass: 'sm_toast__body ',
+              noCloseButton: true,
+              toaster: 'b-toaster-bottom-center',
+              autoHideDelay: 3000
+            }
+          );
+          this.$router.push('/replicate');
+        }
+      } catch (err) {
+        this.$bvModal.msgBoxOk(err.response.data.message, {
+          title: 'Error',
+          size: 'sm',
+          buttonSize: 'sm',
+          okVariant: 'danger',
+          headerClass: 'p-2 border-bottom-0',
+          footerClass: 'p-2 border-top-0',
+          centered: true
+        });
+        this.overlay = false;
+      }
     },
     async updateCapex() {
       this.$v.$touch();

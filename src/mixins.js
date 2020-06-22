@@ -25,23 +25,29 @@ const capexMixin = {
           return 'Reject';
         case 'I':
           return 'Approval in progress';
+        case 'RI':
+          return 'Replicate in progress';
+        case 'SAP':
+          return 'Replicated';
       }
-    },
+    }
   },
   methods: {
     statusColor(value) {
       switch (value) {
-        case '':
-          return 'info';
         case 'A':
+        case 'RI':
+        case 'SAP':
           return 'success';
         case 'R':
           return 'danger';
         case 'I':
           return 'warning';
+        default:
+          return 'info';
       }
-    },
-  },
+    }
+  }
 };
 
 export { capexMixin };

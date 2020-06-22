@@ -243,6 +243,17 @@
 
                   <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
                     <!-- <a href="/create" class="m-menu__link"> -->
+                    <router-link to="/replicate" class="m-menu__link">
+                      <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                        <span></span>
+                      </i>
+                      <span class="m-menu__link-text">Full Approve</span>
+                    </router-link>
+                    <!-- </a> -->
+                  </li>
+
+                  <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+                    <!-- <a href="/create" class="m-menu__link"> -->
                     <router-link to="/create" class="m-menu__link">
                       <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                         <span></span>
