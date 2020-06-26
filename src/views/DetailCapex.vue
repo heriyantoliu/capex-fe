@@ -229,6 +229,7 @@
                   <b-col sm="8">
                     <b-form-datepicker
                       type="date"
+                      locale="id"
                       :value="
                         capexInfo.deliveryDate == '0001-01-01T00:00:00Z'
                           ? null
@@ -559,9 +560,9 @@ export default {
       timeout: 5000,
       overlay: false,
       uomData: [
-        { key: '001', desc: 'Buah' },
-        { key: '002', desc: 'Kg' },
-        { key: '003', desc: 'Liter' }
+        { key: 'PC', desc: 'Buah' },
+        { key: 'KG', desc: 'Kg' },
+        { key: 'L', desc: 'Liter' }
       ]
     };
   },

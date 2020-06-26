@@ -45,7 +45,8 @@
                   <b-col sm="8">
                     <b-form-select
                       size
-                      v-model="costCenter"
+                      :value="costCenter"
+                      @change="changeCostCenter"
                       :options="costCenterData"
                       value-field="costCenterCode"
                       text-field="costCenterName"
@@ -465,10 +466,11 @@ export default {
       purposeData: [],
       purpose: '',
       budgetApprovalCode: '',
+      // budgetApprovalCodeData: [],
       uomData: [
-        { key: '001', desc: 'Buah' },
-        { key: '002', desc: 'Kg' },
-        { key: '003', desc: 'Liter' }
+        { key: 'PC', desc: 'Buah' },
+        { key: 'KG', desc: 'Kg' },
+        { key: 'L', desc: 'Liter' }
       ],
       uom: '',
       plantData: [],
@@ -567,6 +569,12 @@ export default {
       this.plant = '';
       this.storageLoc = '';
       this.deliveryDate = null;
+    },
+    changeCostCenter(value) {
+      if (this.costCenter != value) {
+        this.budgetApprovalCode = '';
+        this.costCenter = value;
+      }
     },
     onInputNumber(e) {
       this.$v.totalAmountText.$touch();
