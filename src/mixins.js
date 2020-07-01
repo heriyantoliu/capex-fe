@@ -1,3 +1,5 @@
+import writtenNumber from 'written-number';
+
 const capexMixin = {
   filters: {
     toCurrency(value) {
@@ -30,6 +32,10 @@ const capexMixin = {
         case 'SAP':
           return 'Replicated';
       }
+    },
+    inSpell(amount) {
+      writtenNumber.defaults.lang = 'id';
+      return writtenNumber(amount);
     }
   },
   methods: {
