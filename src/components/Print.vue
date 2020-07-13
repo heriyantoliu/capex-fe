@@ -367,11 +367,13 @@
                 </span>
               </td>
               <td style="text-align: right;">
-                <span class="style25">
-                  {{
-                  budgetInfo.budgetAmount | toCurrency
-                  }}
-                </span>
+                <template v-if="budgetInfo">
+                  <span class="style25">
+                    {{
+                    budgetInfo.budgetAmount | toCurrency
+                    }}
+                  </span>
+                </template>
               </td>
               <td style="text-align: right;">
                 <span class="style25">{{ variant | toCurrency }}</span>
@@ -447,11 +449,13 @@
                 </span>
               </td>
               <td style="text-align: right;">
-                <span class="style25">
-                  {{
-                  budgetInfo.budgetAmount | toCurrency
-                  }}
-                </span>
+                <template v-if="budgetInfo">
+                  <span class="style25">
+                    {{
+                    budgetInfo.budgetAmount | toCurrency
+                    }}
+                  </span>
+                </template>
               </td>
               <td style="text-align: right;">
                 <span class="style25">{{ variant | toCurrency }}</span>
@@ -549,8 +553,7 @@ export default {
       required: true
     },
     budgetInfo: {
-      type: Object,
-      required: true
+      type: Object
     }
   },
   computed: {
@@ -562,13 +565,19 @@ export default {
       }
     },
     variant: function() {
-      return this.budgetInfo.budgetAmount - this.capexInfo.totalAmount;
+      if (this.budgetInfo) {
+        return this.budgetInfo.budgetAmount - this.capexInfo.totalAmount;
+      }
+      return 0;
     },
     variantPct: function() {
       if (this.variant == 0) {
         return 0;
       } else {
-        return (this.variant / this.budgetInfo.budgetAmount) * 100;
+        if (this.budgetInfo) {
+          return (this.variant / this.budgetInfo.budgetAmount) * 100;
+        }
+        return 0;
       }
     }
   }

@@ -70,31 +70,33 @@
                   </b-col>
                 </b-row>
 
-                <b-row class="my-1">
-                  <b-col sm="4">
-                    <label>Budget Owner Name</label>
-                  </b-col>
-                  <b-col sm="8">
-                    <b-form-input size disabled v-model="budgetInfo.ownerName"></b-form-input>
-                  </b-col>
-                </b-row>
+                <div v-if="capexInfo.budgetType == 'B'">
+                  <b-row class="my-1">
+                    <b-col sm="4">
+                      <label>Budget Owner Name</label>
+                    </b-col>
+                    <b-col sm="8">
+                      <b-form-input size disabled v-model="budgetInfo.ownerName"></b-form-input>
+                    </b-col>
+                  </b-row>
 
-                <b-row class="my-1">
-                  <b-col sm="4">
-                    <label>Budget Owner Position</label>
-                  </b-col>
-                  <b-col sm="8">
-                    <b-form-input size disabled v-model="budgetInfo.position"></b-form-input>
-                  </b-col>
-                </b-row>
-                <b-row class="my-1">
-                  <b-col sm="4">
-                    <label>Budget Owner Payroll ID</label>
-                  </b-col>
-                  <b-col sm="8">
-                    <b-form-input size disabled v-model="budgetInfo.payrollID"></b-form-input>
-                  </b-col>
-                </b-row>
+                  <b-row class="my-1">
+                    <b-col sm="4">
+                      <label>Budget Owner Position</label>
+                    </b-col>
+                    <b-col sm="8">
+                      <b-form-input size disabled v-model="budgetInfo.position"></b-form-input>
+                    </b-col>
+                  </b-row>
+                  <b-row class="my-1">
+                    <b-col sm="4">
+                      <label>Budget Owner Payroll ID</label>
+                    </b-col>
+                    <b-col sm="8">
+                      <b-form-input size disabled v-model="budgetInfo.payrollID"></b-form-input>
+                    </b-col>
+                  </b-row>
+                </div>
                 <b-row class="my-1">
                   <b-col sm="4">
                     <label>Cost Center*</label>
@@ -266,37 +268,37 @@
                     </b-input-group>
                   </b-col>
                 </b-row>
+                <div v-if="capexInfo.budgetType == 'B'">
+                  <b-row class="my-1">
+                    <b-col sm="4">
+                      <label>Total Budget</label>
+                    </b-col>
+                    <b-col sm="8">
+                      <b-input-group size prepend="Rp">
+                        <b-form-input
+                          class="text-right"
+                          disabled
+                          :value="capexInfo.totalBudget | toCurrency"
+                        />
+                      </b-input-group>
+                    </b-col>
+                  </b-row>
 
-                <b-row class="my-1">
-                  <b-col sm="4">
-                    <label>Total Budget</label>
-                  </b-col>
-                  <b-col sm="8">
-                    <b-input-group size prepend="Rp">
-                      <b-form-input
-                        class="text-right"
-                        disabled
-                        :value="capexInfo.totalBudget | toCurrency"
-                      />
-                    </b-input-group>
-                  </b-col>
-                </b-row>
-
-                <b-row class="my-1">
-                  <b-col sm="4">
-                    <label>Remaining Budget</label>
-                  </b-col>
-                  <b-col sm="8">
-                    <b-input-group size prepend="Rp">
-                      <b-form-input
-                        class="text-right"
-                        disabled
-                        :value="budgetInfo.budgetRemaining | toCurrency"
-                      />
-                    </b-input-group>
-                  </b-col>
-                </b-row>
-
+                  <b-row class="my-1">
+                    <b-col sm="4">
+                      <label>Remaining Budget</label>
+                    </b-col>
+                    <b-col sm="8">
+                      <b-input-group size prepend="Rp">
+                        <b-form-input
+                          class="text-right"
+                          disabled
+                          :value="budgetInfo.budgetRemaining | toCurrency"
+                        />
+                      </b-input-group>
+                    </b-col>
+                  </b-row>
+                </div>
                 <b-row class="my-1">
                   <b-col sm="4">
                     <label>Plant</label>

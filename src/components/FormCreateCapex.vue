@@ -190,7 +190,26 @@
                     <label>Quantity</label>
                   </b-col>
                   <b-col sm="8">
-                    <b-form-input size type="number" class="text-right" v-model="quantity"></b-form-input>
+                    <b-form-input
+                      class="text-right"
+                      inputmode="numeric"
+                      :value="quantityText"
+                      @input="onInputNumberQty"
+                      @keypress="onKeypressNumber"
+                      aria-describedby="qty-feedback"
+                      :state="
+                        !(!$v.quantityText.requiredNumber && $v.quantityText.$error)
+                          ? null
+                          : false
+                      "
+                    ></b-form-input>
+                    <b-form-invalid-feedback
+                      id="qty-feedback"
+                      v-if="
+                          !$v.quantityText.requiredNumber &&
+                            $v.quantityText.$error
+                        "
+                    >This field must not be empty</b-form-invalid-feedback>
                   </b-col>
                 </b-row>
 
@@ -206,11 +225,23 @@
                       value-field="key"
                       text-field="desc"
                       style="font-size: 17.6px"
+                      aria-describedby="uom-feedback"
+                      :state="
+                        !(!$v.uom.required && $v.uom.$error)
+                          ? null
+                          : false
+                      "
                     >
                       <template v-slot:first>
                         <b-form-select-option value disabled>-- Please select an option --</b-form-select-option>
                       </template>
                     </b-form-select>
+                    <b-form-invalid-feedback
+                      id="uom-feedback"
+                      v-if="
+                        !$v.uom.required && $v.uom.$error
+                      "
+                    >Please select UoM.</b-form-invalid-feedback>
                   </b-col>
                 </b-row>
 
@@ -219,7 +250,7 @@
                     <label>Delivery Date</label>
                   </b-col>
                   <b-col sm="8">
-                    <b-form-datepicker size type="date" v-model="deliveryDate"></b-form-datepicker>
+                    <b-form-datepicker locale="id" type="date" v-model="deliveryDate"></b-form-datepicker>
                   </b-col>
                 </b-row>
 
@@ -265,7 +296,6 @@
                   <b-col sm="8">
                     <b-input-group size prepend="Rp">
                       <b-form-input
-                        size
                         inputmode="numeric"
                         class="text-right"
                         :value="totalAmountText"
@@ -355,7 +385,7 @@
                     <b-form-invalid-feedback
                       id="plant-feedback"
                       v-if="
-                        !$v.justification.required && $v.justification.$error
+                        !$v.plant.required && $v.plant.$error
                       "
                     >Please select plant.</b-form-invalid-feedback>
                   </b-col>
@@ -387,7 +417,7 @@
                     <b-form-invalid-feedback
                       id="sloc-feedback"
                       v-if="
-                        !$v.justification.required && $v.justification.$error
+                        !$v.storageLoc.required && $v.storageLoc.$error
                       "
                     >Please select storage location.</b-form-invalid-feedback>
                   </b-col>
@@ -454,6 +484,7 @@ export default {
       description: '',
       deliveryDate: null,
       quantity: 0,
+      quantityText: '0',
       serialNumber: '',
       justification: '',
       totalAmount: null,
@@ -540,6 +571,12 @@ export default {
       remainingPositif,
       requiredNumber
     },
+    quantityText: {
+      requiredNumber
+    },
+    uom: {
+      required
+    },
     plant: {
       required
     },
@@ -587,6 +624,18 @@ export default {
         this.totalAmountText.toString().replace(/[ ,.]/g, '')
       );
       this.totalAmountText = this.totalAmount.toLocaleString('id');
+    },
+    onInputNumberQty(e) {
+      this.$v.quantityText.$touch();
+      this.quantityText = e;
+      if (!this.quantityText) {
+        this.quantityText = '0';
+      }
+
+      this.quantity = parseInt(
+        this.quantityText.toString().replace(/[ ,.]/g, '')
+      );
+      this.quantityText = this.quantity.toLocaleString('id');
     },
     onKeypressNumber(evt) {
       var theEvent = evt || window.event;
