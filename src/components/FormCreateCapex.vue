@@ -187,7 +187,7 @@
 
                 <b-row class="my-1">
                   <b-col sm="4">
-                    <label>Quantity</label>
+                    <label>Quantity*</label>
                   </b-col>
                   <b-col sm="8">
                     <b-form-input
@@ -215,7 +215,7 @@
 
                 <b-row class="my-1">
                   <b-col sm="4">
-                    <label>Satuan(UoM)</label>
+                    <label>Satuan(UoM)*</label>
                   </b-col>
                   <b-col sm="8">
                     <b-form-select
@@ -422,6 +422,35 @@
                     >Please select storage location.</b-form-invalid-feedback>
                   </b-col>
                 </b-row>
+              </b-container>
+            </div>
+          </div>
+        </div>
+        <div class="m-portlet">
+          <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+              <div class="m-portlet__head-title">
+                <h3 class="m-portlet__head-text">SAP Asset Information</h3>
+              </div>
+            </div>
+          </div>
+          <div class="m-portlet__body">
+            <div class="m-form__section m-form__section--first">
+              <b-container fluid>
+                <b-row class="my-1">
+                  <b-col sm="4">
+                    <label>Asset Type Activity</label>
+                  </b-col>
+                  <b-col sm="8">
+                    <b-form-select
+                      v-model="assetActivityType"
+                      :options="actTypeInfo"
+                      value-field="actTypeCode"
+                      text-field="actTypeDesc"
+                      style="font-size: 17.6px"
+                    ></b-form-select>
+                  </b-col>
+                </b-row>
 
                 <b-row align-h="around" class="mt-3">
                   <b-col cols="5" class="text-right">
@@ -509,7 +538,9 @@ export default {
       storageLocData: [],
       storageLoc: '',
       submitOK: null,
-      overlay: false
+      overlay: false,
+      actTypeInfo: [],
+      assetActivityType: ''
     };
   },
   computed: {
@@ -606,6 +637,7 @@ export default {
       this.plant = '';
       this.storageLoc = '';
       this.deliveryDate = null;
+      this.assetActivityType = '';
     },
     changeCostCenter(value) {
       if (this.costCenter != value) {
@@ -707,7 +739,8 @@ export default {
           totalAmount: Number(this.totalAmount),
           plant: this.plant,
           storageLocation: this.storageLoc,
-          deliveryDate: this.deliveryDate ? this.deliveryDate : '0000-00-00'
+          deliveryDate: this.deliveryDate ? this.deliveryDate : '0000-00-00',
+          assetActivityType: this.assetActivityType
         });
         this.$root.$bvToast.toast(`Capex ${result.data.ID} created`, {
           variant: 'primary',
@@ -742,9 +775,14 @@ export default {
         this.budgetRaw = result.data.budgetInfo.filter(value => {
           return value.budgetRemaining > 0;
         });
-        this.costCenterData = result.data.costCenterInfo;
+        this.costCenterData = result.data.costCenterInfo.map(cc => ({
+          costCenterCode: cc.costCenterCode,
+          costCenterName: `${cc.costCenterCode} | ${cc.costCenterName}`
+        }));
         this.plantData = result.data.plantInfo;
         this.storageLocData = result.data.slocInfo;
+
+        this.actTypeInfo = result.data.actTypeInfo;
       })
       .catch(err => {
         console.log(err);
