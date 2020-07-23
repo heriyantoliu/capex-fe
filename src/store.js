@@ -55,9 +55,11 @@ export default new Vuex.Store({
 
     async login({ commit }, authData) {
       try {
-        const accountResp = await axiosCapex.post('/login', {
-          username: authData.username,
-          password: authData.password
+        const accountResp = await axiosCapex.post('/login', null, {
+          auth: {
+            username: authData.username,
+            password: authData.password
+          }
         });
         localStorage.setItem('token', accountResp.data.token);
         localStorage.setItem('userId', accountResp.data.id);

@@ -7,7 +7,9 @@ const axiosCapex = axios.create({
 
 axiosCapex.interceptors.request.use(
   config => {
-    config.headers.authorization = 'Bearer ' + localStorage.getItem('token');
+    if (config.url != '/login') {
+      config.headers.authorization = 'Bearer ' + localStorage.getItem('token');
+    }
     return config;
   },
   error => Promise.reject(error)
