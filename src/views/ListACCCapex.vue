@@ -20,21 +20,22 @@
             <tr @click="showDetail(props.item.ID)" style="cursor: pointer">
               <td>{{ props.item.ID }}</td>
               <td>{{ props.item.description }}</td>
-              <td class="text-xs-right">{{ props.item.totalAmount | toCurrency}}</td>
+              <td class="text-xs-right">
+                {{ props.item.totalAmount | toCurrency }}
+              </td>
               <td>
                 <span
                   class="m-badge m-badge--wide"
                   :class="statusColor(props.item.status)"
-                >{{ props.item.status | statusDesc}}</span>
+                  >{{ props.item.status | statusDesc }}</span
+                >
               </td>
             </tr>
           </template>
           <template v-slot:no-results>
-            <v-alert
-              :value="true"
-              color="error"
-              icon="warning"
-            >Your search for "{{ search }}" found no results.</v-alert>
+            <v-alert :value="true" color="error" icon="warning"
+              >Your search for "{{ search }}" found no results.</v-alert
+            >
           </template>
         </v-data-table>
       </v-card>

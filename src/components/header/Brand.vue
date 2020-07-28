@@ -3,7 +3,7 @@
     <div class="m-stack m-stack--ver m-stack--general">
       <div class="m-stack__item m-stack__item--middle m-brand__logo">
         <a href="index.html" class="m-brand__logo-wrapper">
-          <img alt src="/assets/sido-sm.png">
+          <img alt src="/assets/sido-sm.png" />
         </a>
       </div>
       <div class="m-stack__item m-stack__item--middle m-brand__tools">
@@ -22,7 +22,7 @@
         <a
           href="javascript:;"
           class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-tablet-and-mobile-inline-block"
-          @click="toggleLeftPanel(showLeftPanel = !showLeftPanel)"
+          @click="toggleLeftPanel((showLeftPanel = !showLeftPanel))"
         >
           <span></span>
         </a>
@@ -50,7 +50,7 @@
         </a>-->
         <button
           class="m-brand__icon m--visible-tablet-and-mobile-inline-block"
-          @click="toggleMore(showMore = !showMore)"
+          @click="toggleMore((showMore = !showMore))"
         >
           <i class="flaticon-more"></i>
         </button>
@@ -72,24 +72,25 @@ export default {
   methods: {
     toggleMore(show) {
       if (show) {
-        document.body.classList.add("m-topbar--on");
+        document.body.classList.add('m-topbar--on');
       } else {
-        document.body.classList.remove("m-topbar--on");
+        document.body.classList.remove('m-topbar--on');
       }
     },
     toggleLeftPanel(show) {
-      var element = document.getElementById("m_aside_left");
+      var element = document.getElementById('m_aside_left');
+      let elementDiv;
       if (show) {
-        document.body.classList.add("m-aside-left--on");
-        element.classList.add("m-aside-left--on");
-        var elementDiv = document.createElement("div");
-        elementDiv.setAttribute("id", "leftpanel");
-        elementDiv.classList.add("m-aside-left-overlay");
+        document.body.classList.add('m-aside-left--on');
+        element.classList.add('m-aside-left--on');
+        elementDiv = document.createElement('div');
+        elementDiv.setAttribute('id', 'leftpanel');
+        elementDiv.classList.add('m-aside-left-overlay');
         element.appendChild(elementDiv);
       } else {
-        document.body.classList.remove("m-aside-left--on");
-        element.classList.remove("m-aside-left--on");
-        var elementDiv = document.getElementById("leftpanel");
+        document.body.classList.remove('m-aside-left--on');
+        element.classList.remove('m-aside-left--on');
+        elementDiv = document.getElementById('leftpanel');
         element.removeChild(elementDiv);
       }
     }
@@ -97,5 +98,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

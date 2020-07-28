@@ -32,14 +32,16 @@
                 v-model="password"
               />
             </div>
-            <div class="text-danger" v-if="message">{{message}}</div>
+            <div class="text-danger" v-if="message">{{ message }}</div>
             <div class="row m-login__form-sub"></div>
             <div class="m-login__form-action">
               <button
                 class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air m-login__btn m-login__btn--primary"
                 @click="signin"
                 :disabled="signinText != 'Sign In'"
-              >{{signinText}}</button>
+              >
+                {{ signinText }}
+              </button>
             </div>
           </form>
         </div>
@@ -78,5 +80,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

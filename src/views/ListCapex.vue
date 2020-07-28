@@ -28,21 +28,21 @@ export default {
   },
   computed: {
     hasCreate() {
-      return this.$store.getters.findRule('CREATOR');
+      return this.$store.getters.findRole('CREATOR');
     },
     hasViewer() {
-      return this.$store.getters.findRule('VIEWER');
+      return this.$store.getters.findRole('VIEWER');
     },
     hasApprover() {
-      return this.$store.getters.findRule('APPROVER');
+      return this.$store.getters.findRole('APPROVER');
     },
     hasACCApprover() {
-      return this.$store.getters.findRule('ACCAPPROVER');
+      return this.$store.getters.findRole('ACCAPPROVER');
     }
   },
   created() {
     axiosCapex
-      .get('/capexTrx?created=' + this.$store.state.userId)
+      .get('/capexTrx?created=' + this.$store.state.username)
       .then(result => {
         this.capexTrx = result.data;
         this.totalRows = this.capexTrx.length;

@@ -1,7 +1,12 @@
 <template>
   <div class="m-content">
     <b-overlay :show="overlay" rounded="sm">
-      <form class="m-form" id="m_form_1" v-on:submit.prevent :aria-hidden="overlay ? 'true' : null">
+      <form
+        class="m-form"
+        id="m_form_1"
+        v-on:submit.prevent
+        :aria-hidden="overlay ? 'true' : null"
+      >
         <div class="m-portlet">
           <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
@@ -11,13 +16,16 @@
             </div>
 
             <b-button-group>
-              <b-button class="my-3 text-right" variant="primary" @click="print">Print</b-button>
+              <b-button class="my-3 text-right" variant="primary" @click="print"
+                >Print</b-button
+              >
               <b-button
                 v-if="capexInfo.status == 'A'"
                 class="my-3"
                 variant="info"
                 @click="replicate"
-              >Replicate to SAP</b-button>
+                >Replicate to SAP</b-button
+              >
             </b-button-group>
           </div>
           <div class="m-portlet__body">
@@ -40,7 +48,8 @@
                     <b-badge
                       :variant="statusColor(capexInfo.status)"
                       style="font-size: 17.6px"
-                    >{{ capexInfo.status | statusDesc }}</b-badge>
+                      >{{ capexInfo.status | statusDesc }}</b-badge
+                    >
                   </b-col>
                 </b-row>
 
@@ -49,7 +58,10 @@
                     <label>Requestor Name</label>
                   </b-col>
                   <b-col sm="8">
-                    <b-form-input disabled :value="requestorInfo.Name"></b-form-input>
+                    <b-form-input
+                      disabled
+                      :value="requestorInfo.Name"
+                    ></b-form-input>
                   </b-col>
                 </b-row>
 
@@ -58,7 +70,10 @@
                     <label>Requestor Position</label>
                   </b-col>
                   <b-col sm="8">
-                    <b-form-input disabled :value="capexInfo.requestorPosition"></b-form-input>
+                    <b-form-input
+                      disabled
+                      :value="capexInfo.requestorPosition"
+                    ></b-form-input>
                   </b-col>
                 </b-row>
                 <b-row class="my-1">
@@ -66,7 +81,10 @@
                     <label>Payroll ID</label>
                   </b-col>
                   <b-col sm="8">
-                    <b-form-input disabled :value="requestorInfo.PayrollID"></b-form-input>
+                    <b-form-input
+                      disabled
+                      :value="requestorInfo.PayrollID"
+                    ></b-form-input>
                   </b-col>
                 </b-row>
 
@@ -76,7 +94,11 @@
                       <label>Budget Owner Name</label>
                     </b-col>
                     <b-col sm="8">
-                      <b-form-input size disabled v-model="budgetInfo.ownerName"></b-form-input>
+                      <b-form-input
+                        size
+                        disabled
+                        v-model="budgetInfo.ownerName"
+                      ></b-form-input>
                     </b-col>
                   </b-row>
 
@@ -85,7 +107,11 @@
                       <label>Budget Owner Position</label>
                     </b-col>
                     <b-col sm="8">
-                      <b-form-input size disabled v-model="budgetInfo.position"></b-form-input>
+                      <b-form-input
+                        size
+                        disabled
+                        v-model="budgetInfo.position"
+                      ></b-form-input>
                     </b-col>
                   </b-row>
                   <b-row class="my-1">
@@ -93,7 +119,11 @@
                       <label>Budget Owner Payroll ID</label>
                     </b-col>
                     <b-col sm="8">
-                      <b-form-input size disabled v-model="budgetInfo.payrollID"></b-form-input>
+                      <b-form-input
+                        size
+                        disabled
+                        v-model="budgetInfo.payrollID"
+                      ></b-form-input>
                     </b-col>
                   </b-row>
                 </div>
@@ -112,7 +142,9 @@
                       style="font-size: 17.6px"
                     >
                       <template v-slot:first>
-                        <b-form-select-option value disabled>-- Please select an option --</b-form-select-option>
+                        <b-form-select-option value disabled
+                          >-- Please select an option --</b-form-select-option
+                        >
                       </template>
                     </b-form-select>
                   </b-col>
@@ -125,7 +157,9 @@
           <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
               <div class="m-portlet__head-title">
-                <h3 class="m-portlet__head-text">Capital Expenditure Information</h3>
+                <h3 class="m-portlet__head-text">
+                  Capital Expenditure Information
+                </h3>
               </div>
             </div>
           </div>
@@ -147,7 +181,9 @@
                       style="font-size: 17.6px"
                     >
                       <template v-slot:first>
-                        <b-form-select-option value disabled>-- Please select an option --</b-form-select-option>
+                        <b-form-select-option value disabled
+                          >-- Please select an option --</b-form-select-option
+                        >
                       </template>
                     </b-form-select>
                   </b-col>
@@ -176,7 +212,8 @@
                       value="U"
                       unchecked-value="B"
                       disabled
-                    >Unbudgetted</b-form-checkbox>
+                      >Unbudgetted</b-form-checkbox
+                    >
                   </b-col>
                 </b-row>
                 <b-row class="my-1">
@@ -184,7 +221,10 @@
                     <label>Deskripsi</label>
                   </b-col>
                   <b-col sm="8">
-                    <b-form-input v-model="capexInfo.description" disabled></b-form-input>
+                    <b-form-input
+                      v-model="capexInfo.description"
+                      disabled
+                    ></b-form-input>
                   </b-col>
                 </b-row>
 
@@ -193,7 +233,11 @@
                     <label>Serial Number</label>
                   </b-col>
                   <b-col sm="8">
-                    <b-form-input size v-model="capexInfo.serialNumber" disabled></b-form-input>
+                    <b-form-input
+                      size
+                      v-model="capexInfo.serialNumber"
+                      disabled
+                    ></b-form-input>
                   </b-col>
                 </b-row>
 
@@ -250,7 +294,11 @@
                     <label>Justification</label>
                   </b-col>
                   <b-col sm="8">
-                    <b-form-textarea v-model="capexInfo.justification" disabled max-rows="10"></b-form-textarea>
+                    <b-form-textarea
+                      v-model="capexInfo.justification"
+                      disabled
+                      max-rows="10"
+                    ></b-form-textarea>
                   </b-col>
                 </b-row>
 
@@ -347,7 +395,8 @@
               class="m-3"
               variant="info"
               @click="editable = true"
-            >Edit</b-button>
+              >Edit</b-button
+            >
           </div>
           <div class="m-portlet__body">
             <div class="m-form__section m-form__section--first">
@@ -372,13 +421,16 @@
                       "
                     >
                       <template v-slot:first>
-                        <b-form-select-option value disabled>-- Please select an option --</b-form-select-option>
+                        <b-form-select-option value disabled
+                          >-- Please select an option --</b-form-select-option
+                        >
                       </template>
                     </b-form-select>
                     <b-form-invalid-feedback
                       id="asset-class-feedback"
                       v-if="!$v.assetClass.required && $v.assetClass.$error"
-                    >Please select asset class.</b-form-invalid-feedback>
+                      >Please select asset class.</b-form-invalid-feedback
+                    >
                   </b-col>
                 </b-row>
 
@@ -434,13 +486,17 @@
                       "
                     >
                       <template v-slot:first>
-                        <b-form-select-option value disabled>-- Please select an option --</b-form-select-option>
+                        <b-form-select-option value disabled
+                          >-- Please select an option --</b-form-select-option
+                        >
                       </template>
                     </b-form-select>
                     <b-form-invalid-feedback
                       id="asset-gen-mode-class-feedback"
                       v-if="!$v.assetGenMode.required && $v.assetGenMode.$error"
-                    >Please select asset generation mode.</b-form-invalid-feedback>
+                    >
+                      Please select asset generation mode.
+                    </b-form-invalid-feedback>
                   </b-col>
                 </b-row>
 
@@ -487,13 +543,15 @@
 
                 <div
                   v-if="
-                    capexInfo.nextApproval == userId &&
+                    capexInfo.nextApproval == username &&
                       capexInfo.ACCApproved == 'X'
                   "
                 >
                   <b-row align-h="around" class="mt-3">
                     <b-col cols="5" class="text-right">
-                      <b-button variant="danger" v-b-modal.rejectNoteModal>Reject</b-button>
+                      <b-button variant="danger" v-b-modal.rejectNoteModal
+                        >Reject</b-button
+                      >
                       <b-modal
                         id="rejectNoteModal"
                         ref="modal"
@@ -501,7 +559,7 @@
                         hide-header-close
                         @ok="rejectCapex"
                       >
-                        <b-form-group :state="nameState" invalid-feedback="Minimun 10 Character">
+                        <b-form-group invalid-feedback="Minimun 10 Character">
                           <b-form-textarea
                             v-model="rejectNote"
                             max-rows="10"
@@ -513,17 +571,23 @@
                       </b-modal>
                     </b-col>
                     <b-col cols="5" class="text-left">
-                      <b-button variant="success" @click="apprCapex">Approve</b-button>
+                      <b-button variant="success" @click="apprCapex"
+                        >Approve</b-button
+                      >
                     </b-col>
                   </b-row>
                 </div>
                 <div v-if="hasACCApprover">
                   <b-row align-h="around" class="mt-3" v-if="editable">
                     <b-col cols="5" class="text-right">
-                      <b-button variant="danger" @click="clearField">Cancel</b-button>
+                      <b-button variant="danger" @click="clearField"
+                        >Cancel</b-button
+                      >
                     </b-col>
                     <b-col cols="5" class="text-left">
-                      <b-button variant="success" @click="updateCapex">Submit</b-button>
+                      <b-button variant="success" @click="updateCapex"
+                        >Submit</b-button
+                      >
                     </b-col>
                   </b-row>
                 </div>
@@ -569,7 +633,12 @@
         </div>
       </div>
     </div>
-    <Print v-show="false" id="printMe" :capexInfo="capexInfo" :budgetInfo="budgetInfo" />
+    <Print
+      v-show="false"
+      id="printMe"
+      :capexInfo="capexInfo"
+      :budgetInfo="budgetInfo"
+    />
   </div>
 </template>
 
@@ -604,7 +673,7 @@ export default {
       costCenterData: [],
       purposeData: [],
       budgetApprovalCodeData: [],
-      userId: this.$store.state.userId,
+      username: this.$store.state.username,
       remainingBudget: 0,
       budgetInfo: {},
       requestorInfo: {},
@@ -633,7 +702,7 @@ export default {
   },
   computed: {
     hasACCApprover() {
-      return this.$store.getters.findRule('ACCAPPROVER');
+      return this.$store.getters.findRole('ACCAPPROVER');
     }
   },
   validations: {
@@ -760,13 +829,6 @@ export default {
         this.$bvModal.hide('rejectNoteModal');
       });
 
-      let seq = 0;
-      for (let approver of this.capexApprover) {
-        if (approver.Status == '' && approver.Approver == this.userId) {
-          seq = approver.Seq;
-          break;
-        }
-      }
       try {
         let result = await this.$bvModal.msgBoxConfirm(
           'Yakin untuk reject capex?',
@@ -783,9 +845,7 @@ export default {
           }
         );
         if (result) {
-          await axiosCapex.post('/reject', {
-            capexID: this.capexInfo.ID,
-            seq,
+          await axiosCapex.patch(`/capexTrx/${this.capexInfo.ID}/reject`, {
             remark: this.rejectNote
           });
           this.$root.$bvToast.toast(`Capex ${this.capexInfo.ID} rejected`, {
@@ -814,14 +874,7 @@ export default {
     async apprCapex() {
       // this.apprDialog = false;
       // this.disableApprRejctButton = true;
-      let seq = 0;
-      // let path = "";
-      for (let approver of this.capexApprover) {
-        if (approver.Status == '' && approver.Approver == this.userId) {
-          seq = approver.Seq;
-          break;
-        }
-      }
+
       try {
         let result = await this.$bvModal.msgBoxConfirm(
           'Yakin untuk approve capex?',
@@ -838,10 +891,7 @@ export default {
           }
         );
         if (result) {
-          await axiosCapex.post('/approve', {
-            capexID: this.capexInfo.ID,
-            seq
-          });
+          await axiosCapex.patch(`/capexTrx/${this.capexInfo.ID}/approve`);
           this.$root.$bvToast.toast(`Capex ${this.capexInfo.ID} approved`, {
             variant: 'primary',
             toastClass: 'sm_toast',
@@ -963,9 +1013,14 @@ export default {
         costCenterName: `${cc.costCenterCode} | ${cc.costCenterName}`
       }));
 
+      this.assetClassInfo = result.data.assetClassInfo.map(asset => ({
+        assetClassCode: asset.assetClassCode,
+        assetClassDesc: `${asset.assetClassCode} | ${asset.assetClassDesc}`
+      }));
+
       await this.fetchCapex(this.$route.params.ID);
       const asset = await axiosCapex.get(
-        `/capexAsset/${this.$route.params.ID}`
+        `/capexTrx/${this.$route.params.ID}/asset`
       );
       this.listAsset = asset.data;
     } catch (err) {

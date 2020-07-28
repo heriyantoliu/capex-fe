@@ -8,24 +8,37 @@
       class="mb-0"
     >
       <b-input-group size="sm">
-        <b-form-input v-model="filter" type="search" placeholder="Type to search" size="sm" />
+        <b-form-input
+          v-model="filter"
+          type="search"
+          placeholder="Type to search"
+          size="sm"
+        />
         <b-input-group-append>
-          <b-button size="sm" :disabled="!filter" @click="filter = ''" variant="primary">Clear</b-button>
+          <b-button
+            size="sm"
+            :disabled="!filter"
+            @click="filter = ''"
+            variant="primary"
+            >Clear</b-button
+          >
         </b-input-group-append>
       </b-input-group>
     </b-form-group>
+
     <br />
     <b-table
+      ref="capexTable"
       show-empty
       striped
       hover
       bordered
       selectable
-      select-mode="single"
+      :select-mode="massApprove ? 'multi' : 'single'"
       size="sm"
       stacked="md"
-      @row-selected="showDetail"
-      :items="listData"
+      @row-selected="onSelect"
+      :items="tableContent"
       :fields="fields"
       :filter="filter"
       :filterIncludedFields="filterOn"
@@ -36,18 +49,57 @@
       thead-class="header"
       tbody-class="content"
     >
+      <template v-slot:cell(selected)="{ rowSelected }">
+        <template v-if="rowSelected">
+          <span aria-hidden="true">&#10003;</span>
+          <span class="sr-only">Selected</span>
+        </template>
+        <template v-else>
+          <span aria-hidden="true">&nbsp;</span>
+          <span class="sr-only">Not selected</span>
+        </template>
+      </template>
       <template v-slot:cell(totalAmount)="data">
-        <div class="text-right">{{ data.item.totalAmount.toLocaleString() }}</div>
+        <div class="text-right">
+          {{ data.item.totalAmount.toLocaleString() }}
+        </div>
       </template>
       <template v-slot:cell(status)="data">
         <b-badge :variant="statusColor(data.item.status)">
-          {{
-          data.item.status | statusDesc
-          }}
+          {{ data.item.status | statusDesc }}
         </b-badge>
+      </template>
+
+      <template v-slot:cell(showDetail)="data">
+        <b-button size="sm" variant="dark" @click="showDetail(data.item.ID)"
+          >Detail</b-button
+        >
       </template>
     </b-table>
     <br />
+    <b-row v-if="massApprove">
+      <b-col cols="6" class="text-left">
+        <b-button-group>
+          <b-button variant="info" size="sm" @click="onSelecteAll">
+            Select All
+          </b-button>
+          <b-button variant="info" size="sm" @click="onClearSelected">
+            Clear Selected
+          </b-button>
+        </b-button-group>
+      </b-col>
+      <b-col cols="6" class="text-right">
+        <b-button
+          v-if="selected.length != 0"
+          variant="primary"
+          size="sm"
+          @click="onApprove"
+          >Approve</b-button
+        >
+      </b-col>
+    </b-row>
+    <br />
+
     <b-pagination
       v-model="currentPage"
       :total-rows="totalRows"
@@ -60,22 +112,35 @@
 
 <script>
 import { capexMixin } from '../mixins';
+import { axiosCapex } from '../axios-instance';
 export default {
   mixins: [capexMixin],
   props: {
     listData: {
       type: Array
+    },
+    massApprove: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
+      showMessage: false,
       filter: null,
       filterOn: ['ID', 'description'],
+      selected: [],
       currentPage: 1,
       totalRows: 1,
       perPage: 10,
+      tableContent: [],
       // pageOptions: [5, 10, 15],
       fields: [
+        {
+          key: 'Selected',
+          label: 'Selected',
+          sortable: false
+        },
         {
           key: 'ID',
           label: 'Capex ID',
@@ -94,6 +159,15 @@ export default {
         {
           key: 'status',
           label: 'Status'
+        },
+        {
+          key: 'showDetail',
+          label: 'Show Detail'
+        },
+        {
+          key: 'message',
+          label: 'Message',
+          tdClass: 'table-text-red'
         }
       ]
     };
@@ -104,17 +178,97 @@ export default {
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
-    showDetail(row) {
-      this.$router.push('/capex/' + row[0].ID);
+    showDetail(id) {
+      this.$router.push('/capex/' + id);
+    },
+    onSelect(items) {
+      this.selected = items;
+      if (!this.massApprove) {
+        this.showDetail(items[0].ID);
+      }
+    },
+    onSelecteAll() {
+      this.$refs.capexTable.selectAllRows();
+    },
+    onClearSelected() {
+      this.$refs.capexTable.clearSelected();
+    },
+    async onApprove() {
+      let result = await this.$bvModal.msgBoxConfirm(
+        'Yakin untuk approve capex?',
+        {
+          title: 'Approve Capex',
+          size: 'sm',
+          buttonSize: 'sm',
+          okVariant: 'danger',
+          okTitle: 'YES',
+          cancelTitle: 'NO',
+          footerClass: 'p-2',
+          hideHeaderClose: true,
+          centered: true
+        }
+      );
+      if (result) {
+        for (let capex of this.selected) {
+          try {
+            console.log(capex.ID);
+            await axiosCapex.patch(`/capexTrx/${capex.ID}/approve`);
+            console.log('APPROVE DONE');
+            this.tableContent = this.tableContent.filter(
+              data => data.ID != capex.ID
+            );
+          } catch (err) {
+            console.log('ERROR');
+            this.tableContent = this.tableContent.map(content =>
+              content.ID != capex.ID
+                ? content
+                : {
+                    ...content,
+                    message: err.response.data.message
+                  }
+            );
+          }
+        }
+
+        // await axiosCapex.patch(`/capexTrx/${this.capexInfo.ID}/approve`);
+        // this.$root.$bvToast.toast(`Capex ${this.capexInfo.ID} approved`, {
+        //   variant: 'primary',
+        //   toastClass: 'sm_toast',
+        //   bodyClass: 'sm_toast__body ',
+        //   noCloseButton: true,
+        //   toaster: 'b-toaster-bottom-center',
+        //   autoHideDelay: 3000
+        // });
+        // this.$router.push('/waitAppr');
+      }
     }
   },
 
   watch: {
     listData: function() {
       this.totalRows = this.listData.length;
+      this.tableContent = this.listData.map(data => ({
+        ...data,
+        message: ''
+      }));
+    }
+  },
+
+  created() {
+    if (!this.massApprove) {
+      this.fields = this.fields.filter(
+        field =>
+          field.key != 'Selected' &&
+          field.key != 'showDetail' &&
+          field.key != 'message'
+      );
     }
   }
 };
 </script>
 
-<style></style>
+<style>
+.table-text-red {
+  color: red;
+}
+</style>

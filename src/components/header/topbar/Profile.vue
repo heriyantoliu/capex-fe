@@ -5,12 +5,18 @@
   >
     <a href="#" class="m-nav__link m-dropdown__toggle">
       <span class="m-topbar__userpic">
-        <img src="/assets/users/img-user.png" class="m--img-rounded m--marginless" alt>
+        <img
+          src="/assets/users/img-user.png"
+          class="m--img-rounded m--marginless"
+          alt
+        />
       </span>
       <span class="m-topbar__username m--hide">Nick</span>
     </a>
     <div class="m-dropdown__wrapper">
-      <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
+      <span
+        class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"
+      ></span>
       <div class="m-dropdown__inner">
         <div
           class="m-dropdown__header m--align-center"
@@ -18,11 +24,19 @@
         >
           <div class="m-card-user m-card-user--skin-dark">
             <div class="m-card-user__pic">
-              <img src="/assets/users/img-user.png" class="m--img-rounded m--marginless" alt>
+              <img
+                src="/assets/users/img-user.png"
+                class="m--img-rounded m--marginless"
+                alt
+              />
             </div>
             <div class="m-card-user__details">
-              <span class="m-card-user__name m--font-weight-500">{{name}}</span>
-              <a href class="m-card-user__email m--font-weight-300 m-link">{{email}}</a>
+              <span class="m-card-user__name m--font-weight-500">{{
+                name
+              }}</span>
+              <a href class="m-card-user__email m--font-weight-300 m-link">{{
+                email
+              }}</a>
             </div>
           </div>
         </div>
@@ -38,7 +52,9 @@
                 <button
                   class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder"
                   @click="logout"
-                >Logout</button>
+                >
+                  Logout
+                </button>
               </li>
             </ul>
           </div>
@@ -52,14 +68,14 @@
 export default {
   data() {
     return {
-      name: "",
-      email: ""
+      name: '',
+      email: ''
     };
   },
   methods: {
     logout() {
-      this.$store.dispatch("logout");
-      this.$router.push("/signin");
+      this.$store.dispatch('logout');
+      this.$router.push('/signin');
     }
   },
   created() {
@@ -69,5 +85,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

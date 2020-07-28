@@ -10,7 +10,10 @@
         <div class="m-stack m-stack--ver m-stack--desktop">
           <brand></brand>
 
-          <div class="m-stack__item m-stack__item--fluid m-header-head" id="m_header_nav">
+          <div
+            class="m-stack__item m-stack__item--fluid m-header-head"
+            id="m_header_nav"
+          >
             <div
               id="m_header_topbar"
               class="m-topbar m-stack m-stack--ver m-stack--general m-stack--fluid"
@@ -27,7 +30,7 @@
                           src="assets/users/img-user.png"
                           class="m--img-rounded m--marginless"
                           alt
-                        >
+                        />
                       </span>
                       <span class="m-topbar__username m--hide">Nick</span>
                     </a>
@@ -46,11 +49,18 @@
                                 src="assets/users/img-user.png"
                                 class="m--img-rounded m--marginless"
                                 alt
-                              >
+                              />
                             </div>
                             <div class="m-card-user__details">
-                              <span class="m-card-user__name m--font-weight-500">{{name}}</span>
-                              <a href class="m-card-user__email m--font-weight-300 m-link">{{email}}</a>
+                              <span
+                                class="m-card-user__name m--font-weight-500"
+                                >{{ name }}</span
+                              >
+                              <a
+                                href
+                                class="m-card-user__email m--font-weight-300 m-link"
+                                >{{ email }}</a
+                              >
                             </div>
                           </div>
                         </div>
@@ -61,12 +71,16 @@
                                 <span class="m-nav__section-text">Section</span>
                               </li>
 
-                              <li class="m-nav__separator m-nav__separator--fit"></li>
+                              <li
+                                class="m-nav__separator m-nav__separator--fit"
+                              ></li>
                               <li class="m-nav__item">
                                 <button
                                   class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder"
                                   @click="logout"
-                                >Logout</button>
+                                >
+                                  Logout
+                                </button>
                               </li>
                             </ul>
                           </div>
@@ -81,7 +95,9 @@
         </div>
       </div>
     </header>
-    <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body">
+    <div
+      class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body"
+    >
       <div>
         <button
           class="m-aside-left-close m-aside-left-close--skin-dark"
@@ -89,7 +105,10 @@
         >
           <i class="la la-close"></i>
         </button>
-        <div id="m_aside_left" class="m-grid__item m-aside-left m-aside-left--skin-dark">
+        <div
+          id="m_aside_left"
+          class="m-grid__item m-aside-left m-aside-left--skin-dark"
+        >
           <!-- BEGIN: Aside Menu -->
           <div
             id="m_ver_menu"
@@ -105,7 +124,9 @@
                   <i class="m-menu__link-icon flaticon-line-graph"></i>
                   <span class="m-menu__link-title">
                     <span class="m-menu__link-wrap">
-                      <router-link to="/list" class="m-menu__link-text">My Capex</router-link>
+                      <router-link to="/list" class="m-menu__link-text"
+                        >My Capex</router-link
+                      >
                       <!-- <span class="m-menu__link-text">My Capex</span> -->
                       <span class="m-menu__link-badge"></span>
                     </span>
@@ -131,12 +152,17 @@
                 <div class="m-menu__submenu">
                   <span class="m-menu__arrow"></span>
                   <ul class="m-menu__subnav">
-                    <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+                    <li
+                      class="m-menu__item m-menu__item--active"
+                      aria-haspopup="true"
+                    >
                       <router-link to="/create" class="m-menu__link">
                         <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                           <span></span>
                         </i>
-                        <span class="m-menu__link-text">Create Capex Request</span>
+                        <span class="m-menu__link-text"
+                          >Create Capex Request</span
+                        >
                       </router-link>
                     </li>
                   </ul>
@@ -157,5 +183,4 @@
 export default {};
 </script>
 
-<style>
-</style>
+<style></style>

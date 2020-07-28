@@ -5,7 +5,7 @@
         <div class="m-portlet">
           <div class="m-portlet__body">
             <h1>List Capex Waiting My Approval</h1>
-            <list-table-capex :listData="capexTrx" />
+            <list-table-capex :listData="capexTrx" massApprove="true" />
           </div>
         </div>
       </div>
@@ -28,7 +28,7 @@ export default {
 
   created() {
     axiosCapex
-      .get('/capexTrx?wait_appr=' + this.$store.state.userId)
+      .get('/capexTrx?wait_appr=' + this.$store.state.username)
       .then(result => {
         this.capexTrx = result.data;
       })

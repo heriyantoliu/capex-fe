@@ -11,17 +11,17 @@ export default new Vuex.Store({
     username: null,
     email: null,
     name: null,
-    rule: []
+    role: []
   },
   getters: {
     isAuthenticated(state) {
       return state.token != null;
     },
-    findRule: state => rule => {
-      if (state.rule === undefined) {
+    findRole: state => role => {
+      if (state.role === undefined) {
         return false;
       }
-      return state.rule.includes(rule);
+      return state.role.includes(role);
     }
   },
   mutations: {
@@ -33,7 +33,7 @@ export default new Vuex.Store({
       state.username = userData.username;
       state.email = userData.email;
       state.name = userData.name;
-      state.rule = userData.rule;
+      state.role = userData.role;
     }
   },
   actions: {
@@ -49,7 +49,7 @@ export default new Vuex.Store({
         username: '',
         name: '',
         email: '',
-        rule: []
+        role: []
       });
     },
 
@@ -68,12 +68,14 @@ export default new Vuex.Store({
         localStorage.setItem('email', accountResp.data.email);
         commit('setToken', accountResp.data.token);
 
-        const rulesResp = await axiosCapex.get('/rules');
+        const rolesResp = await axiosCapex.get(
+          `/user/${accountResp.data.username}/roles`
+        );
         commit('authUser', {
           userId: accountResp.data.id,
           username: accountResp.data.username,
           name: accountResp.data.name,
-          rule: rulesResp.data.rule,
+          role: rolesResp.data.role,
           email: accountResp.data.email
         });
         return; //accountResp.data;
@@ -103,11 +105,10 @@ export default new Vuex.Store({
         username,
         name,
         email
-        // rule: rulesResp.data.rule
       });
 
       try {
-        const rulesResp = await axiosCapex.get('/rules');
+        const rolesResp = await axiosCapex.get(`user/${username}/roles`);
 
         commit('setToken', token);
         commit('authUser', {
@@ -115,7 +116,7 @@ export default new Vuex.Store({
           username,
           name,
           email,
-          rule: rulesResp.data.rule
+          role: rolesResp.data.role
         });
         return;
       } catch (err) {

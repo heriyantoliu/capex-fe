@@ -3,11 +3,14 @@
     <button
       class="m-aside-left-close m-aside-left-close--skin-dark"
       id="m_aside_left_close_btn"
-      @click="toggleLeftPanel(showLeftPanel = !showLeftPanel)"
+      @click="toggleLeftPanel((showLeftPanel = !showLeftPanel))"
     >
       <i class="la la-close"></i>
     </button>
-    <div id="m_aside_left" class="m-grid__item m-aside-left m-aside-left--skin-dark">
+    <div
+      id="m_aside_left"
+      class="m-grid__item m-aside-left m-aside-left--skin-dark"
+    >
       <!-- BEGIN: Aside Menu -->
       <div
         id="m_ver_menu"
@@ -52,7 +55,10 @@
             <div class="m-menu__submenu">
               <span class="m-menu__arrow"></span>
               <ul class="m-menu__subnav">
-                <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+                <li
+                  class="m-menu__item m-menu__item--active"
+                  aria-haspopup="true"
+                >
                   <router-link to="/myCapex" class="m-menu__link">
                     <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                       <span></span>
@@ -65,7 +71,10 @@
             <div class="m-menu__submenu">
               <span class="m-menu__arrow"></span>
               <ul class="m-menu__subnav">
-                <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+                <li
+                  class="m-menu__item m-menu__item--active"
+                  aria-haspopup="true"
+                >
                   <router-link to="/waitAppr" class="m-menu__link">
                     <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                       <span></span>
@@ -78,7 +87,10 @@
             <div class="m-menu__submenu">
               <span class="m-menu__arrow"></span>
               <ul class="m-menu__subnav">
-                <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+                <li
+                  class="m-menu__item m-menu__item--active"
+                  aria-haspopup="true"
+                >
                   <router-link to="/create" class="m-menu__link">
                     <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                       <span></span>
@@ -106,17 +118,18 @@ export default {
   methods: {
     toggleLeftPanel(show) {
       var element = document.getElementById('m_aside_left');
+      let elementDiv;
       if (show) {
         document.body.classList.add('m-aside-left--on');
         element.classList.add('m-aside-left--on');
-        var elementDiv = document.createElement('div');
+        elementDiv = document.createElement('div');
         elementDiv.setAttribute('id', 'leftpanel');
         elementDiv.classList.add('m-aside-left-overlay');
         element.appendChild(elementDiv);
       } else {
         document.body.classList.remove('m-aside-left--on');
         element.classList.remove('m-aside-left--on');
-        var elementDiv = document.getElementById('leftpanel');
+        elementDiv = document.getElementById('leftpanel');
         element.removeChild(elementDiv);
       }
     }
@@ -124,5 +137,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

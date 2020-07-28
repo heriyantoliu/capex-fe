@@ -3,7 +3,9 @@
     <div class="m-subheader">
       <div class="d-flex align-items-center">
         <div class="mr-auto">
-          <h3 class="m-subheader__title m-subheader__title--separator">Create Capex Request</h3>
+          <h3 class="m-subheader__title m-subheader__title--separator">
+            Create Capex Request
+          </h3>
           <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
             <li class="m-nav__item m-nav__item--home">
               <a href="#" class="m-nav__link m-nav__link--icon">
@@ -34,5 +36,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -18,7 +18,6 @@ export default {
 };
 </script>
 
-
 <style>
 .sm_toast {
   max-width: 350px;
