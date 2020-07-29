@@ -1,6 +1,6 @@
 <template>
   <div class="m-content">
-    <div class="m-portlet">
+    <!-- <div class="m-portlet">
       <div class="m-portlet__head">
         <div class="m-portlet__head-caption">
           <div class="m-portlet__head-title">
@@ -22,7 +22,7 @@
           </ul>
         </div>
       </div>
-    </div>
+    </div>-->
     <div class="m-portlet">
       <div class="m-portlet__head">
         <div class="m-portlet__head-caption">
@@ -33,7 +33,7 @@
       </div>
       <div class="m-portlet__body">
         <div class="m-form__section m-form__section--first">
-          <list-table-capex :listData="capexTrx" massApprove="true" />
+          <list-table-capex :listData="capexTrx" :massApprove="true" />
         </div>
       </div>
     </div>

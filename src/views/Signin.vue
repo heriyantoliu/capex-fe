@@ -39,12 +39,20 @@
                 class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air m-login__btn m-login__btn--primary"
                 @click="signin"
                 :disabled="signinText != 'Sign In'"
-              >
-                {{ signinText }}
-              </button>
+              >{{ signinText }}</button>
             </div>
           </form>
         </div>
+        <!-- <ul style="font-size: 10px;">
+          <li>Merupakan sarana pengajuan CAPEX secara online dan terintegrasi dengan SAP di PT Industri Jamu dan Farmasi Sido Muncul, Tbk</li>
+          <li>CAPEX Online tunduk pada semua peraturan yang ada pada pengajuan CAPEX manual.</li>
+          <li>Dalam hal jika ada Approver yang tidak memungkinkan untuk input persetujuan secara online di system maka Approver wajib menunjuk salah satu PIC di department masing-masing yang dapat mewakili Approver melakukan persetujuan secara online berdasar dokumen cetak yang sudah disetujui.</li>
+          <li>Pihak yang mengajukan CAPEX bertanggung jawab untuk follow up request masing-masing.</li>
+          <li>
+            Pengisian 1 form CAPEX hanya untuk 1 realisasi.
+            <br />Misal : Pengajuan Laptop wajib diikuti pembeilan capex software windows dan software office. Maka perlu dibuat 3 form CAPEX realisasi di dalam sistem.
+          </li>
+        </ul>-->
       </div>
     </div>
   </div>
@@ -57,7 +65,7 @@ export default {
       username: '',
       password: '',
       message: '',
-      signinText: 'Sign In'
+      signinText: 'Sign In',
     };
   },
   methods: {
@@ -66,17 +74,17 @@ export default {
       this.$store
         .dispatch('login', {
           username: this.username,
-          password: this.password
+          password: this.password,
         })
         .then(() => {
           this.$router.push('/');
         })
-        .catch(err => {
+        .catch((err) => {
           this.signinText = 'Sign In';
           this.message = err;
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
