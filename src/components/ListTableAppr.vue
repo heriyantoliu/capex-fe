@@ -11,20 +11,11 @@
       <div>{{ data.item.UpdatedAt | toDateString }}</div>
     </template>
     <template v-slot:cell(Status)="data">
-      <b-badge v-if="data.item.Status == 'A'" variant="success"
-        >Approve</b-badge
-      >
-      <b-badge v-else-if="data.item.Status == 'R'" variant="danger"
-        >Reject</b-badge
-      >
+      <b-badge v-if="data.item.Status == 'A'" variant="success">Approve</b-badge>
+      <b-badge v-else-if="data.item.Status == 'R'" variant="danger">Reject</b-badge>
     </template>
     <template v-slot:cell(Remark)="data">
-      <b-form-textarea
-        :value="data.item.Remark"
-        plaintext
-        no-resize
-        max-rows="10"
-      />
+      <b-form-textarea :value="data.item.Remark" plaintext no-resize max-rows="10" />
     </template>
   </b-table-lite>
 </template>
@@ -52,7 +43,7 @@ export default {
     return {
       fields: [
         { key: 'Seq', label: '#' },
-        { key: 'Name', label: 'Name' },
+        { key: 'Approver', label: 'Name' },
         { key: 'UpdatedAt', label: 'Approver Date' },
         { key: 'Status', label: 'Status' },
         { key: 'Remark', label: 'Remark' }
