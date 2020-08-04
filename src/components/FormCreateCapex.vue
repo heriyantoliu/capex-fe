@@ -1,12 +1,7 @@
 <template>
   <div>
     <b-overlay :show="overlay" rounded="sm">
-      <form
-        class="m-form"
-        id="m_form_1"
-        v-on:submit.prevent
-        :aria-hidden="overlay ? 'true' : null"
-      >
+      <form class="m-form" id="m_form_1" v-on:submit.prevent :aria-hidden="overlay ? 'true' : null">
         <div class="m-portlet">
           <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
@@ -23,11 +18,7 @@
                     <label>Budget Owner Name</label>
                   </b-col>
                   <b-col sm="8">
-                    <b-form-input
-                      size
-                      disabled
-                      v-model="budgetOwnerInfo.ownerName"
-                    ></b-form-input>
+                    <b-form-input size disabled v-model="budgetOwnerInfo.ownerName"></b-form-input>
                   </b-col>
                 </b-row>
 
@@ -36,11 +27,7 @@
                     <label>Budget Owner Position</label>
                   </b-col>
                   <b-col sm="8">
-                    <b-form-input
-                      size
-                      disabled
-                      v-model="budgetOwnerInfo.position"
-                    ></b-form-input>
+                    <b-form-input size disabled v-model="budgetOwnerInfo.position"></b-form-input>
                   </b-col>
                 </b-row>
                 <b-row class="my-1">
@@ -48,11 +35,7 @@
                     <label>Budget Owner Payroll ID</label>
                   </b-col>
                   <b-col sm="8">
-                    <b-form-input
-                      size
-                      disabled
-                      v-model="budgetOwnerInfo.payrollID"
-                    ></b-form-input>
+                    <b-form-input size disabled v-model="budgetOwnerInfo.payrollID"></b-form-input>
                   </b-col>
                 </b-row>
                 <b-row class="my-1">
@@ -76,14 +59,10 @@
                       "
                     >
                       <template v-slot:first>
-                        <b-form-select-option value disabled
-                          >-- Please select an option --</b-form-select-option
-                        >
+                        <b-form-select-option value disabled>-- Please select an option --</b-form-select-option>
                       </template>
                     </b-form-select>
-                    <b-form-invalid-feedback id="cost-center-feedback"
-                      >Please select Cost Center.</b-form-invalid-feedback
-                    >
+                    <b-form-invalid-feedback id="cost-center-feedback">Please select Cost Center.</b-form-invalid-feedback>
                   </b-col>
                 </b-row>
               </b-container>
@@ -94,9 +73,7 @@
           <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
               <div class="m-portlet__head-title">
-                <h3 class="m-portlet__head-text">
-                  Capital Expenditure Information
-                </h3>
+                <h3 class="m-portlet__head-text">Capital Expenditure Information</h3>
               </div>
             </div>
           </div>
@@ -123,14 +100,10 @@
                       "
                     >
                       <template v-slot:first>
-                        <b-form-select-option value disabled
-                          >-- Please select an option --</b-form-select-option
-                        >
+                        <b-form-select-option value disabled>-- Please select an option --</b-form-select-option>
                       </template>
                     </b-form-select>
-                    <b-form-invalid-feedback id="purpose-feedback"
-                      >Please select purpose.</b-form-invalid-feedback
-                    >
+                    <b-form-invalid-feedback id="purpose-feedback">Please select purpose.</b-form-invalid-feedback>
                   </b-col>
                 </b-row>
 
@@ -158,23 +131,19 @@
                       aria-describedby="budget-appr-feedback"
                     >
                       <template v-slot:first>
-                        <b-form-select-option value disabled
-                          >-- Please select an option --</b-form-select-option
-                        >
+                        <b-form-select-option value disabled>-- Please select an option --</b-form-select-option>
                       </template>
                     </b-form-select>
 
-                    <b-form-invalid-feedback id="budget-appr-feedback"
-                      >Select Budget Approval Code Or Tick
-                      Unbudgetted.</b-form-invalid-feedback
-                    >
+                    <b-form-invalid-feedback id="budget-appr-feedback">
+                      Select Budget Approval Code Or Tick
+                      Unbudgetted.
+                    </b-form-invalid-feedback>
                   </b-col>
                 </b-row>
                 <b-row class="my-1">
                   <b-col sm="8" offset-sm="4">
-                    <b-form-checkbox v-model="unbudget"
-                      >Unbudgetted</b-form-checkbox
-                    >
+                    <b-form-checkbox v-model="unbudget">Unbudgetted</b-form-checkbox>
                   </b-col>
                 </b-row>
                 <b-row class="my-1">
@@ -204,8 +173,7 @@
                     <b-form-invalid-feedback
                       id="deskripsi-feedback"
                       v-if="!$v.description.required && $v.description.$error"
-                      >This field must not be empty.</b-form-invalid-feedback
-                    >
+                    >This field must not be empty.</b-form-invalid-feedback>
                   </b-col>
                 </b-row>
 
@@ -245,8 +213,7 @@
                         !$v.quantityText.requiredNumber &&
                           $v.quantityText.$error
                       "
-                      >This field must not be empty</b-form-invalid-feedback
-                    >
+                    >This field must not be empty</b-form-invalid-feedback>
                   </b-col>
                 </b-row>
 
@@ -259,7 +226,7 @@
                       size
                       v-model="uom"
                       :options="uomData"
-                      value-field="key"
+                      value-field="uom"
                       text-field="desc"
                       style="font-size: 17.6px"
                       aria-describedby="uom-feedback"
@@ -268,16 +235,13 @@
                       "
                     >
                       <template v-slot:first>
-                        <b-form-select-option value disabled
-                          >-- Please select an option --</b-form-select-option
-                        >
+                        <b-form-select-option value disabled>-- Please select an option --</b-form-select-option>
                       </template>
                     </b-form-select>
                     <b-form-invalid-feedback
                       id="uom-feedback"
                       v-if="!$v.uom.required && $v.uom.$error"
-                      >Please select UoM.</b-form-invalid-feedback
-                    >
+                    >Please select UoM.</b-form-invalid-feedback>
                   </b-col>
                 </b-row>
 
@@ -286,11 +250,7 @@
                     <label>Delivery Date</label>
                   </b-col>
                   <b-col sm="8">
-                    <b-form-datepicker
-                      locale="id"
-                      type="date"
-                      v-model="deliveryDate"
-                    ></b-form-datepicker>
+                    <b-form-datepicker locale="id" type="date" v-model="deliveryDate"></b-form-datepicker>
                   </b-col>
                 </b-row>
 
@@ -325,8 +285,7 @@
                       v-if="
                         !$v.justification.required && $v.justification.$error
                       "
-                      >This field must not be empty.</b-form-invalid-feedback
-                    >
+                    >This field must not be empty.</b-form-invalid-feedback>
                   </b-col>
                 </b-row>
 
@@ -358,16 +317,14 @@
                           !$v.totalAmountText.requiredNumber &&
                             $v.totalAmountText.$error
                         "
-                        >This field must not be empty</b-form-invalid-feedback
-                      >
+                      >This field must not be empty</b-form-invalid-feedback>
                       <b-form-invalid-feedback
                         id="amount-feedback"
                         v-if="
                           !$v.totalAmountText.remainingPositif &&
                             $v.totalAmountText.$error
                         "
-                        >Insufficient budget</b-form-invalid-feedback
-                      >
+                      >Insufficient budget</b-form-invalid-feedback>
                     </b-input-group>
                   </b-col>
                 </b-row>
@@ -422,16 +379,13 @@
                       "
                     >
                       <template v-slot:first>
-                        <b-form-select-option value disabled
-                          >-- Please select an option --</b-form-select-option
-                        >
+                        <b-form-select-option value disabled>-- Please select an option --</b-form-select-option>
                       </template>
                     </b-form-select>
                     <b-form-invalid-feedback
                       id="plant-feedback"
                       v-if="!$v.plant.required && $v.plant.$error"
-                      >Please select plant.</b-form-invalid-feedback
-                    >
+                    >Please select plant.</b-form-invalid-feedback>
                   </b-col>
                 </b-row>
 
@@ -455,16 +409,13 @@
                       "
                     >
                       <template v-slot:first>
-                        <b-form-select-option value disabled
-                          >-- Please select an option --</b-form-select-option
-                        >
+                        <b-form-select-option value disabled>-- Please select an option --</b-form-select-option>
                       </template>
                     </b-form-select>
                     <b-form-invalid-feedback
                       id="sloc-feedback"
                       v-if="!$v.storageLoc.required && $v.storageLoc.$error"
-                      >Please select storage location.</b-form-invalid-feedback
-                    >
+                    >Please select storage location.</b-form-invalid-feedback>
                   </b-col>
                 </b-row>
               </b-container>
@@ -502,9 +453,7 @@
                     <b-button variant="danger">Clear</b-button>
                   </b-col>
                   <b-col cols="5" class="text-left">
-                    <b-button variant="success" @click="validate"
-                      >Submit</b-button
-                    >
+                    <b-button variant="success" @click="validate">Submit</b-button>
                   </b-col>
                 </b-row>
               </b-container>
@@ -528,7 +477,7 @@ import {
   required,
   minLength,
   maxLength,
-  requiredIf
+  requiredIf,
 } from 'vuelidate/lib/validators';
 
 const remainingPositif = (value, component) => {
@@ -539,7 +488,7 @@ const remainingPositif = (value, component) => {
   return true;
 };
 
-const requiredNumber = value => {
+const requiredNumber = (value) => {
   if (value == '0') {
     return false;
   }
@@ -550,7 +499,7 @@ export default {
   filters: {
     separator(value) {
       return value.toLocaleString('ID');
-    }
+    },
   },
   data() {
     return {
@@ -574,11 +523,7 @@ export default {
       purpose: '',
       budgetApprovalCode: '',
       // budgetApprovalCodeData: [],
-      uomData: [
-        { key: 'PC', desc: 'Buah' },
-        { key: 'KG', desc: 'Kg' },
-        { key: 'L', desc: 'Liter' }
-      ],
+      uomData: [],
       uom: '',
       plantData: [],
       plant: '',
@@ -587,7 +532,7 @@ export default {
       submitOK: null,
       overlay: false,
       actTypeInfo: [],
-      assetActivityType: ''
+      assetActivityType: '',
     };
   },
   computed: {
@@ -604,7 +549,7 @@ export default {
 
       const code = this.budgetApprovalCode;
 
-      return this.budgetApprovalCodeData.find(function(value) {
+      return this.budgetApprovalCodeData.find(function (value) {
         return value.budgetCode == code;
       });
     },
@@ -613,7 +558,7 @@ export default {
         return 0;
       }
       const ID = this.budgetApprovalCode;
-      return this.budgetApprovalCodeData.find(value => {
+      return this.budgetApprovalCodeData.find((value) => {
         return value.budgetCode == ID;
       }).budgetRemaining;
     },
@@ -624,51 +569,51 @@ export default {
       const costCenter = this.costCenter;
       // this.budgetApprovalCode = "";
 
-      return this.budgetRaw.filter(value => {
+      return this.budgetRaw.filter((value) => {
         return value.costCenter == costCenter;
       });
-    }
+    },
   },
   validations: {
     costCenter: {
-      required
+      required,
     },
     purpose: {
-      required
+      required,
     },
     description: {
       required,
-      minLength: minLength(10)
+      minLength: minLength(10),
     },
     justification: {
       required,
       minLength: minLength(10),
-      maxLength: maxLength(100)
+      maxLength: maxLength(100),
     },
     totalAmountText: {
       remainingPositif,
-      requiredNumber
+      requiredNumber,
     },
     quantityText: {
-      requiredNumber
+      requiredNumber,
     },
     uom: {
-      required
+      required,
     },
     plant: {
-      required
+      required,
     },
     storageLoc: {
-      required
+      required,
     },
     budgetApprovalCode: {
-      required: requiredIf(function(value) {
+      required: requiredIf(function (value) {
         if (this.unbudget && value.budgetApprovalCode == '') {
           return false;
         }
         return true;
-      })
-    }
+      }),
+    },
   },
   methods: {
     reset() {
@@ -748,7 +693,7 @@ export default {
               cancelTitle: 'NO',
               footerClass: 'p-2',
               hideHeaderClose: true,
-              centered: true
+              centered: true,
             }
           );
           if (result) {
@@ -763,7 +708,7 @@ export default {
             okVariant: 'danger',
             headerClass: 'p-2 border-bottom-0',
             footerClass: 'p-2 border-top-0',
-            centered: true
+            centered: true,
           });
           this.overlay = false;
         }
@@ -787,7 +732,7 @@ export default {
           plant: this.plant,
           storageLocation: this.storageLoc,
           deliveryDate: this.deliveryDate ? this.deliveryDate : '0000-00-00',
-          assetActivityType: this.assetActivityType
+          assetActivityType: this.assetActivityType,
         });
         this.$root.$bvToast.toast(`Capex ${result.data.ID} created`, {
           variant: 'primary',
@@ -795,7 +740,7 @@ export default {
           bodyClass: 'sm_toast__body ',
           noCloseButton: true,
           toaster: 'b-toaster-bottom-center',
-          autoHideDelay: 3000
+          autoHideDelay: 3000,
         });
         this.$router.push('/capex/' + result.data.ID);
       } catch (err) {
@@ -806,35 +751,35 @@ export default {
           okVariant: 'danger',
           headerClass: 'p-2 border-bottom-0',
           footerClass: 'p-2 border-top-0',
-          centered: true
+          centered: true,
         });
         this.overlay = false;
         this.errorMessage = err.response.data.message;
         this.submitText = 'Submit';
       }
-    }
+    },
   },
   created() {
     axiosCapex
       .get('/createInfo')
-      .then(result => {
+      .then((result) => {
         this.purposeData = result.data.purposeInfo;
-        this.budgetRaw = result.data.budgetInfo.filter(value => {
+        this.budgetRaw = result.data.budgetInfo.filter((value) => {
           return value.budgetRemaining > 0;
         });
-        this.costCenterData = result.data.costCenterInfo.map(cc => ({
+        this.costCenterData = result.data.costCenterInfo.map((cc) => ({
           costCenterCode: cc.costCenterCode,
-          costCenterName: `${cc.costCenterCode} | ${cc.costCenterName}`
+          costCenterName: `${cc.costCenterCode} | ${cc.costCenterName}`,
         }));
         this.plantData = result.data.plantInfo;
         this.storageLocData = result.data.slocInfo;
-
+        this.uomData = result.data.uomInfo;
         this.actTypeInfo = result.data.actTypeInfo;
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
-  }
+  },
 };
 </script>
 
