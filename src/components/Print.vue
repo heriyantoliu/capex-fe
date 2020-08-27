@@ -1,6 +1,12 @@
 <template>
   <div>
-    <table width="auto" border="1" style="border-style: solid;">
+    <table
+      width="auto"
+      border="1px solid black"
+      cellpadding="0"
+      cellspacing="0"
+      style="border-style: solid;"
+    >
       <tr>
         <td width="705" height="182">
           <table width="716" border="0">
@@ -18,7 +24,13 @@
                 <span class="style18">PT Industri Jamu dan Farmasi Sido Muncul</span>
               </td>
               <td width="29">
-                <table width="29" height="27" border="1">
+                <table
+                  width="29"
+                  height="27"
+                  border="1px solid black"
+                  cellspacing="0"
+                  cellpadding="0"
+                >
                   <tr>
                     <td
                       width="10"
@@ -47,7 +59,13 @@
                 <span class="style18">{{ capexInfo.requestorPosition }}</span>
               </td>
               <td>
-                <table width="29" height="27" border="1">
+                <table
+                  width="29"
+                  height="27"
+                  border="1px solid black"
+                  cellspacing="0"
+                  cellpadding="0"
+                >
                   <tr>
                     <td
                       width="15"
@@ -143,7 +161,7 @@
             6
             <u>Request Description :</u>
           </p>
-          <table width="716" border="1">
+          <table width="716" border="1px solid black" cellspacing="0" cellpadding="0">
             <tr>
               <td width="18" rowspan="3">
                 <div align="center" class="style17">No</div>
@@ -324,7 +342,7 @@
           </p>
 
           <br />
-          <table width="719" border="1">
+          <table width="719" border="1px solid black" cellspacing="0" cellpadding="0">
             <tr>
               <td width="307">
                 <div align="center">
