@@ -473,12 +473,7 @@
 
 <script>
 import { axiosCapex } from '../axios-instance';
-import {
-  required,
-  minLength,
-  maxLength,
-  requiredIf,
-} from 'vuelidate/lib/validators';
+import { required, minLength, requiredIf } from 'vuelidate/lib/validators';
 
 const remainingPositif = (value, component) => {
   if (component.remainingBudget < 0) {
@@ -595,7 +590,6 @@ export default {
     justification: {
       required,
       minLength: minLength(10),
-      maxLength: maxLength(100),
     },
     totalAmountText: {
       remainingPositif,

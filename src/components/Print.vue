@@ -123,7 +123,10 @@
               </td>
               <td colspan="2">
                 <span class="style17">
-                  <u>Purpose :</u>
+                  <p>
+                    <u>Purpose :</u>
+                    {{purpose}}
+                  </p>
                 </span>
               </td>
               <td width="10">&nbsp;</td>
@@ -132,152 +135,6 @@
               <td width="49">&nbsp;</td>
               <td width="49">&nbsp;</td>
               <td width="71">&nbsp;</td>
-            </tr>
-            <tr>
-              <td>&nbsp;</td>
-              <td width="29">
-                <table width="29" height="27" border="1">
-                  <tr>
-                    <td
-                      width="15"
-                      height="15"
-                      class="style17"
-                    >{{ capexInfo.purpose == 'A1' ? 'X' : '' }}</td>
-                  </tr>
-                </table>
-              </td>
-              <td width="214">
-                <span class="style17">Capacity Expansion</span>
-              </td>
-              <td></td>
-              <td>
-                <table width="29" height="27" border="1">
-                  <tr>
-                    <td
-                      width="15"
-                      height="15"
-                      class="style17"
-                    >{{ capexInfo.purpose == 'A5' ? 'X' : '' }}</td>
-                  </tr>
-                </table>
-              </td>
-              <td colspan="4">
-                <span class="style17">Replacement / Major Maintenance</span>
-              </td>
-            </tr>
-            <tr>
-              <td>&nbsp;</td>
-              <td>
-                <table width="29" height="27" border="1">
-                  <tr>
-                    <td
-                      width="15"
-                      height="15"
-                      class="style17"
-                    >{{ capexInfo.purpose == 'A2' ? 'X' : '' }}</td>
-                  </tr>
-                </table>
-              </td>
-              <td>
-                <span class="style17">Efficiency (Cost Reduction)</span>
-              </td>
-              <td>&nbsp;</td>
-              <td>
-                <table width="29" height="27" border="1">
-                  <tr>
-                    <td
-                      width="15"
-                      height="15"
-                      class="style17"
-                    >{{ capexInfo.purpose == 'A6' ? 'X' : '' }}</td>
-                  </tr>
-                </table>
-              </td>
-              <td colspan="4">
-                <span class="style17">Quality Improvement</span>
-              </td>
-            </tr>
-            <tr>
-              <td>&nbsp;</td>
-              <td>
-                <table width="29" height="27" border="1">
-                  <tr>
-                    <td
-                      width="15"
-                      height="15"
-                      class="style17"
-                    >{{ capexInfo.purpose == 'A3' ? 'X' : '' }}</td>
-                  </tr>
-                </table>
-              </td>
-              <td>
-                <span class="style17">Necessity</span>
-              </td>
-              <td>&nbsp;</td>
-              <td>
-                <table width="29" height="27" border="1">
-                  <tr>
-                    <td
-                      width="15"
-                      height="15"
-                      class="style17"
-                    >{{ capexInfo.purpose == 'A7' ? 'X' : '' }}</td>
-                  </tr>
-                </table>
-              </td>
-              <td colspan="4">
-                <span class="style17">Office &amp; Employee Facilities</span>
-              </td>
-            </tr>
-          </table>
-
-          <table width="715" border="0">
-            <tr>
-              <td width="6">&nbsp;</td>
-              <td width="29">
-                <table width="29" height="27" border="1">
-                  <tr>
-                    <td
-                      width="15"
-                      height="15"
-                      class="style17 style18 style25"
-                    >{{ capexInfo.purpose == 'A4' ? 'X' : '' }}</td>
-                  </tr>
-                </table>
-              </td>
-              <td width="103">
-                <span class="style17">New Investment :</span>
-              </td>
-              <td width="9">&nbsp;</td>
-              <td width="29">
-                <table width="29" height="27" border="1">
-                  <tr>
-                    <td
-                      width="15"
-                      height="15"
-                      class="style17 style18 style25"
-                    >{{ capexInfo.purpose == 'A8' ? 'X' : '' }}</td>
-                  </tr>
-                </table>
-              </td>
-              <td width="256">
-                <span class="style17">New Business,New Factory/Branch/Location</span>
-              </td>
-              <td width="33">
-                <table width="29" height="27" border="1">
-                  <tr>
-                    <td
-                      width="15"
-                      height="15"
-                      class="style17 style18 style25"
-                    >{{ capexInfo.purpose == 'A9' ? 'X' : '' }}</td>
-                  </tr>
-                </table>
-              </td>
-              <td width="196">
-                <span class="style17">New Product Category/Segment</span>
-              </td>
-              <td width="16">&nbsp;</td>
             </tr>
           </table>
 
@@ -457,7 +314,7 @@
           </table>
 
           <p class="style17">Total Capex (in word) : {{ capexInfo.totalAmount | inSpell }}</p>
-          <p class="style17">Schedule of the FA needed :</p>
+          <p class="style17">Schedule of the FA needed : {{ toDateString(capexInfo.deliveryDate) }}</p>
           <p class="style17"></p>
           <hr />
           <p class="style17">
@@ -612,6 +469,9 @@ export default {
     capexApprover: {
       type: Array,
     },
+    purpose: {
+      type: String,
+    },
   },
   // data() {
   //   return {
@@ -704,24 +564,4 @@ export default {
 </script>
 
 <style scoped>
-td,
-th {
-  border: 1px solid black;
-}
-
-.style17 {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 11px;
-}
-.style18 {
-  font-family: Arial, Helvetica, sans-serif;
-}
-.style19 {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 11px;
-  font-weight: bold;
-}
-.style25 {
-  font-size: 11px;
-}
 </style>

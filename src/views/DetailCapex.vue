@@ -535,6 +535,7 @@
       :budgetInfo="budgetInfo"
       :requestorInfo="requestorInfo"
       :capexApprover="capexApprover"
+      :purpose="purposePrint.purposeDesc"
     />
   </div>
 </template>
@@ -569,6 +570,7 @@ export default {
       plantData: [],
       costCenterData: [],
       purposeData: [],
+      purposePrint: '',
       budgetApprovalCodeData: [],
       username: this.$store.state.username,
       remainingBudget: 0,
@@ -866,6 +868,9 @@ export default {
 
           this.remainingBudget =
             this.capexInfo.totalBudget - this.capexInfo.totalAmount;
+          this.purposePrint = this.purposeData.find((purpose) => {
+            return purpose.purposeID == this.capexInfo.purpose;
+          });
           resolve();
         } catch (err) {
           this.$bvModal.msgBoxOk(err.response.data.message, {
