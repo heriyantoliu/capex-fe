@@ -220,7 +220,7 @@
                       v-model="capexInfo.uom"
                       disabled
                       :options="uomData"
-                      value-field="key"
+                      value-field="uom"
                       text-field="desc"
                       style="font-size: 17.6px"
                     />
@@ -586,11 +586,7 @@ export default {
       showUpdateMsg: false,
       timeout: 5000,
       overlay: false,
-      uomData: [
-        { key: 'PC', desc: 'Buah' },
-        { key: 'KG', desc: 'Kg' },
-        { key: 'L', desc: 'Liter' },
-      ],
+      uomData: [],
       assetGenMode: '',
       assetGenModeData: [
         { key: 'S', desc: 'Single' },
@@ -915,6 +911,7 @@ export default {
       this.assetClassInfo = result.data.assetClassInfo;
       this.actTypeInfo = result.data.actTypeInfo;
       this.assetGroupInfo = result.data.assetGrpInfo;
+      this.uomData = result.data.uomInfo;
 
       this.costCenterData = result.data.costCenterInfo.map((cc) => ({
         costCenterCode: cc.costCenterCode,
