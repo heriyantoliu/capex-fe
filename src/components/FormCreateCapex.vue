@@ -304,9 +304,8 @@
                         aria-describedby="amount-feedback"
                         :state="
                           ($v.totalAmountText.requiredNumber ||
-                            !$v.totalAmountText.$error) &&
-                          ($v.totalAmountText.remainingPositif &&
-                            !$v.totalAmountText.$error)
+                            !$v.totalAmountText.$error) 
+                          
                             ? null
                             : false
                         "
@@ -318,13 +317,6 @@
                             $v.totalAmountText.$error
                         "
                       >This field must not be empty</b-form-invalid-feedback>
-                      <b-form-invalid-feedback
-                        id="amount-feedback"
-                        v-if="
-                          !$v.totalAmountText.remainingPositif &&
-                            $v.totalAmountText.$error
-                        "
-                      >Insufficient budget</b-form-invalid-feedback>
                     </b-input-group>
                   </b-col>
                 </b-row>
@@ -475,14 +467,6 @@
 import { axiosCapex } from '../axios-instance';
 import { required, minLength, requiredIf } from 'vuelidate/lib/validators';
 
-const remainingPositif = (value, component) => {
-  if (component.remainingBudget < 0) {
-    return false;
-  }
-
-  return true;
-};
-
 const requiredNumber = (value) => {
   if (value == '0') {
     return false;
@@ -592,7 +576,6 @@ export default {
       minLength: minLength(10),
     },
     totalAmountText: {
-      remainingPositif,
       requiredNumber,
     },
     quantityText: {
@@ -765,9 +748,7 @@ export default {
       .get('/createInfo')
       .then((result) => {
         this.purposeData = result.data.purposeInfo;
-        this.budgetRaw = result.data.budgetInfo.filter((value) => {
-          return value.budgetRemaining > 0;
-        });
+        this.budgetRaw = result.data.budgetInfo;
         this.costCenterData = result.data.costCenterInfo.map((cc) => ({
           costCenterCode: cc.costCenterCode,
           costCenterName: `${cc.costCenterCode} | ${cc.costCenterName}`,
