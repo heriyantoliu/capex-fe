@@ -117,7 +117,7 @@
                       v-model="budgetApprovalCode"
                       :options="budgetApprovalCodeData"
                       value-field="budgetCode"
-                      text-field="budgetCode"
+                      text-field="budgetDesc"
                       style="font-size: 17.6px"
                       :state="
                         !(
@@ -569,9 +569,16 @@ export default {
       const costCenter = this.costCenter;
       // this.budgetApprovalCode = "";
 
-      return this.budgetRaw.filter((value) => {
-        return value.costCenter == costCenter;
-      });
+      return this.budgetRaw
+        .filter((budget) => {
+          return budget.costCenter == costCenter;
+        })
+        .map((budget) => {
+          return {
+            ...budget,
+            budgetDesc: `${budget.budgetCode} | ${budget.budgetDesc}`,
+          };
+        });
     },
   },
   validations: {

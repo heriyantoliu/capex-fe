@@ -1,6 +1,6 @@
 <template>
   <div>
-    <table width="715" border="1">
+    <table width="auto" border="1" style="border-style: solid;">
       <tr>
         <td width="705" height="182">
           <table width="716" border="0">
@@ -111,7 +111,7 @@
               <td width="10">
                 <span class="style17">:</span>
               </td>
-              <td width="275">&nbsp;</td>
+              <td width="275">{{ toDateString(capexInfo.CreatedAt) }}</td>
             </tr>
           </table>
 
@@ -333,9 +333,9 @@
                 <span class="style25">{{ capexInfo.description }}</span>
               </td>
               <td style="text-align: right;">
-                <span class="style25">
-                  {{ capexInfo.quantity | toCurrency }}
-                </span>
+                <span class="style25">{{
+                  capexInfo.quantity | toCurrency
+                }}</span>
               </td>
               <td style="text-align: right;">
                 <span class="style25">{{ unitPrice | toCurrency }}</span>
@@ -344,15 +344,15 @@
                 <span class="style25">IDR</span>
               </td>
               <td style="text-align: right;">
-                <span class="style25">
-                  {{ capexInfo.totalAmount | toCurrency }}
-                </span>
+                <span class="style25">{{
+                  capexInfo.totalAmount | toCurrency
+                }}</span>
               </td>
               <td style="text-align: right;">
                 <template v-if="budgetInfo">
-                  <span class="style25">
-                    {{ budgetInfo.budgetAmount | toCurrency }}
-                  </span>
+                  <span class="style25">{{
+                    budgetInfo.budgetAmount | toCurrency
+                  }}</span>
                 </template>
               </td>
               <td style="text-align: right;">
@@ -391,17 +391,7 @@
                 <span class="style25"></span>
               </td>
             </tr>
-            <tr>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </tr>
+
             <tr>
               <td colspan="2">
                 <div align="center" class="style25">
@@ -409,9 +399,9 @@
                 </div>
               </td>
               <td style="text-align: right;">
-                <span class="style25">
-                  {{ capexInfo.quantity | toCurrency }}
-                </span>
+                <span class="style25">{{
+                  capexInfo.quantity | toCurrency
+                }}</span>
               </td>
               <td style="text-align: right;">
                 <span class="style25">{{ unitPrice | toCurrency }}</span>
@@ -420,15 +410,15 @@
                 <span class="style25">IDR</span>
               </td>
               <td style="text-align: right;">
-                <span class="style25">
-                  {{ capexInfo.totalAmount | toCurrency }}
-                </span>
+                <span class="style25">{{
+                  capexInfo.totalAmount | toCurrency
+                }}</span>
               </td>
               <td style="text-align: right;">
                 <template v-if="budgetInfo">
-                  <span class="style25">
-                    {{ budgetInfo.budgetAmount | toCurrency }}
-                  </span>
+                  <span class="style25">{{
+                    budgetInfo.budgetAmount | toCurrency
+                  }}</span>
                 </template>
               </td>
               <td style="text-align: right;">
@@ -448,9 +438,10 @@
           <hr />
           <p class="style17">
             7
-            <u>Request Justification</u>
+            <u>Request Justification :</u>
+            {{ capexInfo.justification }}
           </p>
-          <br />
+
           <br />
           <table width="719" border="1">
             <tr>
@@ -465,29 +456,92 @@
             </tr>
             <tr>
               <td height="23">
-                <p>&nbsp;</p>
-                <p>&nbsp;</p>
-                <p>&nbsp;</p>
+                <p>&nbsp</p>
+                <p style="text-align:center">{{ requestorInfo.Name }}</p>
               </td>
-              <td rowspan="3">&nbsp;</td>
+              <td rowspan="3">
+                <p>&nbsp</p>
+                <p>&nbsp</p>
+                <p>&nbsp</p>
+                <p>&nbsp</p>
+                <p>&nbsp</p>
+
+                <table
+                  style="table-layout: auto; width: 100%; text-align: center; font-size: 12px;"
+                >
+                  <tr>
+                    <td v-for="appr in director" :key="appr.username">
+                      {{ appr.Status == 'A' ? 'Digital signed' : '&nbsp;' }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td v-for="appr in director" :key="appr.username">
+                      <u>{{ appr.Name }}</u>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td v-for="appr in director" :key="appr.username">
+                      {{ appr.Status == 'A' ? appr.UpdatedAt : '&nbsp;' }}
+                    </td>
+                  </tr>
+                </table>
+              </td>
             </tr>
             <tr>
               <td>
-                <div align="center" class="style17">
-                  <p>
+                <div class="style17">
+                  <p style="text-align: center;">
                     <strong>Reviewed by,</strong>
                   </p>
-                  <p>&nbsp;</p>
-                  <p>&nbsp;</p>
+
+                  <table
+                    style="table-layout: auto; width: 100%; text-align: center; font-size: 12px;"
+                  >
+                    <tr>
+                      <td v-for="appr in reviewer" :key="appr.username">
+                        {{ appr.Status == 'A' ? 'Digital signed' : '&nbsp;' }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td v-for="appr in reviewer" :key="appr.username">
+                        <u>{{ appr.Name }}</u>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td v-for="appr in reviewer" :key="appr.username">
+                        {{ appr.Status == 'A' ? appr.UpdatedAt : '&nbsp;' }}
+                      </td>
+                    </tr>
+                  </table>
                 </div>
               </td>
             </tr>
             <tr>
               <td>
-                <div align="center">
-                  <p class="style19">Approved by,</p>
-                  <p class="style19">&nbsp;</p>
-                  <p class="style19">&nbsp;</p>
+                <div class="style17">
+                  <p style="text-align: center;">
+                    <strong>Approved by,</strong>
+                  </p>
+
+                  <table
+                    style="table-layout: auto; width: 100%; text-align: center; font-size: 12px;"
+                  >
+                    <tr>
+                      <td v-for="appr in approver" :key="appr.username">
+                        {{ appr.Status == 'A' ? 'Digital signed' : '&nbsp;' }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td v-for="appr in approver" :key="appr.username">
+                        <u>{{ appr.Name }}</u>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td v-for="appr in approver" :key="appr.username">
+                        {{ appr.Status == 'A' ? appr.UpdatedAt : '&nbsp;' }}
+                      </td>
+                    </tr>
+                  </table>
                 </div>
               </td>
             </tr>
@@ -504,18 +558,9 @@
           </table>
 
           <br />
-          <br />
         </td>
       </tr>
     </table>
-
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
   </div>
 </template>
 
@@ -530,8 +575,21 @@ export default {
     },
     budgetInfo: {
       type: Object
+    },
+    requestorInfo: {
+      type: Object
+    },
+    capexApprover: {
+      type: Array
     }
   },
+  // data() {
+  //   return {
+  //     review: [],
+  //     approve: [],
+  //     bod: [],
+  //   };
+  // },
   computed: {
     unitPrice: function() {
       if (!this.capexInfo.quantity) {
@@ -555,9 +613,85 @@ export default {
         }
         return 0;
       }
+    },
+    reviewer: function() {
+      return this.capexApprover
+        .filter(appr => {
+          // return (
+          //   appr.approver == 'SMAP010' ||
+          //   appr.approver == 'SMAP029' ||
+          //   appr.approver == 'SMAP006'
+          // );
+          return appr.Approver == 'a';
+        })
+        .map(appr => {
+          return { ...appr, UpdatedAt: this.toDateString(appr.UpdatedAt) };
+        });
+    },
+    director: function() {
+      return this.capexApprover
+        .filter(appr => {
+          // return (
+          //   appr.approver == 'SMAP001' ||
+          //   appr.approver == 'SMAP004' ||
+          //   appr.approver == 'SMAP002'
+          // );
+          return appr.Approver == 'd';
+        })
+        .map(appr => {
+          return { ...appr, UpdatedAt: this.toDateString(appr.UpdatedAt) };
+        });
+    },
+    approver: function() {
+      return this.capexApprover
+        .filter(appr => {
+          // return (
+          //   appr.approver != 'SMAP010' &&
+          //   appr.approver != 'SMAP029' &&
+          //   appr.approver != 'SMAP006' &&
+          //   appr.approver != 'SMAP001' &&
+          //   appr.approver != 'SMAP004' &&
+          //   appr.approver != 'SMAP002'
+          // );
+          return appr.Approver != 'a' && appr.Approver != 'd';
+        })
+        .map(appr => {
+          return { ...appr, UpdatedAt: this.toDateString(appr.UpdatedAt) };
+        });
+    }
+  },
+  methods: {
+    toDateString(value) {
+      const date = new Date(value);
+
+      if (date.getFullYear() == 1) {
+        return '';
+      }
+      return date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear();
     }
   }
 };
 </script>
 
-<style></style>
+<style scoped>
+td,
+th {
+  border: 1px solid black;
+}
+
+.style17 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+}
+.style18 {
+  font-family: Arial, Helvetica, sans-serif;
+}
+.style19 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  font-weight: bold;
+}
+.style25 {
+  font-size: 11px;
+}
+</style>

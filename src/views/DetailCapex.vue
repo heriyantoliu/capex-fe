@@ -164,7 +164,7 @@
                       disabled
                       :options="budgetApprovalCodeData"
                       value-field="budgetCode"
-                      text-field="budgetCode"
+                      text-field="budgetDesc"
                       style="font-size: 17.6px"
                     ></b-form-select>
                   </b-col>
@@ -528,7 +528,14 @@
         </div>
       </div>
     </div>
-    <Print v-show="false" id="printMe" :capexInfo="capexInfo" :budgetInfo="budgetInfo" />
+    <Print
+      v-show="false"
+      id="printMe"
+      :capexInfo="capexInfo"
+      :budgetInfo="budgetInfo"
+      :requestorInfo="requestorInfo"
+      :capexApprover="capexApprover"
+    />
   </div>
 </template>
 
@@ -545,7 +552,7 @@ export default {
   components: {
     ListTableAppr,
     Print,
-    ListAsset
+    ListAsset,
   },
   data() {
     return {
@@ -580,28 +587,28 @@ export default {
       uomData: [
         { key: 'PC', desc: 'Buah' },
         { key: 'KG', desc: 'Kg' },
-        { key: 'L', desc: 'Liter' }
+        { key: 'L', desc: 'Liter' },
       ],
       assetGenMode: '',
       assetGenModeData: [
         { key: 'S', desc: 'Single' },
-        { key: 'M', desc: 'Multiple' }
+        { key: 'M', desc: 'Multiple' },
       ],
-      listAsset: []
+      listAsset: [],
     };
   },
   computed: {
     hasACCApprover() {
       return this.$store.getters.findRole('ACCAPPROVER');
-    }
+    },
   },
   validations: {
     assetClass: {
-      required
+      required,
     },
     assetGenMode: {
-      required
-    }
+      required,
+    },
   },
 
   methods: {
@@ -628,7 +635,7 @@ export default {
             cancelTitle: 'NO',
             footerClass: 'p-2',
             hideHeaderClose: true,
-            centered: true
+            centered: true,
           }
         );
         if (result) {
@@ -642,7 +649,7 @@ export default {
               bodyClass: 'sm_toast__body ',
               noCloseButton: true,
               toaster: 'b-toaster-bottom-center',
-              autoHideDelay: 3000
+              autoHideDelay: 3000,
             }
           );
           this.$router.push('/replicate');
@@ -655,7 +662,7 @@ export default {
           okVariant: 'danger',
           headerClass: 'p-2 border-bottom-0',
           footerClass: 'p-2 border-top-0',
-          centered: true
+          centered: true,
         });
         this.overlay = false;
       }
@@ -676,7 +683,7 @@ export default {
               cancelTitle: 'NO',
               footerClass: 'p-2',
               hideHeaderClose: true,
-              centered: true
+              centered: true,
             }
           );
           if (result) {
@@ -691,7 +698,7 @@ export default {
             okVariant: 'danger',
             headerClass: 'p-2 border-bottom-0',
             footerClass: 'p-2 border-top-0',
-            centered: true
+            centered: true,
           });
         }
       }
@@ -731,12 +738,12 @@ export default {
             cancelTitle: 'NO',
             footerClass: 'p-2',
             hideHeaderClose: true,
-            centered: true
+            centered: true,
           }
         );
         if (result) {
           await axiosCapex.patch(`/capexTrx/${this.capexInfo.ID}/reject`, {
-            remark: this.rejectNote
+            remark: this.rejectNote,
           });
           this.$root.$bvToast.toast(`Capex ${this.capexInfo.ID} rejected`, {
             variant: 'primary',
@@ -744,7 +751,7 @@ export default {
             bodyClass: 'sm_toast__body ',
             noCloseButton: true,
             toaster: 'b-toaster-bottom-center',
-            autoHideDelay: 3000
+            autoHideDelay: 3000,
           });
           this.$router.push('/waitAppr');
         }
@@ -756,7 +763,7 @@ export default {
           okVariant: 'danger',
           headerClass: 'p-2 border-bottom-0',
           footerClass: 'p-2 border-top-0',
-          centered: true
+          centered: true,
         });
       }
     },
@@ -777,7 +784,7 @@ export default {
             cancelTitle: 'NO',
             footerClass: 'p-2',
             hideHeaderClose: true,
-            centered: true
+            centered: true,
           }
         );
         if (result) {
@@ -788,7 +795,7 @@ export default {
             bodyClass: 'sm_toast__body ',
             noCloseButton: true,
             toaster: 'b-toaster-bottom-center',
-            autoHideDelay: 3000
+            autoHideDelay: 3000,
           });
           this.$router.push('/waitAppr');
         }
@@ -800,7 +807,7 @@ export default {
           okVariant: 'danger',
           headerClass: 'p-2 border-bottom-0',
           footerClass: 'p-2 border-top-0',
-          centered: true
+          centered: true,
         });
       }
     },
@@ -812,7 +819,7 @@ export default {
           assetClass: this.assetClass,
           assetActivityType: this.capexInfo.assetActivityType,
           assetGroup: this.capexInfo.assetGroup,
-          assetGenMode: this.assetGenMode
+          assetGenMode: this.assetGenMode,
         });
         this.$root.$bvToast.toast(`Capex ${ID} updated`, {
           variant: 'primary',
@@ -820,7 +827,7 @@ export default {
           bodyClass: 'sm_toast__body ',
           noCloseButton: true,
           toaster: 'b-toaster-bottom-center',
-          autoHideDelay: 3000
+          autoHideDelay: 3000,
         });
         this.$router.push('/waitAppr');
       } catch (err) {
@@ -831,7 +838,7 @@ export default {
           okVariant: 'danger',
           headerClass: 'p-2 border-bottom-0',
           footerClass: 'p-2 border-top-0',
-          centered: true
+          centered: true,
         });
         this.overlay = false;
       }
@@ -846,7 +853,7 @@ export default {
           this.capexInfo = result.data.capexDetail;
           this.requestorInfo = result.data.requestorInfo;
           let budgetCode = this.capexInfo.budgetApprovalCode;
-          this.budgetInfo = this.budgetApprovalCodeData.find(function(value) {
+          this.budgetInfo = this.budgetApprovalCodeData.find(function (value) {
             return value.budgetCode == budgetCode;
           });
 
@@ -868,7 +875,7 @@ export default {
             okVariant: 'danger',
             headerClass: 'p-2 border-bottom-0',
             footerClass: 'p-2 border-top-0',
-            centered: true
+            centered: true,
           });
           reject();
         }
@@ -877,7 +884,7 @@ export default {
     cancelEdit() {
       this.editable = false;
       this.fetchCapex(this.$route.params.ID);
-    }
+    },
   },
   filters: {
     toDateString(value) {
@@ -886,12 +893,17 @@ export default {
         return '';
       }
       return date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear();
-    }
+    },
   },
   async created() {
     try {
       const result = await axiosCapex.get('/createInfo');
-      this.budgetApprovalCodeData = result.data.budgetInfo;
+      this.budgetApprovalCodeData = result.data.budgetInfo.map((budget) => {
+        return {
+          ...budget,
+          budgetDesc: `${budget.budgetCode} | ${budget.budgetDesc}`,
+        };
+      });
       this.purposeData = result.data.purposeInfo;
       this.plantData = result.data.plantInfo;
       this.storageLocData = result.data.slocInfo;
@@ -899,14 +911,14 @@ export default {
       this.actTypeInfo = result.data.actTypeInfo;
       this.assetGroupInfo = result.data.assetGrpInfo;
 
-      this.costCenterData = result.data.costCenterInfo.map(cc => ({
+      this.costCenterData = result.data.costCenterInfo.map((cc) => ({
         costCenterCode: cc.costCenterCode,
-        costCenterName: `${cc.costCenterCode} | ${cc.costCenterName}`
+        costCenterName: `${cc.costCenterCode} | ${cc.costCenterName}`,
       }));
 
-      this.assetClassInfo = result.data.assetClassInfo.map(asset => ({
+      this.assetClassInfo = result.data.assetClassInfo.map((asset) => ({
         assetClassCode: asset.assetClassCode,
-        assetClassDesc: `${asset.assetClassCode} | ${asset.assetClassDesc}`
+        assetClassDesc: `${asset.assetClassCode} | ${asset.assetClassDesc}`,
       }));
 
       await this.fetchCapex(this.$route.params.ID);
@@ -922,11 +934,11 @@ export default {
         okVariant: 'danger',
         headerClass: 'p-2 border-bottom-0',
         footerClass: 'p-2 border-top-0',
-        centered: true
+        centered: true,
       });
       this.$router.push('/');
     }
-  }
+  },
 };
 </script>
 
