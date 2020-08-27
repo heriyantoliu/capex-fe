@@ -360,15 +360,15 @@
             </tr>
             <tr>
               <td height="23">
-                <p>&nbsp</p>
+                <p>&nbsp;</p>
                 <p style="text-align:center">{{ requestorInfo.Name }}</p>
               </td>
               <td rowspan="3">
-                <p>&nbsp</p>
-                <p>&nbsp</p>
-                <p>&nbsp</p>
-                <p>&nbsp</p>
-                <p>&nbsp</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
 
                 <table
                   style="table-layout: auto; width: 100%; text-align: center; font-size: 12px;"

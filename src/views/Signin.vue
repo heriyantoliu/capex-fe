@@ -39,7 +39,9 @@
                 class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air m-login__btn m-login__btn--primary"
                 @click="signin"
                 :disabled="signinText != 'Sign In'"
-              >{{ signinText }}</button>
+              >
+                {{ signinText }}
+              </button>
             </div>
           </form>
         </div>
@@ -65,7 +67,7 @@ export default {
       username: '',
       password: '',
       message: '',
-      signinText: 'Sign In',
+      signinText: 'Sign In'
     };
   },
   methods: {
@@ -74,17 +76,17 @@ export default {
       this.$store
         .dispatch('login', {
           username: this.username,
-          password: this.password,
+          password: this.password
         })
         .then(() => {
-          this.$router.push('/');
+          this.$router.push(this.$route.query.redirect || '/');
         })
-        .catch((err) => {
+        .catch(err => {
           this.signinText = 'Sign In';
           this.message = err;
         });
-    },
-  },
+    }
+  }
 };
 </script>
 

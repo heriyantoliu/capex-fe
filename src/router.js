@@ -27,7 +27,7 @@ const router = new Router({
         if (store.getters.isAuthenticated) {
           next();
         } else {
-          next('/signin');
+          next(`/signin?redirect=${window.location.pathname}`);
         }
       },
       children: [
