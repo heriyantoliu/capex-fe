@@ -15,16 +15,16 @@
                 <span class="style17">:</span>
               </td>
               <td width="437">
-                <span class="style18"
-                  >PT Industri Jamu dan Farmasi Sido Muncul</span
-                >
+                <span class="style18">PT Industri Jamu dan Farmasi Sido Muncul</span>
               </td>
               <td width="29">
                 <table width="29" height="27" border="1">
                   <tr>
-                    <td width="10" height="10" class="style17">
-                      {{ capexInfo.budgetType == 'B' ? 'X' : '' }}
-                    </td>
+                    <td
+                      width="10"
+                      height="10"
+                      class="style17"
+                    >{{ capexInfo.budgetType == 'B' ? 'X' : '' }}</td>
                   </tr>
                 </table>
               </td>
@@ -49,9 +49,11 @@
               <td>
                 <table width="29" height="27" border="1">
                   <tr>
-                    <td width="15" height="15" class="style17">
-                      {{ capexInfo.budgetType != 'B' ? 'X' : '' }}
-                    </td>
+                    <td
+                      width="15"
+                      height="15"
+                      class="style17"
+                    >{{ capexInfo.budgetType != 'B' ? 'X' : '' }}</td>
                   </tr>
                 </table>
               </td>
@@ -83,9 +85,7 @@
             </tr>
             <tr>
               <td colspan="7">
-                <div align="center" class="style19">
-                  CAPITAL EXPENDITURE APPROVAL (CEA)
-                </div>
+                <div align="center" class="style19">CAPITAL EXPENDITURE APPROVAL (CEA)</div>
               </td>
             </tr>
           </table>
@@ -138,9 +138,11 @@
               <td width="29">
                 <table width="29" height="27" border="1">
                   <tr>
-                    <td width="15" height="15" class="style17">
-                      {{ capexInfo.purpose == 'A1' ? 'X' : '' }}
-                    </td>
+                    <td
+                      width="15"
+                      height="15"
+                      class="style17"
+                    >{{ capexInfo.purpose == 'A1' ? 'X' : '' }}</td>
                   </tr>
                 </table>
               </td>
@@ -151,9 +153,11 @@
               <td>
                 <table width="29" height="27" border="1">
                   <tr>
-                    <td width="15" height="15" class="style17">
-                      {{ capexInfo.purpose == 'A5' ? 'X' : '' }}
-                    </td>
+                    <td
+                      width="15"
+                      height="15"
+                      class="style17"
+                    >{{ capexInfo.purpose == 'A5' ? 'X' : '' }}</td>
                   </tr>
                 </table>
               </td>
@@ -166,9 +170,11 @@
               <td>
                 <table width="29" height="27" border="1">
                   <tr>
-                    <td width="15" height="15" class="style17">
-                      {{ capexInfo.purpose == 'A2' ? 'X' : '' }}
-                    </td>
+                    <td
+                      width="15"
+                      height="15"
+                      class="style17"
+                    >{{ capexInfo.purpose == 'A2' ? 'X' : '' }}</td>
                   </tr>
                 </table>
               </td>
@@ -179,9 +185,11 @@
               <td>
                 <table width="29" height="27" border="1">
                   <tr>
-                    <td width="15" height="15" class="style17">
-                      {{ capexInfo.purpose == 'A6' ? 'X' : '' }}
-                    </td>
+                    <td
+                      width="15"
+                      height="15"
+                      class="style17"
+                    >{{ capexInfo.purpose == 'A6' ? 'X' : '' }}</td>
                   </tr>
                 </table>
               </td>
@@ -194,9 +202,11 @@
               <td>
                 <table width="29" height="27" border="1">
                   <tr>
-                    <td width="15" height="15" class="style17">
-                      {{ capexInfo.purpose == 'A3' ? 'X' : '' }}
-                    </td>
+                    <td
+                      width="15"
+                      height="15"
+                      class="style17"
+                    >{{ capexInfo.purpose == 'A3' ? 'X' : '' }}</td>
                   </tr>
                 </table>
               </td>
@@ -207,9 +217,11 @@
               <td>
                 <table width="29" height="27" border="1">
                   <tr>
-                    <td width="15" height="15" class="style17">
-                      {{ capexInfo.purpose == 'A7' ? 'X' : '' }}
-                    </td>
+                    <td
+                      width="15"
+                      height="15"
+                      class="style17"
+                    >{{ capexInfo.purpose == 'A7' ? 'X' : '' }}</td>
                   </tr>
                 </table>
               </td>
@@ -225,9 +237,11 @@
               <td width="29">
                 <table width="29" height="27" border="1">
                   <tr>
-                    <td width="15" height="15" class="style17 style18 style25">
-                      {{ capexInfo.purpose == 'A4' ? 'X' : '' }}
-                    </td>
+                    <td
+                      width="15"
+                      height="15"
+                      class="style17 style18 style25"
+                    >{{ capexInfo.purpose == 'A4' ? 'X' : '' }}</td>
                   </tr>
                 </table>
               </td>
@@ -238,23 +252,25 @@
               <td width="29">
                 <table width="29" height="27" border="1">
                   <tr>
-                    <td width="15" height="15" class="style17 style18 style25">
-                      {{ capexInfo.purpose == 'A8' ? 'X' : '' }}
-                    </td>
+                    <td
+                      width="15"
+                      height="15"
+                      class="style17 style18 style25"
+                    >{{ capexInfo.purpose == 'A8' ? 'X' : '' }}</td>
                   </tr>
                 </table>
               </td>
               <td width="256">
-                <span class="style17"
-                  >New Business,New Factory/Branch/Location</span
-                >
+                <span class="style17">New Business,New Factory/Branch/Location</span>
               </td>
               <td width="33">
                 <table width="29" height="27" border="1">
                   <tr>
-                    <td width="15" height="15" class="style17 style18 style25">
-                      {{ capexInfo.purpose == 'A9' ? 'X' : '' }}
-                    </td>
+                    <td
+                      width="15"
+                      height="15"
+                      class="style17 style18 style25"
+                    >{{ capexInfo.purpose == 'A9' ? 'X' : '' }}</td>
                   </tr>
                 </table>
               </td>
@@ -276,9 +292,7 @@
                 <div align="center" class="style17">No</div>
               </td>
               <td width="220" rowspan="3">
-                <div align="center" class="style17">
-                  Description Fixed Asset
-                </div>
+                <div align="center" class="style17">Description Fixed Asset</div>
               </td>
               <td width="30" rowspan="3">
                 <div align="center" class="style17">Qty</div>
@@ -333,9 +347,11 @@
                 <span class="style25">{{ capexInfo.description }}</span>
               </td>
               <td style="text-align: right;">
-                <span class="style25">{{
+                <span class="style25">
+                  {{
                   capexInfo.quantity | toCurrency
-                }}</span>
+                  }}
+                </span>
               </td>
               <td style="text-align: right;">
                 <span class="style25">{{ unitPrice | toCurrency }}</span>
@@ -344,15 +360,19 @@
                 <span class="style25">IDR</span>
               </td>
               <td style="text-align: right;">
-                <span class="style25">{{
+                <span class="style25">
+                  {{
                   capexInfo.totalAmount | toCurrency
-                }}</span>
+                  }}
+                </span>
               </td>
               <td style="text-align: right;">
                 <template v-if="budgetInfo">
-                  <span class="style25">{{
+                  <span class="style25">
+                    {{
                     budgetInfo.budgetAmount | toCurrency
-                  }}</span>
+                    }}
+                  </span>
                 </template>
               </td>
               <td style="text-align: right;">
@@ -399,9 +419,11 @@
                 </div>
               </td>
               <td style="text-align: right;">
-                <span class="style25">{{
+                <span class="style25">
+                  {{
                   capexInfo.quantity | toCurrency
-                }}</span>
+                  }}
+                </span>
               </td>
               <td style="text-align: right;">
                 <span class="style25">{{ unitPrice | toCurrency }}</span>
@@ -410,15 +432,19 @@
                 <span class="style25">IDR</span>
               </td>
               <td style="text-align: right;">
-                <span class="style25">{{
+                <span class="style25">
+                  {{
                   capexInfo.totalAmount | toCurrency
-                }}</span>
+                  }}
+                </span>
               </td>
               <td style="text-align: right;">
                 <template v-if="budgetInfo">
-                  <span class="style25">{{
+                  <span class="style25">
+                    {{
                     budgetInfo.budgetAmount | toCurrency
-                  }}</span>
+                    }}
+                  </span>
                 </template>
               </td>
               <td style="text-align: right;">
@@ -430,9 +456,7 @@
             </tr>
           </table>
 
-          <p class="style17">
-            Total Capex (in word) : {{ capexInfo.totalAmount | inSpell }}
-          </p>
+          <p class="style17">Total Capex (in word) : {{ capexInfo.totalAmount | inSpell }}</p>
           <p class="style17">Schedule of the FA needed :</p>
           <p class="style17"></p>
           <hr />
@@ -470,9 +494,10 @@
                   style="table-layout: auto; width: 100%; text-align: center; font-size: 12px;"
                 >
                   <tr>
-                    <td v-for="appr in director" :key="appr.username">
-                      {{ appr.Status == 'A' ? 'Digital signed' : '&nbsp;' }}
-                    </td>
+                    <td
+                      v-for="appr in director"
+                      :key="appr.username"
+                    >{{ appr.Status == 'A' ? 'Digital signed' : '&nbsp;' }}</td>
                   </tr>
                   <tr>
                     <td v-for="appr in director" :key="appr.username">
@@ -480,9 +505,10 @@
                     </td>
                   </tr>
                   <tr>
-                    <td v-for="appr in director" :key="appr.username">
-                      {{ appr.Status == 'A' ? appr.UpdatedAt : '&nbsp;' }}
-                    </td>
+                    <td
+                      v-for="appr in director"
+                      :key="appr.username"
+                    >{{ appr.Status == 'A' ? appr.UpdatedAt : '&nbsp;' }}</td>
                   </tr>
                 </table>
               </td>
@@ -498,9 +524,10 @@
                     style="table-layout: auto; width: 100%; text-align: center; font-size: 12px;"
                   >
                     <tr>
-                      <td v-for="appr in reviewer" :key="appr.username">
-                        {{ appr.Status == 'A' ? 'Digital signed' : '&nbsp;' }}
-                      </td>
+                      <td
+                        v-for="appr in reviewer"
+                        :key="appr.username"
+                      >{{ appr.Status == 'A' ? 'Digital signed' : '&nbsp;' }}</td>
                     </tr>
                     <tr>
                       <td v-for="appr in reviewer" :key="appr.username">
@@ -508,9 +535,10 @@
                       </td>
                     </tr>
                     <tr>
-                      <td v-for="appr in reviewer" :key="appr.username">
-                        {{ appr.Status == 'A' ? appr.UpdatedAt : '&nbsp;' }}
-                      </td>
+                      <td
+                        v-for="appr in reviewer"
+                        :key="appr.username"
+                      >{{ appr.Status == 'A' ? appr.UpdatedAt : '&nbsp;' }}</td>
                     </tr>
                   </table>
                 </div>
@@ -527,9 +555,10 @@
                     style="table-layout: auto; width: 100%; text-align: center; font-size: 12px;"
                   >
                     <tr>
-                      <td v-for="appr in approver" :key="appr.username">
-                        {{ appr.Status == 'A' ? 'Digital signed' : '&nbsp;' }}
-                      </td>
+                      <td
+                        v-for="appr in approver"
+                        :key="appr.username"
+                      >{{ appr.Status == 'A' ? 'Digital signed' : '&nbsp;' }}</td>
                     </tr>
                     <tr>
                       <td v-for="appr in approver" :key="appr.username">
@@ -537,9 +566,10 @@
                       </td>
                     </tr>
                     <tr>
-                      <td v-for="appr in approver" :key="appr.username">
-                        {{ appr.Status == 'A' ? appr.UpdatedAt : '&nbsp;' }}
-                      </td>
+                      <td
+                        v-for="appr in approver"
+                        :key="appr.username"
+                      >{{ appr.Status == 'A' ? appr.UpdatedAt : '&nbsp;' }}</td>
                     </tr>
                   </table>
                 </div>
@@ -571,17 +601,17 @@ export default {
   props: {
     capexInfo: {
       type: Object,
-      required: true
+      required: true,
     },
     budgetInfo: {
-      type: Object
+      type: Object,
     },
     requestorInfo: {
-      type: Object
+      type: Object,
     },
     capexApprover: {
-      type: Array
-    }
+      type: Array,
+    },
   },
   // data() {
   //   return {
@@ -591,20 +621,20 @@ export default {
   //   };
   // },
   computed: {
-    unitPrice: function() {
+    unitPrice: function () {
       if (!this.capexInfo.quantity) {
         return 0;
       } else {
         return this.capexInfo.totalAmount / this.capexInfo.quantity;
       }
     },
-    variant: function() {
+    variant: function () {
       if (this.budgetInfo) {
         return this.budgetInfo.budgetAmount - this.capexInfo.totalAmount;
       }
       return 0;
     },
-    variantPct: function() {
+    variantPct: function () {
       if (this.variant == 0) {
         return 0;
       } else {
@@ -614,51 +644,51 @@ export default {
         return 0;
       }
     },
-    reviewer: function() {
+    reviewer: function () {
       return this.capexApprover
-        .filter(appr => {
-          // return (
-          //   appr.approver == 'SMAP010' ||
-          //   appr.approver == 'SMAP029' ||
-          //   appr.approver == 'SMAP006'
-          // );
-          return appr.Approver == 'a';
+        .filter((appr) => {
+          return (
+            appr.approver == 'SMAP010' ||
+            appr.approver == 'SMAP029' ||
+            appr.approver == 'SMAP006'
+          );
+          // return appr.Approver == 'a';
         })
-        .map(appr => {
+        .map((appr) => {
           return { ...appr, UpdatedAt: this.toDateString(appr.UpdatedAt) };
         });
     },
-    director: function() {
+    director: function () {
       return this.capexApprover
-        .filter(appr => {
-          // return (
-          //   appr.approver == 'SMAP001' ||
-          //   appr.approver == 'SMAP004' ||
-          //   appr.approver == 'SMAP002'
-          // );
-          return appr.Approver == 'd';
+        .filter((appr) => {
+          return (
+            appr.approver == 'SMAP001' ||
+            appr.approver == 'SMAP004' ||
+            appr.approver == 'SMAP002'
+          );
+          // return appr.Approver == 'd';
         })
-        .map(appr => {
+        .map((appr) => {
           return { ...appr, UpdatedAt: this.toDateString(appr.UpdatedAt) };
         });
     },
-    approver: function() {
+    approver: function () {
       return this.capexApprover
-        .filter(appr => {
-          // return (
-          //   appr.approver != 'SMAP010' &&
-          //   appr.approver != 'SMAP029' &&
-          //   appr.approver != 'SMAP006' &&
-          //   appr.approver != 'SMAP001' &&
-          //   appr.approver != 'SMAP004' &&
-          //   appr.approver != 'SMAP002'
-          // );
-          return appr.Approver != 'a' && appr.Approver != 'd';
+        .filter((appr) => {
+          return (
+            appr.approver != 'SMAP010' &&
+            appr.approver != 'SMAP029' &&
+            appr.approver != 'SMAP006' &&
+            appr.approver != 'SMAP001' &&
+            appr.approver != 'SMAP004' &&
+            appr.approver != 'SMAP002'
+          );
+          // return appr.Approver != 'a' && appr.Approver != 'd';
         })
-        .map(appr => {
+        .map((appr) => {
           return { ...appr, UpdatedAt: this.toDateString(appr.UpdatedAt) };
         });
-    }
+    },
   },
   methods: {
     toDateString(value) {
@@ -668,8 +698,8 @@ export default {
         return '';
       }
       return date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear();
-    }
-  }
+    },
+  },
 };
 </script>
 
