@@ -536,6 +536,7 @@
       :requestorInfo="requestorInfo"
       :capexApprover="capexApprover"
       :purpose="purposePrint.purposeDesc"
+      :costCenter="costCenterPrint.costCenterName"
     />
   </div>
 </template>
@@ -569,8 +570,9 @@ export default {
       storageLocData: [],
       plantData: [],
       costCenterData: [],
+      costCenterPrint: {},
       purposeData: [],
-      purposePrint: '',
+      purposePrint: {},
       budgetApprovalCodeData: [],
       username: this.$store.state.username,
       remainingBudget: 0,
@@ -866,6 +868,9 @@ export default {
             this.capexInfo.totalBudget - this.capexInfo.totalAmount;
           this.purposePrint = this.purposeData.find((purpose) => {
             return purpose.purposeID == this.capexInfo.purpose;
+          });
+          this.costCenterPrint = this.costCenterData.find((cc) => {
+            return cc.costCenterCode == this.capexInfo.costCenter;
           });
           resolve();
         } catch (err) {
