@@ -256,6 +256,21 @@
 
                 <b-row class="my-1">
                   <b-col sm="4">
+                    <label>Unit Price</label>
+                  </b-col>
+                  <b-col sm="8">
+                    <b-input-group size prepend="Rp">
+                      <b-form-input
+                        class="text-right"
+                        disabled
+                        :value="capexInfo.unitPrice | toCurrency"
+                      />
+                    </b-input-group>
+                  </b-col>
+                </b-row>
+
+                <b-row class="my-1">
+                  <b-col sm="4">
                     <label>Total Amount</label>
                   </b-col>
                   <b-col sm="8">
@@ -394,7 +409,11 @@
                       value-field="actTypeCode"
                       text-field="actTypeDesc"
                       style="font-size: 17.6px"
-                    ></b-form-select>
+                    >
+                      <template v-slot:first>
+                        <b-form-select-option :value="null"></b-form-select-option>
+                      </template>
+                    </b-form-select>
                   </b-col>
                 </b-row>
 
@@ -410,7 +429,11 @@
                       value-field="assetGrpCode"
                       text-field="assetGrpDesc"
                       style="font-size: 17.6px"
-                    ></b-form-select>
+                    >
+                      <template v-slot:first>
+                        <b-form-select-option :value="null"></b-form-select-option>
+                      </template>
+                    </b-form-select>
                   </b-col>
                 </b-row>
 

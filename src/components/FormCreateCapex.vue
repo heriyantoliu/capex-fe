@@ -291,32 +291,43 @@
 
                 <b-row class="my-1">
                   <b-col sm="4">
-                    <label>Total Amount</label>
+                    <label>Unit Price</label>
                   </b-col>
                   <b-col sm="8">
                     <b-input-group size prepend="Rp">
                       <b-form-input
                         inputmode="numeric"
                         class="text-right"
-                        :value="totalAmountText"
+                        :value="unitPriceText"
                         @input="onInputNumber"
                         @keypress="onKeypressNumber"
-                        aria-describedby="amount-feedback"
+                        aria-describedby="unit-price-feedback"
                         :state="
-                          ($v.totalAmountText.requiredNumber ||
-                            !$v.totalAmountText.$error) 
+                          ($v.unitPriceText.requiredNumber ||
+                            !$v.unitPriceText.$error) 
                           
                             ? null
                             : false
                         "
                       />
                       <b-form-invalid-feedback
-                        id="amount-feedback"
+                        id="unit-price-feedback"
                         v-if="
-                          !$v.totalAmountText.requiredNumber &&
-                            $v.totalAmountText.$error
+                          !$v.unitPriceText.requiredNumber &&
+                            $v.unitPriceText.$error
                         "
                       >This field must not be empty</b-form-invalid-feedback>
+                    </b-input-group>
+                  </b-col>
+                </b-row>
+
+                <b-row class="my-1">
+                  <b-col sm="4">
+                    <label>Total Amount</label>
+                  </b-col>
+                  <b-col sm="8">
+                    <b-input-group size prepend="Rp">
+                      <b-form-input class="text-right" disabled :value="totalAmount | separator" />
                     </b-input-group>
                   </b-col>
                 </b-row>
@@ -355,7 +366,7 @@
 
                 <b-row class="my-1">
                   <b-col sm="4">
-                    <label>Plant</label>
+                    <label>Plant*</label>
                   </b-col>
                   <b-col sm="8">
                     <b-form-select
@@ -383,7 +394,7 @@
 
                 <b-row class="my-1">
                   <b-col sm="4">
-                    <label>Satuan(UoM)</label>
+                    <label>Storage Location*</label>
                   </b-col>
                   <b-col sm="8">
                     <b-form-select
@@ -436,7 +447,11 @@
                       value-field="actTypeCode"
                       text-field="actTypeDesc"
                       style="font-size: 17.6px"
-                    ></b-form-select>
+                    >
+                      <template v-slot:first>
+                        <b-form-select-option :value="null"></b-form-select-option>
+                      </template>
+                    </b-form-select>
                   </b-col>
                 </b-row>
 
@@ -491,7 +506,9 @@ export default {
       quantityText: '0',
       serialNumber: '',
       justification: '',
-      totalAmount: null,
+      unitPrice: null,
+      unitPriceText: '0',
+      // totalAmount: 0,
       totalAmountText: '0',
       unbudget: false,
       budgetOwnerData: [],
@@ -531,6 +548,17 @@ export default {
       return this.budgetApprovalCodeData.find(function (value) {
         return value.budgetCode == code;
       });
+    },
+    totalAmount() {
+      if (!this.unitPrice) {
+        return 0;
+      }
+
+      if (!this.quantity) {
+        return 0;
+      }
+
+      return this.unitPrice * this.quantity;
     },
     totalBudget() {
       if (!this.budgetApprovalCode) {
@@ -575,7 +603,10 @@ export default {
       required,
       minLength: minLength(10),
     },
-    totalAmountText: {
+    // totalAmountText: {
+    //   requiredNumber,
+    // },
+    unitPriceText: {
       requiredNumber,
     },
     quantityText: {
@@ -609,6 +640,7 @@ export default {
       this.quantity = 0;
       this.uom = '';
       this.justification = '';
+      this.unitPrice = 0;
       this.totalAmount = 0;
       this.plant = '';
       this.storageLoc = '';
@@ -622,16 +654,16 @@ export default {
       }
     },
     onInputNumber(e) {
-      this.$v.totalAmountText.$touch();
-      this.totalAmountText = e;
-      if (!this.totalAmountText) {
-        this.totalAmountText = '0';
+      this.$v.unitPriceText.$touch();
+      this.unitPriceText = e;
+      if (!this.unitPriceText) {
+        this.unitPriceText = '0';
       }
 
-      this.totalAmount = parseInt(
-        this.totalAmountText.toString().replace(/[ ,.]/g, '')
+      this.unitPrice = parseInt(
+        this.unitPriceText.toString().replace(/[ ,.]/g, '')
       );
-      this.totalAmountText = this.totalAmount.toLocaleString('id');
+      this.unitPriceText = this.unitPrice.toLocaleString('id');
     },
     onInputNumberQty(e) {
       this.$v.quantityText.$touch();
@@ -712,6 +744,7 @@ export default {
           quantity: Number(this.quantity),
           uom: this.uom,
           justification: this.justification,
+          unitPrice: Number(this.unitPrice),
           totalAmount: Number(this.totalAmount),
           plant: this.plant,
           storageLocation: this.storageLoc,
