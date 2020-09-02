@@ -7,9 +7,7 @@
     thead-class="header"
     tbody-class="content"
   >
-    <template v-slot:cell(#)="data">
-      {{ data.index + 1 }}
-    </template>
+    <template v-slot:cell(#)="data">{{ data.index + 1 }}</template>
     <template v-slot:cell(CreatedAt)="data">
       <div>{{ data.item.CreatedAt | toDateString }}</div>
     </template>
@@ -20,8 +18,8 @@
 export default {
   props: {
     listData: {
-      type: Array
-    }
+      type: Array,
+    },
   },
   filters: {
     toDateString(value) {
@@ -30,8 +28,10 @@ export default {
       if (date.getFullYear() == 1) {
         return '';
       }
-      return date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear();
-    }
+      return (
+        date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
+      );
+    },
   },
   data() {
     return {
@@ -40,10 +40,10 @@ export default {
         { key: 'companyCode', label: 'CompanyCode' },
         { key: 'assetNo', label: 'Asset No' },
         { key: 'assetSubNo', label: 'Asset Sub No' },
-        { key: 'CreatedAt', label: 'Date' }
-      ]
+        { key: 'CreatedAt', label: 'Date' },
+      ],
     };
-  }
+  },
 };
 </script>
 
