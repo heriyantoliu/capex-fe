@@ -335,10 +335,15 @@
               </td>
             </tr>
             <tr>
-              <td height="23">
-                <p>&nbsp;</p>
-                <p style="text-align:center">{{ requestorInfo.Name }}</p>
-                <p>&nbsp;</p>
+              <td height="23" style="font-size: 12px; text-align:center">
+                <br />
+                <p>
+                  Digital Signed
+                  <br />
+                  {{ requestorInfo.Name }}
+                  <br />
+                  {{ toDateString(capexInfo.CreatedAt)}}
+                </p>
               </td>
               <td rowspan="3">
                 <p>&nbsp;</p>
@@ -479,13 +484,7 @@ export default {
       type: String,
     },
   },
-  // data() {
-  //   return {
-  //     review: [],
-  //     approve: [],
-  //     bod: [],
-  //   };
-  // },
+
   computed: {
     unitPrice: function () {
       if (!this.capexInfo.quantity) {
@@ -563,7 +562,9 @@ export default {
       if (date.getFullYear() == 1) {
         return '';
       }
-      return date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear();
+      return (
+        date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
+      );
     },
   },
 };

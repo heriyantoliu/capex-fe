@@ -11,20 +11,11 @@
       <div>{{ data.item.UpdatedAt | toDateString }}</div>
     </template>
     <template v-slot:cell(Status)="data">
-      <b-badge v-if="data.item.Status == 'A'" variant="success"
-        >Approve</b-badge
-      >
-      <b-badge v-else-if="data.item.Status == 'R'" variant="danger"
-        >Reject</b-badge
-      >
+      <b-badge v-if="data.item.Status == 'A'" variant="success">Approve</b-badge>
+      <b-badge v-else-if="data.item.Status == 'R'" variant="danger">Reject</b-badge>
     </template>
     <template v-slot:cell(Remark)="data">
-      <b-form-textarea
-        :value="data.item.Remark"
-        plaintext
-        no-resize
-        max-rows="10"
-      />
+      <b-form-textarea :value="data.item.Remark" plaintext no-resize max-rows="10" />
     </template>
   </b-table-lite>
 </template>
@@ -35,8 +26,8 @@ export default {
   mixins: [capexMixin],
   props: {
     listData: {
-      type: Array
-    }
+      type: Array,
+    },
   },
   filters: {
     toDateString(value) {
@@ -45,8 +36,10 @@ export default {
       if (date.getFullYear() == 1) {
         return '';
       }
-      return date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear();
-    }
+      return (
+        date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
+      );
+    },
   },
   data() {
     return {
@@ -55,10 +48,10 @@ export default {
         { key: 'Name', label: 'Name' },
         { key: 'UpdatedAt', label: 'Approver Date' },
         { key: 'Status', label: 'Status' },
-        { key: 'Remark', label: 'Remark' }
-      ]
+        { key: 'Remark', label: 'Remark' },
+      ],
     };
-  }
+  },
 };
 </script>
 
