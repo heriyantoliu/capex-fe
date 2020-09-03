@@ -4,6 +4,8 @@ import Router from 'vue-router';
 import store from './store';
 import Dashboard from './views/Dashboard';
 import Signin from './views/Signin';
+import Policy from './views/Policy';
+
 import CreateCapex from './views/CreateCapex';
 import ListCapex from './views/ListCapex';
 import DetailCapex from './views/DetailCapex';
@@ -36,7 +38,7 @@ const router = new Router({
       },
       children: [
         { path: 'create', name: 'create', component: CreateCapex },
-        { path: '', name: 'apprCapex', component: ApprCapex },
+        { path: '', name: 'SOP', component: Policy },
         { path: 'myCapex', name: 'myCapex', component: ListCapex },
         { path: 'waitAppr', name: 'waitCapex', component: ApprCapex },
         {
