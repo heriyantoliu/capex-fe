@@ -9,6 +9,10 @@ import ListCapex from './views/ListCapex';
 import DetailCapex from './views/DetailCapex';
 import ApprCapex from './views/ListApprCapex';
 import ACCCapex from './views/ListACCCapex';
+
+import ReportBudget from './views/Report/Budget';
+import ReportTransaction from './views/Report/Transaction';
+
 import Profile from './views/Profile';
 import ListReplicate from './views/ListReplicate';
 import NotFound from './views/NotFound';
@@ -46,6 +50,16 @@ const router = new Router({
           path: '/capex/:ID',
           name: 'capexDet',
           component: DetailCapex
+        },
+        {
+          path: '/report/budget',
+          name: 'reportBudget',
+          component: ReportBudget
+        },
+        {
+          path: '/report/transaction',
+          name: 'reportTransaction',
+          component: ReportTransaction
         }
       ]
     },
@@ -54,15 +68,7 @@ const router = new Router({
       name: 'signin',
       component: Signin
     },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ './views/About.vue')
-    },
+
     {
       path: '*',
       name: 'errorPage',
