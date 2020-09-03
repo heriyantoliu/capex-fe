@@ -11,7 +11,7 @@
         </div>
         <div class="m-login__signin">
           <div class="m-login__head">
-            <h3 class="m-login__title">Please Sign In Here</h3>
+            <h3 class="m-login__title">CAPEX Online</h3>
           </div>
 
           <form class="m-login__form m-form" v-on:submit.prevent>
