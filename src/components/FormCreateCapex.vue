@@ -38,31 +38,24 @@
                     <b-form-input size disabled v-model="budgetOwnerInfo.payrollID"></b-form-input>
                   </b-col>
                 </b-row>
+
                 <b-row class="my-1">
                   <b-col sm="4">
                     <label>Cost Center*</label>
                   </b-col>
                   <b-col sm="8">
-                    <b-form-select
-                      size
-                      :value="costCenter"
-                      @change="changeCostCenter"
+                    <comp-select
                       :options="costCenterData"
-                      value-field="costCenterCode"
-                      text-field="costCenterName"
-                      style="font-size: 17.6px"
-                      aria-describedby="cost-center-feedback"
+                      v-model="costCenter"
+                      describedBy="cost-center-feedback"
                       :state="
                         !(!$v.costCenter.required && $v.costCenter.$error)
                           ? null
                           : false
                       "
                     >
-                      <template v-slot:first>
-                        <b-form-select-option value disabled>-- Please select an option --</b-form-select-option>
-                      </template>
-                    </b-form-select>
-                    <b-form-invalid-feedback id="cost-center-feedback">Please select Cost Center.</b-form-invalid-feedback>
+                      <b-form-invalid-feedback id="cost-center-feedback">Please select Cost Center.</b-form-invalid-feedback>
+                    </comp-select>
                   </b-col>
                 </b-row>
               </b-container>
@@ -85,25 +78,19 @@
                     <label>Purpose*</label>
                   </b-col>
                   <b-col sm="8">
-                    <b-form-select
-                      size
-                      v-model="purpose"
+                    {{purpose}}
+                    <comp-select
                       :options="purposeData"
-                      value-field="purposeID"
-                      text-field="purposeDesc"
-                      style="font-size: 17.6px"
-                      aria-describedby="purpose-feedback"
+                      v-model="purpose"
+                      describedBy="purpose-feedback"
                       :state="
                         !(!$v.purpose.required && $v.purpose.$error)
                           ? null
                           : false
                       "
                     >
-                      <template v-slot:first>
-                        <b-form-select-option value disabled>-- Please select an option --</b-form-select-option>
-                      </template>
-                    </b-form-select>
-                    <b-form-invalid-feedback id="purpose-feedback">Please select purpose.</b-form-invalid-feedback>
+                      <b-form-invalid-feedback id="purpose-feedback">Please select purpose.</b-form-invalid-feedback>
+                    </comp-select>
                   </b-col>
                 </b-row>
 
@@ -112,13 +99,13 @@
                     <label>Budget Approval Code*</label>
                   </b-col>
                   <b-col sm="8">
-                    <b-form-select
-                      size
-                      v-model="budgetApprovalCode"
+                    {{budgetApprovalCode}}
+                    <comp-select
+                      v-if="!unbudget"
                       :options="budgetApprovalCodeData"
-                      value-field="budgetCode"
-                      text-field="budgetDesc"
-                      style="font-size: 17.6px"
+                      v-model="budgetApprovalCode"
+                      describedBy="budget-appr-feedback"
+                      idHTML="budget-code"
                       :state="
                         !(
                           !$v.budgetApprovalCode.required &&
@@ -128,17 +115,11 @@
                           : false
                       "
                       :disabled="unbudget"
-                      aria-describedby="budget-appr-feedback"
                     >
-                      <template v-slot:first>
-                        <b-form-select-option value disabled>-- Please select an option --</b-form-select-option>
-                      </template>
-                    </b-form-select>
-
-                    <b-form-invalid-feedback id="budget-appr-feedback">
-                      Select Budget Approval Code Or Tick
-                      Unbudgetted.
-                    </b-form-invalid-feedback>
+                      <b-form-invalid-feedback
+                        id="budget-appr-feedback"
+                      >Select Budget Approval Code Or Tick Unbudgetted.</b-form-invalid-feedback>
+                    </comp-select>
                   </b-col>
                 </b-row>
                 <b-row class="my-1">
@@ -222,7 +203,20 @@
                     <label>Satuan(UoM)*</label>
                   </b-col>
                   <b-col sm="8">
-                    <b-form-select
+                    <comp-select
+                      :options="uomData"
+                      v-model="uom"
+                      describedBy="uom-feedback"
+                      :state="
+                        !(!$v.uom.required && $v.uom.$error) ? null : false
+                      "
+                    >
+                      <b-form-invalid-feedback
+                        id="uom-feedback"
+                        v-if="!$v.uom.required && $v.uom.$error"
+                      >Please select UoM.</b-form-invalid-feedback>
+                    </comp-select>
+                    <!-- <b-form-select
                       size
                       v-model="uom"
                       :options="uomData"
@@ -241,7 +235,7 @@
                     <b-form-invalid-feedback
                       id="uom-feedback"
                       v-if="!$v.uom.required && $v.uom.$error"
-                    >Please select UoM.</b-form-invalid-feedback>
+                    >Please select UoM.</b-form-invalid-feedback>-->
                   </b-col>
                 </b-row>
 
@@ -303,9 +297,8 @@
                         @keypress="onKeypressNumber"
                         aria-describedby="unit-price-feedback"
                         :state="
-                          ($v.unitPriceText.requiredNumber ||
-                            !$v.unitPriceText.$error) 
-                          
+                          $v.unitPriceText.requiredNumber ||
+                          !$v.unitPriceText.$error
                             ? null
                             : false
                         "
@@ -369,7 +362,20 @@
                     <label>Plant*</label>
                   </b-col>
                   <b-col sm="8">
-                    <b-form-select
+                    <comp-select
+                      :options="plantData"
+                      v-model="plant"
+                      describedBy="plant-feedback"
+                      :state="
+                        !(!$v.plant.required && $v.plant.$error) ? null : false
+                      "
+                    >
+                      <b-form-invalid-feedback
+                        id="plant-feedback"
+                        v-if="!$v.plant.required && $v.plant.$error"
+                      >Please select plant.</b-form-invalid-feedback>
+                    </comp-select>
+                    <!-- <b-form-select
                       size
                       v-model="plant"
                       :options="plantData"
@@ -388,7 +394,7 @@
                     <b-form-invalid-feedback
                       id="plant-feedback"
                       v-if="!$v.plant.required && $v.plant.$error"
-                    >Please select plant.</b-form-invalid-feedback>
+                    >Please select plant.</b-form-invalid-feedback>-->
                   </b-col>
                 </b-row>
 
@@ -397,7 +403,22 @@
                     <label>Storage Location*</label>
                   </b-col>
                   <b-col sm="8">
-                    <b-form-select
+                    <comp-select
+                      :options="storageLocData"
+                      v-model="plant"
+                      describedBy="sloc-feedback"
+                      :state="
+                        !(!$v.storageLoc.required && $v.storageLoc.$error)
+                          ? null
+                          : false
+                      "
+                    >
+                      <b-form-invalid-feedback
+                        id="sloc-feedback"
+                        v-if="!$v.storageLoc.required && $v.storageLoc.$error"
+                      >Please select storage location.</b-form-invalid-feedback>
+                    </comp-select>
+                    <!-- <b-form-select
                       size
                       v-model="storageLoc"
                       :options="storageLocData"
@@ -418,7 +439,7 @@
                     <b-form-invalid-feedback
                       id="sloc-feedback"
                       v-if="!$v.storageLoc.required && $v.storageLoc.$error"
-                    >Please select storage location.</b-form-invalid-feedback>
+                    >Please select storage location.</b-form-invalid-feedback>-->
                   </b-col>
                 </b-row>
               </b-container>
@@ -441,17 +462,7 @@
                     <label>Asset Type Activity</label>
                   </b-col>
                   <b-col sm="8">
-                    <b-form-select
-                      v-model="assetActivityType"
-                      :options="actTypeInfo"
-                      value-field="actTypeCode"
-                      text-field="actTypeDesc"
-                      style="font-size: 17.6px"
-                    >
-                      <template v-slot:first>
-                        <b-form-select-option :value="null"></b-form-select-option>
-                      </template>
-                    </b-form-select>
+                    <comp-select :options="actTypeInfo" v-model="assetActivityType" />
                   </b-col>
                 </b-row>
 
@@ -481,6 +492,7 @@
 <script>
 import { axiosCapex } from '../axios-instance';
 import { required, minLength, requiredIf } from 'vuelidate/lib/validators';
+import compSelect from './Select';
 
 const requiredNumber = (value) => {
   if (value == '0') {
@@ -490,6 +502,9 @@ const requiredNumber = (value) => {
 };
 
 export default {
+  components: {
+    compSelect,
+  },
   filters: {
     separator(value) {
       return value.toLocaleString('ID');
@@ -508,17 +523,15 @@ export default {
       justification: '',
       unitPrice: null,
       unitPriceText: '0',
-      // totalAmount: 0,
       totalAmountText: '0',
       unbudget: false,
       budgetOwnerData: [],
       budgetRaw: [],
       costCenterData: [],
-      costCenter: '',
       purposeData: [],
       purpose: '',
       budgetApprovalCode: '',
-      // budgetApprovalCodeData: [],
+      budgetApprovalCodeData: [],
       uomData: [],
       uom: '',
       plantData: [],
@@ -529,6 +542,12 @@ export default {
       overlay: false,
       actTypeInfo: [],
       assetActivityType: '',
+      costCenterText: '',
+      costCenterTextTemp: '',
+      budgetCodeText: '',
+      costCenter: '',
+      budgetOwnerInfo: {},
+      totalBudget: 0,
     };
   },
   computed: {
@@ -538,17 +557,7 @@ export default {
       }
       return this.totalBudget - this.totalAmount;
     },
-    budgetOwnerInfo() {
-      if (!this.budgetApprovalCode) {
-        return '';
-      }
 
-      const code = this.budgetApprovalCode;
-
-      return this.budgetApprovalCodeData.find(function (value) {
-        return value.budgetCode == code;
-      });
-    },
     totalAmount() {
       if (!this.unitPrice) {
         return 0;
@@ -560,32 +569,46 @@ export default {
 
       return this.unitPrice * this.quantity;
     },
-    totalBudget() {
-      if (!this.budgetApprovalCode) {
-        return 0;
+  },
+  watch: {
+    costCenter(newValue, oldValue) {
+      if (newValue != oldValue) {
+        this.budgetApprovalCode = '';
+        this.totalBudget = 0;
+        this.remainingBudget = 0;
+        this.budgetOwnerInfo = {};
       }
-      const ID = this.budgetApprovalCode;
-      return this.budgetApprovalCodeData.find((value) => {
-        return value.budgetCode == ID;
-      }).budgetRemaining;
-    },
-    budgetApprovalCodeData() {
-      if (!this.costCenter) {
-        return;
-      }
-      const costCenter = this.costCenter;
-      // this.budgetApprovalCode = "";
-
-      return this.budgetRaw
+      this.budgetApprovalCodeData = this.budgetRaw
         .filter((budget) => {
-          return budget.costCenter == costCenter;
+          return budget.costCenter == newValue;
         })
         .map((budget) => {
           return {
             ...budget,
             budgetDesc: `${budget.budgetCode} | ${budget.budgetDesc}`,
+            name: `${budget.budgetCode} | ${budget.budgetDesc}`,
+            id: budget.budgetCode,
           };
         });
+      if (this.costCenter && !this.unbudget) {
+        document.getElementById('budget-code').value = '';
+      }
+    },
+    unbudget() {
+      if (this.unbudget) {
+        this.budgetApprovalCode = '';
+        this.budgetOwnerInfo = {};
+        this.budgetRemaining = 0;
+        this.totalBudget = 0;
+      }
+    },
+    budgetApprovalCode() {
+      if (this.budgetApprovalCode) {
+        this.budgetOwnerInfo = this.budgetApprovalCodeData.find((value) => {
+          return value.budgetCode == this.budgetApprovalCode;
+        });
+        this.totalBudget = this.budgetOwnerInfo.budgetRemaining;
+      }
     },
   },
   validations: {
@@ -646,6 +669,9 @@ export default {
       this.storageLoc = '';
       this.deliveryDate = null;
       this.assetActivityType = '';
+    },
+    setCostCenter(value) {
+      this.costCenter = value.id;
     },
     changeCostCenter(value) {
       if (this.costCenter != value) {
@@ -780,16 +806,37 @@ export default {
     axiosCapex
       .get('/createInfo')
       .then((result) => {
-        this.purposeData = result.data.purposeInfo;
+        this.purposeData = result.data.purposeInfo.map((purpose) => {
+          return {
+            id: purpose.purposeID,
+            name: purpose.purposeDesc,
+          };
+        });
         this.budgetRaw = result.data.budgetInfo;
         this.costCenterData = result.data.costCenterInfo.map((cc) => ({
-          costCenterCode: cc.costCenterCode,
-          costCenterName: `${cc.costCenterCode} | ${cc.costCenterName}`,
+          id: cc.costCenterCode,
+          name: `${cc.costCenterCode} | ${cc.costCenterName}`,
         }));
-        this.plantData = result.data.plantInfo;
-        this.storageLocData = result.data.slocInfo;
-        this.uomData = result.data.uomInfo;
-        this.actTypeInfo = result.data.actTypeInfo;
+        this.plantData = result.data.plantInfo.map((plant) => {
+          return { id: plant.plantCode, name: plant.plantName };
+        });
+        this.storageLocData = result.data.slocInfo.map((sloc) => {
+          return { id: sloc.slocCode, name: sloc.slocName };
+        });
+        this.uomData = result.data.uomInfo.map((uom) => {
+          return {
+            id: uom.uom,
+            name: uom.desc,
+          };
+        });
+        this.actTypeInfo = result.data.actTypeInfo.map((actType) => {
+          return {
+            id: actType.actTypeCode,
+            name: actType.actTypeDesc,
+          };
+        });
+
+        this.actTypeInfo.unshift({ id: null, name: '' });
       })
       .catch((err) => {
         console.log(err);
