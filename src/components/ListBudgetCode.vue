@@ -79,6 +79,7 @@
           @ok="onSelectedBudgetCode"
         >
           <b-form-group label="Cost Center" invalid-feedback="cost center belum di pilih">
+            {{selectedCostCenter}}
             <comp-select :options="costCenterData" v-model="selectedCostCenter"></comp-select>
           </b-form-group>
 
@@ -172,9 +173,15 @@ export default {
       this.$emit('onChange', this.listItem);
     },
     onSelectedBudgetCode() {
-      // bvModal.preventDefault();
-
       if (!this.selectedBudgetCode) {
+        return;
+      }
+
+      const existingBudgetCode = this.listItem.find((budget) => {
+        return budget.code == this.selectedBudgetCode;
+      });
+
+      if (existingBudgetCode) {
         return;
       }
 

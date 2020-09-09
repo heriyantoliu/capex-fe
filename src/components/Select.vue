@@ -82,7 +82,7 @@ export default {
     },
     value: {
       type: String,
-      required: true,
+      required: false,
     },
   },
   data() {
@@ -109,17 +109,11 @@ export default {
     },
   },
   methods: {
-    onChangeInput(event) {
-      const result = this.options.find((opt) => {
-        return opt.name == event.target.value;
-      });
-      this.ID = result.id;
-    },
     selectOption(option) {
       this.selected = option;
       this.optionsShown = false;
       this.searchFilter = this.selected.name;
-      this.id = this.selected.id;
+
       this.$emit('selected', this.selected.id);
     },
     showOptions() {
@@ -134,7 +128,6 @@ export default {
         this.searchFilter = '';
       } else {
         this.searchFilter = this.selected.name;
-        this.id = this.selected.id;
       }
       this.$emit('selected', this.selected.id);
       this.optionsShown = false;
@@ -155,7 +148,14 @@ export default {
       this.$emit('filter', this.searchFilter);
     },
     value() {
-      this.searchFilter = this.value;
+      if (this.value) {
+        this.searchFilter = this.options.find((opt) => {
+          return opt.id == this.value;
+        }).name;
+      } else {
+        this.searchFilter = '';
+        this.selected = {};
+      }
     },
   },
 };
