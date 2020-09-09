@@ -1,249 +1,214 @@
 <template>
   <div>
-    <b-overlay :show="overlay" rounded="sm">
-      <form
-        class="m-form"
-        id="m_form_1"
-        v-on:submit.prevent
-        :aria-hidden="overlay ? 'true' : null"
-      >
-        <div class="m-portlet">
-          <div class="m-portlet__head">
-            <div class="m-portlet__head-caption">
-              <div class="m-portlet__head-title">
-                <h3 class="m-portlet__head-text">Requester Information</h3>
+    <b-tabs>
+      <b-tab title="Information">
+        <b-overlay :show="overlay" rounded="sm">
+          <form
+            class="m-form"
+            id="m_form_1"
+            v-on:submit.prevent
+            :aria-hidden="overlay ? 'true' : null"
+          >
+            <div class="m-portlet">
+              <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                  <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">Requester Information</h3>
+                  </div>
+                </div>
+              </div>
+              <div class="m-portlet__body">
+                <div class="m-form__section m-form__section--first">
+                  <b-container fluid>
+                    <b-row class="my-1">
+                      <b-col sm="4">
+                        <label>Budget Owner Name</label>
+                      </b-col>
+                      <b-col sm="8">
+                        <b-form-input size disabled v-model="budgetOwnerInfo.ownerName"></b-form-input>
+                      </b-col>
+                    </b-row>
+
+                    <b-row class="my-1">
+                      <b-col sm="4">
+                        <label>Budget Owner Position</label>
+                      </b-col>
+                      <b-col sm="8">
+                        <b-form-input size disabled v-model="budgetOwnerInfo.position"></b-form-input>
+                      </b-col>
+                    </b-row>
+                    <b-row class="my-1">
+                      <b-col sm="4">
+                        <label>Budget Owner Payroll ID</label>
+                      </b-col>
+                      <b-col sm="8">
+                        <b-form-input size disabled v-model="budgetOwnerInfo.payrollID"></b-form-input>
+                      </b-col>
+                    </b-row>
+
+                    <b-row class="my-1">
+                      <b-col sm="4">
+                        <label>Cost Center*</label>
+                      </b-col>
+                      <b-col sm="8">
+                        <comp-select
+                          :options="costCenterData"
+                          v-model="costCenter"
+                          describedBy="cost-center-feedback"
+                          :state="
+                            !(!$v.costCenter.required && $v.costCenter.$error)
+                              ? null
+                              : false
+                          "
+                        >
+                          <b-form-invalid-feedback
+                            id="cost-center-feedback"
+                          >Please select Cost Center.</b-form-invalid-feedback>
+                        </comp-select>
+                      </b-col>
+                    </b-row>
+                  </b-container>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="m-portlet__body">
-            <div class="m-form__section m-form__section--first">
-              <b-container fluid>
-                <b-row class="my-1">
-                  <b-col sm="4">
-                    <label>Budget Owner Name</label>
-                  </b-col>
-                  <b-col sm="8">
-                    <b-form-input
-                      size
-                      disabled
-                      v-model="budgetOwnerInfo.ownerName"
-                    ></b-form-input>
-                  </b-col>
-                </b-row>
-
-                <b-row class="my-1">
-                  <b-col sm="4">
-                    <label>Budget Owner Position</label>
-                  </b-col>
-                  <b-col sm="8">
-                    <b-form-input
-                      size
-                      disabled
-                      v-model="budgetOwnerInfo.position"
-                    ></b-form-input>
-                  </b-col>
-                </b-row>
-                <b-row class="my-1">
-                  <b-col sm="4">
-                    <label>Budget Owner Payroll ID</label>
-                  </b-col>
-                  <b-col sm="8">
-                    <b-form-input
-                      size
-                      disabled
-                      v-model="budgetOwnerInfo.payrollID"
-                    ></b-form-input>
-                  </b-col>
-                </b-row>
-
-                <b-row class="my-1">
-                  <b-col sm="4">
-                    <label>Cost Center*</label>
-                  </b-col>
-                  <b-col sm="8">
-                    <comp-select
-                      :options="costCenterData"
-                      v-model="costCenter"
-                      describedBy="cost-center-feedback"
-                      :state="
-                        !(!$v.costCenter.required && $v.costCenter.$error)
-                          ? null
-                          : false
-                      "
-                    >
-                      <b-form-invalid-feedback id="cost-center-feedback"
-                        >Please select Cost Center.</b-form-invalid-feedback
-                      >
-                    </comp-select>
-                  </b-col>
-                </b-row>
-              </b-container>
-            </div>
-          </div>
-        </div>
-        <div class="m-portlet">
-          <div class="m-portlet__head">
-            <div class="m-portlet__head-caption">
-              <div class="m-portlet__head-title">
-                <h3 class="m-portlet__head-text">
-                  Capital Expenditure Information
-                </h3>
+            <div class="m-portlet">
+              <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                  <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">Capital Expenditure Information</h3>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div class="m-portlet__body">
-            <div class="m-form__section m-form__section--first">
-              <b-container fluid>
-                <b-row class="my-1">
-                  <b-col sm="4">
-                    <label>Purpose*</label>
-                  </b-col>
-                  <b-col sm="8">
-                    <comp-select
-                      :options="purposeData"
-                      v-model="purpose"
-                      describedBy="purpose-feedback"
-                      :state="
-                        !(!$v.purpose.required && $v.purpose.$error)
-                          ? null
-                          : false
-                      "
-                    >
-                      <b-form-invalid-feedback id="purpose-feedback"
-                        >Please select purpose.</b-form-invalid-feedback
-                      >
-                    </comp-select>
-                  </b-col>
-                </b-row>
+              <div class="m-portlet__body">
+                <div class="m-form__section m-form__section--first">
+                  <b-container fluid>
+                    <b-row class="my-1">
+                      <b-col sm="4">
+                        <label>Purpose*</label>
+                      </b-col>
+                      <b-col sm="8">
+                        <comp-select
+                          :options="purposeData"
+                          v-model="purpose"
+                          describedBy="purpose-feedback"
+                          :state="
+                            !(!$v.purpose.required && $v.purpose.$error)
+                              ? null
+                              : false
+                          "
+                        >
+                          <b-form-invalid-feedback id="purpose-feedback">Please select purpose.</b-form-invalid-feedback>
+                        </comp-select>
+                      </b-col>
+                    </b-row>
 
-                <b-row class="my-1">
-                  <b-col sm="4">
-                    <label>Budget Approval Code*</label>
-                  </b-col>
-                  <b-col sm="8">
-                    <comp-select
-                      v-if="!unbudget"
-                      :options="budgetApprovalCodeData"
-                      v-model="budgetApprovalCode"
-                      describedBy="budget-appr-feedback"
-                      idHTML="budget-code"
-                      :state="
-                        !(
-                          !$v.budgetApprovalCode.required &&
-                          $v.budgetApprovalCode.$error
-                        )
-                          ? null
-                          : false
-                      "
-                      :disabled="unbudget"
-                    >
-                      <b-form-invalid-feedback id="budget-appr-feedback"
-                        >Select Budget Approval Code Or Tick
-                        Unbudgetted.</b-form-invalid-feedback
-                      >
-                    </comp-select>
-                  </b-col>
-                </b-row>
-                <b-row class="my-1">
-                  <b-col sm="8" offset-sm="4">
-                    <b-form-checkbox v-model="unbudget"
-                      >Unbudgetted</b-form-checkbox
-                    >
-                  </b-col>
-                </b-row>
-                <b-row class="my-1">
-                  <b-col sm="4">
-                    <label>Deskripsi*</label>
-                  </b-col>
-                  <b-col sm="8">
-                    <b-form-input
-                      v-model="description"
-                      aria-describedby="deskripsi-feedback"
-                      :state="
-                        ($v.description.required || !$v.description.$error) &&
-                        ($v.description.minLength || !$v.description.$error)
-                          ? null
-                          : false
-                      "
-                    ></b-form-input>
+                    <b-row class="my-1">
+                      <b-col sm="4">
+                        <label>Budget Type</label>
+                      </b-col>
+                      <b-col sm="8">
+                        <b-form-checkbox v-model="unbudget">Unbudgetted</b-form-checkbox>
+                      </b-col>
+                    </b-row>
 
-                    <b-form-invalid-feedback
-                      id="deskripsi-feedback"
-                      v-if="!$v.description.minLength && $v.description.$error"
-                    >
-                      Field must have at least
-                      {{ $v.description.$params.minLength.min }}
-                      letters.
-                    </b-form-invalid-feedback>
-                    <b-form-invalid-feedback
-                      id="deskripsi-feedback"
-                      v-if="!$v.description.required && $v.description.$error"
-                      >This field must not be empty.</b-form-invalid-feedback
-                    >
-                  </b-col>
-                </b-row>
+                    <b-row class="my-1">
+                      <b-col sm="4">
+                        <label>Deskripsi*</label>
+                      </b-col>
+                      <b-col sm="8">
+                        <b-form-input
+                          v-model="description"
+                          aria-describedby="deskripsi-feedback"
+                          :state="
+                            ($v.description.required ||
+                              !$v.description.$error) &&
+                            ($v.description.minLength || !$v.description.$error)
+                              ? null
+                              : false
+                          "
+                        ></b-form-input>
 
-                <b-row class="my-1">
-                  <b-col sm="4">
-                    <label>Serial Number</label>
-                  </b-col>
-                  <b-col sm="8">
-                    <b-form-input size v-model="serialNumber"></b-form-input>
-                  </b-col>
-                </b-row>
+                        <b-form-invalid-feedback
+                          id="deskripsi-feedback"
+                          v-if="
+                            !$v.description.minLength && $v.description.$error
+                          "
+                        >
+                          Field must have at least
+                          {{ $v.description.$params.minLength.min }}
+                          letters.
+                        </b-form-invalid-feedback>
+                        <b-form-invalid-feedback
+                          id="deskripsi-feedback"
+                          v-if="
+                            !$v.description.required && $v.description.$error
+                          "
+                        >
+                          This field must not be
+                          empty.
+                        </b-form-invalid-feedback>
+                      </b-col>
+                    </b-row>
 
-                <b-row class="my-1">
-                  <b-col sm="4">
-                    <label>Quantity*</label>
-                  </b-col>
-                  <b-col sm="8">
-                    <b-form-input
-                      class="text-right"
-                      inputmode="numeric"
-                      :value="quantityText"
-                      @input="onInputNumberQty"
-                      @keypress="onKeypressNumber"
-                      aria-describedby="qty-feedback"
-                      :state="
-                        !(
-                          !$v.quantityText.requiredNumber &&
-                          $v.quantityText.$error
-                        )
-                          ? null
-                          : false
-                      "
-                    ></b-form-input>
-                    <b-form-invalid-feedback
-                      id="qty-feedback"
-                      v-if="
-                        !$v.quantityText.requiredNumber &&
-                          $v.quantityText.$error
-                      "
-                      >This field must not be empty</b-form-invalid-feedback
-                    >
-                  </b-col>
-                </b-row>
+                    <b-row class="my-1">
+                      <b-col sm="4">
+                        <label>Serial Number</label>
+                      </b-col>
+                      <b-col sm="8">
+                        <b-form-input size v-model="serialNumber"></b-form-input>
+                      </b-col>
+                    </b-row>
 
-                <b-row class="my-1">
-                  <b-col sm="4">
-                    <label>Satuan(UoM)*</label>
-                  </b-col>
-                  <b-col sm="8">
-                    <comp-select
-                      :options="uomData"
-                      v-model="uom"
-                      describedBy="uom-feedback"
-                      :state="
-                        !(!$v.uom.required && $v.uom.$error) ? null : false
-                      "
-                    >
-                      <b-form-invalid-feedback
-                        id="uom-feedback"
-                        v-if="!$v.uom.required && $v.uom.$error"
-                        >Please select UoM.</b-form-invalid-feedback
-                      >
-                    </comp-select>
-                    <!-- <b-form-select
+                    <b-row class="my-1">
+                      <b-col sm="4">
+                        <label>Quantity*</label>
+                      </b-col>
+                      <b-col sm="8">
+                        <b-form-input
+                          class="text-right"
+                          inputmode="numeric"
+                          :value="quantityText"
+                          @input="onInputNumberQty"
+                          @keypress="onKeypressNumber"
+                          aria-describedby="qty-feedback"
+                          :state="
+                            !(
+                              !$v.quantityText.requiredNumber &&
+                              $v.quantityText.$error
+                            )
+                              ? null
+                              : false
+                          "
+                        ></b-form-input>
+                        <b-form-invalid-feedback
+                          id="qty-feedback"
+                          v-if="
+                            !$v.quantityText.requiredNumber &&
+                              $v.quantityText.$error
+                          "
+                        >This field must not be empty</b-form-invalid-feedback>
+                      </b-col>
+                    </b-row>
+
+                    <b-row class="my-1">
+                      <b-col sm="4">
+                        <label>Satuan(UoM)*</label>
+                      </b-col>
+                      <b-col sm="8">
+                        <comp-select
+                          :options="uomData"
+                          v-model="uom"
+                          describedBy="uom-feedback"
+                          :state="
+                            !(!$v.uom.required && $v.uom.$error) ? null : false
+                          "
+                        >
+                          <b-form-invalid-feedback
+                            id="uom-feedback"
+                            v-if="!$v.uom.required && $v.uom.$error"
+                          >Please select UoM.</b-form-invalid-feedback>
+                        </comp-select>
+                        <!-- <b-form-select
                       size
                       v-model="uom"
                       :options="uomData"
@@ -262,284 +227,255 @@
                     <b-form-invalid-feedback
                       id="uom-feedback"
                       v-if="!$v.uom.required && $v.uom.$error"
-                    >Please select UoM.</b-form-invalid-feedback>-->
-                  </b-col>
-                </b-row>
+                        >Please select UoM.</b-form-invalid-feedback>-->
+                      </b-col>
+                    </b-row>
 
-                <b-row class="my-1">
-                  <b-col sm="4">
-                    <label>Delivery Date</label>
-                  </b-col>
-                  <b-col sm="8">
-                    <b-form-datepicker
-                      locale="id"
-                      type="date"
-                      v-model="deliveryDate"
-                    ></b-form-datepicker>
-                  </b-col>
-                </b-row>
+                    <b-row class="my-1">
+                      <b-col sm="4">
+                        <label>Delivery Date</label>
+                      </b-col>
+                      <b-col sm="8">
+                        <b-form-datepicker locale="id" type="date" v-model="deliveryDate"></b-form-datepicker>
+                      </b-col>
+                    </b-row>
 
-                <b-row class="my-1">
-                  <b-col sm="4">
-                    <label>Justification*</label>
-                  </b-col>
-                  <b-col sm="8">
-                    <b-form-textarea
-                      v-model="justification"
-                      aria-describedby="justification-feedback"
-                      :state="
-                        ($v.justification.required ||
-                          !$v.justification.$error) &&
-                        ($v.justification.minLength || !$v.justification.$error)
-                          ? null
-                          : false
-                      "
-                    ></b-form-textarea>
-                    <b-form-invalid-feedback
-                      id="justification-feedback"
-                      v-if="
-                        !$v.justification.minLength && $v.justification.$error
-                      "
-                    >
-                      Field A must have at least
-                      {{ $v.justification.$params.minLength.min }}
-                      letters.
-                    </b-form-invalid-feedback>
-                    <b-form-invalid-feedback
-                      id="justification-feedback"
-                      v-if="
-                        !$v.justification.required && $v.justification.$error
-                      "
-                      >This field must not be empty.</b-form-invalid-feedback
-                    >
-                  </b-col>
-                </b-row>
+                    <b-row class="my-1">
+                      <b-col sm="4">
+                        <label>Justification*</label>
+                      </b-col>
+                      <b-col sm="8">
+                        <b-form-textarea
+                          v-model="justification"
+                          aria-describedby="justification-feedback"
+                          :state="
+                            ($v.justification.required ||
+                              !$v.justification.$error) &&
+                            ($v.justification.minLength ||
+                              !$v.justification.$error)
+                              ? null
+                              : false
+                          "
+                        ></b-form-textarea>
+                        <b-form-invalid-feedback
+                          id="justification-feedback"
+                          v-if="
+                            !$v.justification.minLength &&
+                              $v.justification.$error
+                          "
+                        >
+                          Field A must have at least
+                          {{ $v.justification.$params.minLength.min }}
+                          letters.
+                        </b-form-invalid-feedback>
+                        <b-form-invalid-feedback
+                          id="justification-feedback"
+                          v-if="
+                            !$v.justification.required &&
+                              $v.justification.$error
+                          "
+                        >
+                          This field must not be
+                          empty.
+                        </b-form-invalid-feedback>
+                      </b-col>
+                    </b-row>
 
-                <b-row class="my-1">
-                  <b-col sm="4">
-                    <label>Unit Price</label>
-                  </b-col>
-                  <b-col sm="8">
-                    <b-input-group size prepend="Rp">
-                      <b-form-input
-                        inputmode="numeric"
-                        class="text-right"
-                        :value="unitPriceText"
-                        @input="onInputNumber"
-                        @keypress="onKeypressNumber"
-                        aria-describedby="unit-price-feedback"
-                        :state="
-                          $v.unitPriceText.requiredNumber ||
-                          !$v.unitPriceText.$error
-                            ? null
-                            : false
-                        "
-                      />
-                      <b-form-invalid-feedback
-                        id="unit-price-feedback"
-                        v-if="
-                          !$v.unitPriceText.requiredNumber &&
-                            $v.unitPriceText.$error
-                        "
-                        >This field must not be empty</b-form-invalid-feedback
-                      >
-                    </b-input-group>
-                  </b-col>
-                </b-row>
+                    <b-row class="my-1">
+                      <b-col sm="4">
+                        <label>Unit Price</label>
+                      </b-col>
+                      <b-col sm="8">
+                        <b-input-group size prepend="Rp">
+                          <b-form-input
+                            inputmode="numeric"
+                            class="text-right"
+                            :value="unitPriceText"
+                            @input="onInputNumber"
+                            @keypress="onKeypressNumber"
+                            aria-describedby="unit-price-feedback"
+                            :state="
+                              $v.unitPriceText.requiredNumber ||
+                              !$v.unitPriceText.$error
+                                ? null
+                                : false
+                            "
+                          />
+                          <b-form-invalid-feedback
+                            id="unit-price-feedback"
+                            v-if="
+                              !$v.unitPriceText.requiredNumber &&
+                                $v.unitPriceText.$error
+                            "
+                          >
+                            This field must not be
+                            empty
+                          </b-form-invalid-feedback>
+                        </b-input-group>
+                      </b-col>
+                    </b-row>
 
-                <b-row class="my-1">
-                  <b-col sm="4">
-                    <label>Total Amount</label>
-                  </b-col>
-                  <b-col sm="8">
-                    <b-input-group size prepend="Rp">
-                      <b-form-input
-                        class="text-right"
-                        disabled
-                        :value="totalAmount | separator"
-                      />
-                    </b-input-group>
-                  </b-col>
-                </b-row>
+                    <b-row class="my-1">
+                      <b-col sm="4">
+                        <label>Total Amount</label>
+                      </b-col>
+                      <b-col sm="8">
+                        <b-input-group size prepend="Rp">
+                          <b-form-input
+                            class="text-right"
+                            disabled
+                            :value="totalAmount | separator"
+                          />
+                        </b-input-group>
+                      </b-col>
+                    </b-row>
 
-                <b-row class="my-1">
-                  <b-col sm="4">
-                    <label>Total Available Budget</label>
-                  </b-col>
-                  <b-col sm="8">
-                    <b-input-group size prepend="Rp">
-                      <b-form-input
-                        size
-                        class="text-right"
-                        disabled
-                        :value="totalBudget | separator"
-                      />
-                    </b-input-group>
-                  </b-col>
-                </b-row>
+                    <b-row class="my-1">
+                      <b-col sm="4">
+                        <label>Total Available Budget</label>
+                      </b-col>
+                      <b-col sm="8">
+                        <b-input-group size prepend="Rp">
+                          <b-form-input
+                            size
+                            class="text-right"
+                            disabled
+                            :value="totalBudget | separator"
+                          />
+                        </b-input-group>
+                      </b-col>
+                    </b-row>
 
-                <b-row class="my-1">
-                  <b-col sm="4">
-                    <label>Remaining Budget</label>
-                  </b-col>
-                  <b-col sm="8">
-                    <b-input-group size prepend="Rp">
-                      <b-form-input
-                        size
-                        class="text-right"
-                        disabled
-                        :value="remainingBudget | separator"
-                      />
-                    </b-input-group>
-                  </b-col>
-                </b-row>
+                    <b-row class="my-1">
+                      <b-col sm="4">
+                        <label>Remaining Budget</label>
+                      </b-col>
+                      <b-col sm="8">
+                        <b-input-group size prepend="Rp">
+                          <b-form-input
+                            size
+                            class="text-right"
+                            disabled
+                            :value="remainingBudget | separator"
+                          />
+                        </b-input-group>
+                      </b-col>
+                    </b-row>
 
-                <b-row class="my-1">
-                  <b-col sm="4">
-                    <label>Plant*</label>
-                  </b-col>
-                  <b-col sm="8">
-                    <comp-select
-                      :options="plantData"
-                      v-model="plant"
-                      describedBy="plant-feedback"
-                      :state="
-                        !(!$v.plant.required && $v.plant.$error) ? null : false
-                      "
-                    >
-                      <b-form-invalid-feedback
-                        id="plant-feedback"
-                        v-if="!$v.plant.required && $v.plant.$error"
-                        >Please select plant.</b-form-invalid-feedback
-                      >
-                    </comp-select>
-                    <!-- <b-form-select
-                      size
-                      v-model="plant"
-                      :options="plantData"
-                      value-field="plantCode"
-                      text-field="plantName"
-                      style="font-size: 17.6px"
-                      aria-describedby="plant-feedback"
-                      :state="
-                        !(!$v.plant.required && $v.plant.$error) ? null : false
-                      "
-                    >
-                      <template v-slot:first>
-                        <b-form-select-option value disabled>-- Please select an option --</b-form-select-option>
-                      </template>
-                    </b-form-select>
-                    <b-form-invalid-feedback
-                      id="plant-feedback"
-                      v-if="!$v.plant.required && $v.plant.$error"
-                    >Please select plant.</b-form-invalid-feedback>-->
-                  </b-col>
-                </b-row>
+                    <b-row class="my-1">
+                      <b-col sm="4">
+                        <label>Plant*</label>
+                      </b-col>
+                      <b-col sm="8">
+                        <comp-select
+                          :options="plantData"
+                          v-model="plant"
+                          describedBy="plant-feedback"
+                          :state="
+                            !(!$v.plant.required && $v.plant.$error)
+                              ? null
+                              : false
+                          "
+                        >
+                          <b-form-invalid-feedback
+                            id="plant-feedback"
+                            v-if="!$v.plant.required && $v.plant.$error"
+                          >Please select plant.</b-form-invalid-feedback>
+                        </comp-select>
+                      </b-col>
+                    </b-row>
 
-                <b-row class="my-1">
-                  <b-col sm="4">
-                    <label>Storage Location*</label>
-                  </b-col>
-                  <b-col sm="8">
-                    <comp-select
-                      :options="storageLocData"
-                      v-model="plant"
-                      describedBy="sloc-feedback"
-                      :state="
-                        !(!$v.storageLoc.required && $v.storageLoc.$error)
-                          ? null
-                          : false
-                      "
-                    >
-                      <b-form-invalid-feedback
-                        id="sloc-feedback"
-                        v-if="!$v.storageLoc.required && $v.storageLoc.$error"
-                        >Please select storage
-                        location.</b-form-invalid-feedback
-                      >
-                    </comp-select>
-                    <!-- <b-form-select
-                      size
-                      v-model="storageLoc"
-                      :options="storageLocData"
-                      value-field="slocCode"
-                      text-field="slocName"
-                      style="font-size: 17.6px"
-                      aria-describedby="sloc-feedback"
-                      :state="
-                        !(!$v.storageLoc.required && $v.storageLoc.$error)
-                          ? null
-                          : false
-                      "
-                    >
-                      <template v-slot:first>
-                        <b-form-select-option value disabled>-- Please select an option --</b-form-select-option>
-                      </template>
-                    </b-form-select>
-                    <b-form-invalid-feedback
-                      id="sloc-feedback"
-                      v-if="!$v.storageLoc.required && $v.storageLoc.$error"
-                    >Please select storage location.</b-form-invalid-feedback>-->
-                  </b-col>
-                </b-row>
-              </b-container>
-            </div>
-          </div>
-        </div>
-        <div class="m-portlet">
-          <div class="m-portlet__head">
-            <div class="m-portlet__head-caption">
-              <div class="m-portlet__head-title">
-                <h3 class="m-portlet__head-text">SAP Asset Information</h3>
+                    <b-row class="my-1">
+                      <b-col sm="4">
+                        <label>Storage Location*</label>
+                      </b-col>
+                      <b-col sm="8">
+                        <comp-select
+                          :options="storageLocData"
+                          v-model="storageLoc"
+                          describedBy="sloc-feedback"
+                          :state="
+                            !(!$v.storageLoc.required && $v.storageLoc.$error)
+                              ? null
+                              : false
+                          "
+                        >
+                          <b-form-invalid-feedback
+                            id="sloc-feedback"
+                            v-if="
+                              !$v.storageLoc.required && $v.storageLoc.$error
+                            "
+                          >
+                            Please select storage
+                            location.
+                          </b-form-invalid-feedback>
+                        </comp-select>
+                      </b-col>
+                    </b-row>
+                  </b-container>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="m-portlet__body">
-            <div class="m-form__section m-form__section--first">
-              <b-container fluid>
-                <b-row class="my-1">
-                  <b-col sm="4">
-                    <label>Asset Type Activity</label>
-                  </b-col>
-                  <b-col sm="8">
-                    <comp-select
-                      :options="actTypeInfo"
-                      v-model="assetActivityType"
-                    />
-                  </b-col>
-                </b-row>
+            <div class="m-portlet">
+              <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                  <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">SAP Asset Information</h3>
+                  </div>
+                </div>
+              </div>
+              <div class="m-portlet__body">
+                <div class="m-form__section m-form__section--first">
+                  <b-container fluid>
+                    <b-row class="my-1">
+                      <b-col sm="4">
+                        <label>Asset Type Activity</label>
+                      </b-col>
+                      <b-col sm="8">
+                        <comp-select :options="actTypeInfo" v-model="assetActivityType" />
+                      </b-col>
+                    </b-row>
 
-                <b-row align-h="around" class="mt-3">
-                  <b-col cols="5" class="text-right">
-                    <b-button variant="danger">Clear</b-button>
-                  </b-col>
-                  <b-col cols="5" class="text-left">
-                    <b-button variant="success" @click="validate"
-                      >Submit</b-button
-                    >
-                  </b-col>
-                </b-row>
-              </b-container>
+                    <b-row align-h="around" class="mt-3">
+                      <b-col cols="5" class="text-right">
+                        <b-button variant="danger">Clear</b-button>
+                      </b-col>
+                      <b-col cols="5" class="text-left">
+                        <b-button variant="success" @click="validate">Submit</b-button>
+                      </b-col>
+                    </b-row>
+                  </b-container>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </form>
+          </form>
 
-      <template v-slot:overlay>
-        <div class="text-center p-4 h1 bg-primary text-light rounded">
-          <div class="mb-3">Processing...</div>
-        </div>
-      </template>
-    </b-overlay>
+          <template v-slot:overlay>
+            <div class="text-center p-4 h1 bg-primary text-light rounded">
+              <div class="mb-3">Processing...</div>
+            </div>
+          </template>
+        </b-overlay>
+      </b-tab>
+      <b-tab title="Budget" v-if="costCenter && !unbudget">
+        <list-budget-code
+          v-model="listBudgetCode"
+          :budgetCodeData="budgetApprovalCodeData"
+          :amount="totalAmount"
+          :costCenterData="costCenterData"
+        />
+      </b-tab>
+    </b-tabs>
   </div>
 </template>
 
 <script>
 import { axiosCapex } from '../axios-instance';
-import { required, minLength, requiredIf } from 'vuelidate/lib/validators';
+import { required, minLength } from 'vuelidate/lib/validators';
 import compSelect from './Select';
+import ListBudgetCode from './ListBudgetCode';
 
-const requiredNumber = value => {
+const requiredNumber = (value) => {
   if (value == '0') {
     return false;
   }
@@ -548,12 +484,13 @@ const requiredNumber = value => {
 
 export default {
   components: {
-    compSelect
+    compSelect,
+    ListBudgetCode,
   },
   filters: {
     separator(value) {
       return value.toLocaleString('ID');
-    }
+    },
   },
   data() {
     return {
@@ -592,7 +529,8 @@ export default {
       budgetCodeText: '',
       costCenter: '',
       budgetOwnerInfo: {},
-      totalBudget: 0
+      totalBudget: 0,
+      listBudgetCode: [],
     };
   },
   computed: {
@@ -613,30 +551,16 @@ export default {
       }
 
       return this.unitPrice * this.quantity;
-    }
+    },
   },
   watch: {
     costCenter(newValue, oldValue) {
       if (newValue != oldValue) {
         this.budgetApprovalCode = '';
         this.totalBudget = 0;
-        this.remainingBudget = 0;
+
         this.budgetOwnerInfo = {};
-      }
-      this.budgetApprovalCodeData = this.budgetRaw
-        .filter(budget => {
-          return budget.costCenter == newValue;
-        })
-        .map(budget => {
-          return {
-            ...budget,
-            budgetDesc: `${budget.budgetCode} | ${budget.budgetDesc}`,
-            name: `${budget.budgetCode} | ${budget.budgetDesc}`,
-            id: budget.budgetCode
-          };
-        });
-      if (this.costCenter && !this.unbudget) {
-        document.getElementById('budget-code').value = '';
+        this.listBudgetCode = [];
       }
     },
     unbudget() {
@@ -645,58 +569,46 @@ export default {
         this.budgetOwnerInfo = {};
         this.budgetRemaining = 0;
         this.totalBudget = 0;
+        this.listBudgetCode = [];
       }
     },
-    budgetApprovalCode() {
-      if (this.budgetApprovalCode) {
-        this.budgetOwnerInfo = this.budgetApprovalCodeData.find(value => {
-          return value.budgetCode == this.budgetApprovalCode;
-        });
-        this.totalBudget = this.budgetOwnerInfo.budgetRemaining;
-      }
-    }
+    listBudgetCode() {
+      this.totalBudget = this.listBudgetCode.reduce((a, b) => {
+        return a + b.remaining;
+      }, 0);
+    },
   },
   validations: {
     costCenter: {
-      required
+      required,
     },
     purpose: {
-      required
+      required,
     },
     description: {
       required,
-      minLength: minLength(10)
+      minLength: minLength(10),
     },
     justification: {
       required,
-      minLength: minLength(10)
+      minLength: minLength(10),
     },
-    // totalAmountText: {
-    //   requiredNumber,
-    // },
+
     unitPriceText: {
-      requiredNumber
+      requiredNumber,
     },
     quantityText: {
-      requiredNumber
+      requiredNumber,
     },
     uom: {
-      required
+      required,
     },
     plant: {
-      required
+      required,
     },
     storageLoc: {
-      required
+      required,
     },
-    budgetApprovalCode: {
-      required: requiredIf(function(value) {
-        if (this.unbudget && value.budgetApprovalCode == '') {
-          return false;
-        }
-        return true;
-      })
-    }
   },
   methods: {
     reset() {
@@ -714,16 +626,9 @@ export default {
       this.storageLoc = '';
       this.deliveryDate = null;
       this.assetActivityType = '';
+      this.listBudgetCode = [];
     },
-    setCostCenter(value) {
-      this.costCenter = value.id;
-    },
-    changeCostCenter(value) {
-      if (this.costCenter != value) {
-        this.budgetApprovalCode = '';
-        this.costCenter = value;
-      }
-    },
+
     onInputNumber(e) {
       this.$v.unitPriceText.$touch();
       this.unitPriceText = e;
@@ -768,6 +673,24 @@ export default {
     async validate() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
+        if (this.costCenter && !this.unbudget) {
+          let totalSplitAllocation = this.listBudgetCode.reduce((a, b) => {
+            return a + b.allocation;
+          }, 0);
+
+          if (totalSplitAllocation != this.totalAmount) {
+            this.$bvModal.msgBoxOk('Total budget berbeda dengan total amount', {
+              title: 'Error',
+              size: 'sm',
+              buttonSize: 'sm',
+              okVariant: 'danger',
+              headerClass: 'p-2 border-bottom-0',
+              footerClass: 'p-2 border-top-0',
+              centered: true,
+            });
+            return;
+          }
+        }
         try {
           let result = await this.$bvModal.msgBoxConfirm(
             'Yakin untuk submit capex?',
@@ -780,7 +703,7 @@ export default {
               cancelTitle: 'NO',
               footerClass: 'p-2',
               hideHeaderClose: true,
-              centered: true
+              centered: true,
             }
           );
           if (result) {
@@ -795,7 +718,7 @@ export default {
             okVariant: 'danger',
             headerClass: 'p-2 border-bottom-0',
             footerClass: 'p-2 border-top-0',
-            centered: true
+            centered: true,
           });
           this.overlay = false;
         }
@@ -805,22 +728,31 @@ export default {
       this.dialog = false;
       this.submitText = 'Submitting';
       try {
+        const budgetCode = this.listBudgetCode.map((budget) => {
+          return {
+            budgetCode: budget.code,
+            costCenter: budget.costCenter,
+            amount: Number(budget.allocation),
+          };
+        });
         let result = await axiosCapex.post('/capexTrx', {
-          costCenter: this.costCenter,
-          purpose: this.purpose,
-          budgetType: this.budgetApprovalCode != '' ? 'B' : 'U',
-          budgetApprovalCode: this.budgetApprovalCode,
-          description: this.description,
-          serialNumber: this.serialNumber,
-          quantity: Number(this.quantity),
-          uom: this.uom,
-          justification: this.justification,
-          unitPrice: Number(this.unitPrice),
-          totalAmount: Number(this.totalAmount),
-          plant: this.plant,
-          storageLocation: this.storageLoc,
-          deliveryDate: this.deliveryDate ? this.deliveryDate : '0000-00-00',
-          assetActivityType: this.assetActivityType
+          capex: {
+            costCenter: this.costCenter,
+            purpose: this.purpose,
+            budgetType: this.unbudget == false ? 'B' : 'U',
+            description: this.description,
+            serialNumber: this.serialNumber,
+            quantity: Number(this.quantity),
+            uom: this.uom,
+            justification: this.justification,
+            unitPrice: Number(this.unitPrice),
+            totalAmount: Number(this.totalAmount),
+            plant: this.plant,
+            storageLocation: this.storageLoc,
+            deliveryDate: this.deliveryDate ? this.deliveryDate : '0000-00-00',
+            assetActivityType: this.assetActivityType,
+          },
+          budgetCode,
         });
         this.$root.$bvToast.toast(`Capex ${result.data.ID} created`, {
           variant: 'primary',
@@ -828,7 +760,7 @@ export default {
           bodyClass: 'sm_toast__body ',
           noCloseButton: true,
           toaster: 'b-toaster-bottom-center',
-          autoHideDelay: 3000
+          autoHideDelay: 3000,
         });
         this.$router.push('/capex/' + result.data.ID);
       } catch (err) {
@@ -839,54 +771,62 @@ export default {
           okVariant: 'danger',
           headerClass: 'p-2 border-bottom-0',
           footerClass: 'p-2 border-top-0',
-          centered: true
+          centered: true,
         });
         this.overlay = false;
         this.errorMessage = err.response.data.message;
         this.submitText = 'Submit';
       }
-    }
+    },
   },
   created() {
     axiosCapex
       .get('/createInfo')
-      .then(result => {
-        this.purposeData = result.data.purposeInfo.map(purpose => {
+      .then((result) => {
+        this.purposeData = result.data.purposeInfo.map((purpose) => {
           return {
             id: purpose.purposeID,
-            name: purpose.purposeDesc
+            name: purpose.purposeDesc,
           };
         });
         this.budgetRaw = result.data.budgetInfo;
-        this.costCenterData = result.data.costCenterInfo.map(cc => ({
+        this.costCenterData = result.data.costCenterInfo.map((cc) => ({
           id: cc.costCenterCode,
-          name: `${cc.costCenterCode} | ${cc.costCenterName}`
+          name: `${cc.costCenterCode} | ${cc.costCenterName}`,
         }));
-        this.plantData = result.data.plantInfo.map(plant => {
+        this.plantData = result.data.plantInfo.map((plant) => {
           return { id: plant.plantCode, name: plant.plantName };
         });
-        this.storageLocData = result.data.slocInfo.map(sloc => {
+        this.storageLocData = result.data.slocInfo.map((sloc) => {
           return { id: sloc.slocCode, name: sloc.slocName };
         });
-        this.uomData = result.data.uomInfo.map(uom => {
+        this.uomData = result.data.uomInfo.map((uom) => {
           return {
             id: uom.uom,
-            name: uom.desc
+            name: uom.desc,
           };
         });
-        this.actTypeInfo = result.data.actTypeInfo.map(actType => {
+        this.actTypeInfo = result.data.actTypeInfo.map((actType) => {
           return {
             id: actType.actTypeCode,
-            name: actType.actTypeDesc
+            name: actType.actTypeDesc,
+          };
+        });
+        this.budgetApprovalCodeData = this.budgetRaw.map((budget) => {
+          return {
+            ...budget,
+            budgetDesc: `${budget.budgetCode} | ${budget.budgetDesc}`,
+            name: `${budget.budgetCode} | ${budget.budgetDesc}`,
+            id: budget.budgetCode,
           };
         });
 
         this.actTypeInfo.unshift({ id: null, name: '' });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
-  }
+  },
 };
 </script>
 

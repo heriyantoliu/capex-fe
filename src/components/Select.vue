@@ -13,6 +13,7 @@
       :placeholder="placeholder"
       :state="state"
       :aria-describedby="describedBy"
+      autocomplete="off"
     />
     <slot></slot>
     <!-- Dropdown Menu -->
@@ -32,7 +33,7 @@ export default {
   name: 'Dropdown',
   template: 'Dropdown',
   model: {
-    prop: 'id',
+    prop: 'value',
     event: 'selected',
   },
   props: {
@@ -79,18 +80,22 @@ export default {
       type: String,
       required: false,
     },
+    value: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
       selected: {},
       optionsShown: false,
       searchFilter: '',
-      id: '',
     };
   },
   created() {
     this.$emit('selected', this.selected.id);
   },
+
   computed: {
     filteredOptions() {
       const filtered = [];
@@ -148,6 +153,9 @@ export default {
         this.selected = this.filteredOptions[0];
       }
       this.$emit('filter', this.searchFilter);
+    },
+    value() {
+      this.searchFilter = this.value;
     },
   },
 };
