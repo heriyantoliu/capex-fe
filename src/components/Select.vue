@@ -64,7 +64,7 @@ export default {
     maxItem: {
       type: Number,
       required: false,
-      default: 6,
+      default: 99,
       note: 'Max items showing',
     },
     state: {
