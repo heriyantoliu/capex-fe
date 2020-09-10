@@ -51,7 +51,6 @@
                         <label>Cost Center*</label>
                       </b-col>
                       <b-col sm="8">
-                        {{costCenter}}
                         <comp-select
                           :options="costCenterData"
                           v-model="costCenter"
@@ -88,7 +87,6 @@
                         <label>Purpose*</label>
                       </b-col>
                       <b-col sm="8">
-                        {{purpose}}
                         <comp-select
                           :options="purposeData"
                           v-model="purpose"
