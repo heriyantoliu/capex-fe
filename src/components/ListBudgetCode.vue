@@ -73,9 +73,9 @@
                       <strong>TOTAL</strong>
                     </td>
                     <td class="text-right">
-                      <strong>{{
-                        totalAllocation.toLocaleString('id')
-                      }}</strong>
+                      <strong>
+                        {{ totalAllocation.toLocaleString('id') }}
+                      </strong>
                     </td>
                   </tr>
                 </template>
@@ -215,6 +215,7 @@ export default {
         code: budgetCode.id,
         costCenter: budgetCode.costCenter,
         amount: budgetCode.budgetAmount,
+        used: budgetCode.budgetAmount - budgetCode.budgetRemaining,
         remaining: budgetCode.budgetRemaining,
         allocationText: '0',
         allocation: 0
@@ -230,6 +231,10 @@ export default {
       this.listItem[idx].allocation = parseInt(
         this.listItem[idx].allocationText.toString().replace(/[ ,.]/g, '')
       );
+      this.listItem[idx].remaining =
+        this.listItem[idx].amount -
+        this.listItem[idx].used -
+        this.listItem[idx].allocation;
       this.listItem[idx].allocationText = this.listItem[
         idx
       ].allocation.toLocaleString('id');
