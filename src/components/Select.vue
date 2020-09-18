@@ -23,7 +23,9 @@
         @mousedown="selectOption(option)"
         v-for="(option, index) in filteredOptions"
         :key="index"
-      >{{ option.name || option.id || '-' }}</div>
+      >
+        {{ option.name || option.id || '-' }}
+      </div>
     </div>
   </div>
 </template>
@@ -34,62 +36,62 @@ export default {
   template: 'Dropdown',
   model: {
     prop: 'value',
-    event: 'selected',
+    event: 'selected'
   },
   props: {
     name: {
       type: String,
       required: false,
       default: 'dropdown',
-      note: 'Input name',
+      note: 'Input name'
     },
     options: {
       type: Array,
       required: true,
 
-      note: 'Options of dropdown. An array of options with id and name',
+      note: 'Options of dropdown. An array of options with id and name'
     },
     placeholder: {
       type: String,
       required: false,
       default: 'Please select an option',
-      note: 'Placeholder of dropdown',
+      note: 'Placeholder of dropdown'
     },
     disabled: {
       type: Boolean,
       required: false,
       default: false,
-      note: 'Disable the dropdown',
+      note: 'Disable the dropdown'
     },
     maxItem: {
       type: Number,
       required: false,
       default: 99,
-      note: 'Max items showing',
+      note: 'Max items showing'
     },
     state: {
       type: Boolean,
       required: false,
-      default: null,
+      default: null
     },
     describedBy: {
       type: String,
-      required: false,
+      required: false
     },
     idHTML: {
       type: String,
-      required: false,
+      required: false
     },
     value: {
       type: String,
-      required: false,
-    },
+      required: false
+    }
   },
   data() {
     return {
       selected: {},
       optionsShown: false,
-      searchFilter: '',
+      searchFilter: ''
     };
   },
   created() {
@@ -106,7 +108,7 @@ export default {
         }
       }
       return filtered;
-    },
+    }
   },
   methods: {
     selectOption(option) {
@@ -133,10 +135,10 @@ export default {
       this.optionsShown = false;
     },
     // Selecting when pressing Enter
-    keyMonitor: function (event) {
+    keyMonitor: function(event) {
       if (event.key === 'Enter' && this.filteredOptions[0])
         this.selectOption(this.filteredOptions[0]);
-    },
+    }
   },
   watch: {
     searchFilter() {
@@ -149,15 +151,15 @@ export default {
     },
     value() {
       if (this.value) {
-        this.searchFilter = this.options.find((opt) => {
+        this.searchFilter = this.options.find(opt => {
           return opt.id == this.value;
         }).name;
       } else {
         this.searchFilter = '';
         this.selected = {};
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

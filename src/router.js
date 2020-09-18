@@ -8,7 +8,7 @@ import Policy from './views/Policy';
 
 import CreateCapex from './views/CreateCapex';
 import ListCapex from './views/ListCapex';
-import DetailCapex from './views/DetailCapex';
+import DetailCapex from './views/DetailCapex2';
 import ApprCapex from './views/ListApprCapex';
 import ACCCapex from './views/ListACCCapex';
 
