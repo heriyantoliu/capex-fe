@@ -19,7 +19,7 @@ const capexMixin = {
     },
     statusDesc(value) {
       switch (value) {
-        case '':
+        case 'ACC':
           return 'Waiting accounting';
         case 'A':
           return 'Approve';
@@ -31,6 +31,8 @@ const capexMixin = {
           return 'Replicate in progress';
         case 'SAP':
           return 'Replicated';
+        case 'D':
+          return 'Draft';
       }
     },
     inSpell(amount) {
@@ -47,8 +49,10 @@ const capexMixin = {
           return 'success';
         case 'R':
           return 'danger';
+        case 'D':
         case 'I':
           return 'warning';
+        case 'ACC':
         default:
           return 'info';
       }

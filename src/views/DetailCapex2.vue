@@ -32,7 +32,7 @@
                   >Replicate to SAP</b-button>
                   <b-button
                     v-if="
-                      capexInfo.status == '' &&
+                      capexInfo.status == 'D' &&
                         capexInfo.createdBy == currentUser
                     "
                     class="my-3"
@@ -579,14 +579,17 @@
                         </b-form-invalid-feedback>-->
                       </b-col>
                     </b-row>
-                    <div v-if="capexInfo.status == ''">
+                    <div v-if="capexInfo.status == 'D' || capexInfo.status == 'ACC'">
                       <div v-if="editCreator || editAcc">
                         <b-row align-h="around" class="mt-3">
-                          <b-col cols="5" class="text-right">
+                          <b-col cols="4" class="text-right">
                             <b-button variant="danger">Clear</b-button>
                           </b-col>
-                          <b-col cols="5" class="text-left">
-                            <b-button variant="success" @click="validate">Submit</b-button>
+                          <b-col cols="4" v-if="capexInfo.status=='D'" class="text-center">
+                            <b-button variant="warning" @click="validate('D')">Save as Draft</b-button>
+                          </b-col>
+                          <b-col cols="4" class="text-left">
+                            <b-button variant="success" @click="validate('ACC')">Submit</b-button>
                           </b-col>
                         </b-row>
                       </div>
@@ -870,6 +873,51 @@ export default {
     },
   },
   methods: {
+    async replicate() {
+      try {
+        let result = await this.$bvModal.msgBoxConfirm(
+          'Yakin untuk replikasi capex ke SAP?',
+          {
+            title: 'Replikasi Capex',
+            size: 'sm',
+            buttonSize: 'sm',
+            okVariant: 'danger',
+            okTitle: 'YES',
+            cancelTitle: 'NO',
+            footerClass: 'p-2',
+            hideHeaderClose: true,
+            centered: true,
+          }
+        );
+        if (result) {
+          this.overlay = true;
+          await axiosCapex.post(`/capexTrx/${this.capexInfo.ID}/replicate`);
+          this.$root.$bvToast.toast(
+            `Capex ${this.capexInfo.ID} submitted to SAP`,
+            {
+              variant: 'primary',
+              toastClass: 'sm_toast',
+              bodyClass: 'sm_toast__body ',
+              noCloseButton: true,
+              toaster: 'b-toaster-bottom-center',
+              autoHideDelay: 3000,
+            }
+          );
+          this.$router.push('/replicate');
+        }
+      } catch (err) {
+        this.$bvModal.msgBoxOk(err.response.data.message, {
+          title: 'Error',
+          size: 'sm',
+          buttonSize: 'sm',
+          okVariant: 'danger',
+          headerClass: 'p-2 border-bottom-0',
+          footerClass: 'p-2 border-top-0',
+          centered: true,
+        });
+        this.overlay = false;
+      }
+    },
     async approve() {
       try {
         let result = await this.$bvModal.msgBoxConfirm(
@@ -1023,10 +1071,10 @@ export default {
         if (theEvent.preventDefault) theEvent.preventDefault();
       }
     },
-    async validate() {
+    async validate(status) {
       console.log(this.editAcc);
       if (this.editCreator) {
-        this.validateCreator();
+        this.validateCreator(status);
       } else {
         this.verifiedAcc();
       }
@@ -1089,7 +1137,7 @@ export default {
         this.submitAcc();
       }
     },
-    async validateCreator() {
+    async validateCreator(status) {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         if (this.costCenter && !this.unbudget) {
@@ -1112,7 +1160,9 @@ export default {
         }
         try {
           let result = await this.$bvModal.msgBoxConfirm(
-            'Yakin untuk submit capex?',
+            status == 'ACC'
+              ? 'Yakin untuk submit capex?'
+              : 'Yakin untuk menyimpan capex?',
             {
               title: 'Submit Capex',
               size: 'sm',
@@ -1127,7 +1177,7 @@ export default {
           );
           if (result) {
             this.overlay = true;
-            this.submitCreator();
+            this.submitCreator(status);
           }
         } catch (err) {
           this.$bvModal.msgBoxOk(err.response.data.message, {
@@ -1143,7 +1193,7 @@ export default {
         }
       }
     },
-    async submitCreator() {
+    async submitCreator(status) {
       this.dialog = false;
       this.submitText = 'Submitting';
       try {
@@ -1152,6 +1202,7 @@ export default {
             budgetCode: budget.code,
             costCenter: budget.costCenter,
             amount: Number(budget.allocation),
+            // remaining: status == 'D' ? 0 : Number(budget.remaining),
           };
         });
         let result = await axiosCapex.put(`/capexTrx/${this.capexInfo.ID}`, {
@@ -1169,7 +1220,9 @@ export default {
           storageLocation: this.storageLoc,
           deliveryDate: this.deliveryDate ? this.deliveryDate : '0000-00-00',
           assetActivityType: this.assetActivityType,
+          // totalBudget: status == 'D' ? 0 : Number(this.totalBudget),
           budgetCode,
+          status,
         });
 
         let formData = new FormData();
@@ -1338,10 +1391,14 @@ export default {
             ...budget,
             code: budget.budgetCode,
             allocation: budget.amount,
-            remaining: budgetInfo.budgetRemaining,
+            remaining:
+              this.capexInfo.status == 'D'
+                ? budgetInfo.budgetRemaining - budget.amount
+                : budget.remaining,
             amount: budgetInfo.budgetAmount,
             allocationText: budget.amount.toLocaleString('id'),
             desc: budgetInfo.budgetDesc,
+            used: budgetInfo.budgetAmount - budgetInfo.budgetRemaining,
           };
         });
       } catch (err) {
@@ -1394,12 +1451,18 @@ export default {
     this.costCenterPrint = this.costCenterData.find((cc) => {
       return cc.costCenterCode == this.capexInfo.costCenter;
     });
-    console.log(this.costCenterPrint);
 
     // this.totalBudget = this.listBudgetCode.reduce((a, b) => {
     //     return a + b.remaining;
     //   }, 0);
     // console.log(this.totalBudget)
+    if (this.capexInfo.status == 'D') {
+      this.totalBudget = this.listBudgetCode.reduce((a, b) => {
+        return a + b.remaining + b.allocation;
+      }, 0);
+    } else {
+      this.totalBudget = this.capexInfo.totalBudget;
+    }
   },
 };
 </script>
