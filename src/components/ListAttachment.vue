@@ -103,7 +103,8 @@ export default {
       this.listAttachment[index].downloading = true;
 
       const result = await axiosCapex.get(
-        `/capexTrx/${file.capexId}/attachment/${file.name}`
+        `/capexTrx/${file.capexId}/attachment/${file.name}`,
+        { responseType: 'blob' }
       );
       var fileURL = window.URL.createObjectURL(new Blob([result.data]));
       var fileLink = document.createElement('a');

@@ -19,7 +19,7 @@
 
                 <b-button-group>
                   <b-button
-                    v-if="capexInfo.status != 'R' && editCreator == false"
+                    v-if="capexInfo.status != 'R' && capexInfo.status != 'D'"
                     class="my-3 text-right"
                     variant="primary"
                     @click="print"
@@ -206,7 +206,7 @@
                           inputmode="numeric"
                           :disabled="!editCreator"
                           :value="quantityText"
-                          @input="onInputNumberQty"
+                          @input="onInputNumber($event, $v.quantityText, 'quantityText', 'quantity')"
                           @keypress="onKeypressNumber"
                           aria-describedby="qty-feedback"
                           :state="
@@ -337,7 +337,7 @@
                             class="text-right"
                             :disabled="!editCreator"
                             :value="unitPriceText"
-                            @input="onInputNumber"
+                            @input="onInputNumber($event, $v.unitPriceText, 'unitPriceText', 'unitPrice')"
                             @keypress="onKeypressNumber"
                             aria-describedby="unit-price-feedback"
                             :state="
@@ -358,6 +358,30 @@
                             empty
                           </b-form-invalid-feedback>
                         </b-input-group>
+                      </b-col>
+                    </b-row>
+
+                    <b-row class="my-1">
+                      <b-col sm="4">
+                        <label>Total Amount (Foreign Currency)</label>
+                      </b-col>
+                      <b-col sm="2">
+                        <b-form-input
+                          v-model="foreignCurrency"
+                          placeholder="Currency"
+                          :disabled="!editCreator"
+                        ></b-form-input>
+                      </b-col>
+                      <b-col sm="6">
+                        <b-form-input
+                          inputmode="numeric"
+                          class="text-right"
+                          placeholder="Foreign Amount"
+                          :value="foreignAmountText"
+                          :disabled="!editCreator"
+                          @input="onInputNumber($event, null, 'foreignAmountText', 'foreignAmount')"
+                          @keypress="onKeypressNumber"
+                        />
                       </b-col>
                     </b-row>
 
@@ -473,9 +497,7 @@
                 </div>
 
                 <b-button
-                  v-if="
-                    !editAcc && capexInfo.ACCApproved == '' && hasACCApprover
-                  "
+                  v-if="!editAcc && capexInfo.status == 'ACC' && hasACCApprover"
                   class="m-3"
                   variant="info"
                   @click="editAcc = true"
@@ -577,6 +599,15 @@
                             Please select asset generation
                             mode.
                         </b-form-invalid-feedback>-->
+                      </b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col sm="4">
+                        <label>Asset Note</label>
+                      </b-col>
+                      <b-col sm="8">
+                        <b-form-textarea v-model="assetNote" :disabled="!editAcc" />
                       </b-col>
                     </b-row>
                     <div v-if="capexInfo.status == 'D' || capexInfo.status == 'ACC'">
@@ -727,7 +758,6 @@ export default {
   },
   data() {
     return {
-      submitText: 'Submit',
       errorMessage: '',
       dialog: false,
       description: '',
@@ -740,7 +770,6 @@ export default {
       unitPriceText: '0',
       totalAmountText: '0',
       unbudget: false,
-      budgetOwnerData: [],
       budgetRaw: [],
       costCenterData: [],
       purposeData: [],
@@ -753,13 +782,11 @@ export default {
       plant: '',
       storageLocData: [],
       storageLoc: '',
-      submitOK: null,
+
       overlay: false,
       actTypeInfo: [],
       assetActivityType: '',
-      costCenterText: '',
-      costCenterTextTemp: '',
-      budgetCodeText: '',
+
       costCenter: '',
       budgetOwnerInfo: {},
       totalBudget: 0,
@@ -784,6 +811,10 @@ export default {
       listAsset: [],
       rejectNote: '',
       files: [],
+      foreignAmount: 0,
+      foreignAmountText: '0',
+      foreignCurrency: '',
+      assetNote: '',
     };
   },
   computed: {
@@ -1030,17 +1061,28 @@ export default {
       this.assetActivityType = '';
       this.listBudgetCode = [];
     },
-    onInputNumber(e) {
-      this.$v.unitPriceText.$touch();
-      this.unitPriceText = e;
-      if (!this.unitPriceText) {
-        this.unitPriceText = '0';
+    onInputNumber(e, v, textVar, numVar) {
+      // this.$v.unitPriceText.$touch();
+      // this.unitPriceText = e;
+      // if (!this.unitPriceText) {
+      //   this.unitPriceText = '0';
+      // }
+
+      // this.unitPrice = parseInt(
+      //   this.unitPriceText.toString().replace(/[ ,.]/g, '')
+      // );
+      // this.unitPriceText = this.unitPrice.toLocaleString('id');
+      if (v) {
+        v.$touch();
       }
 
-      this.unitPrice = parseInt(
-        this.unitPriceText.toString().replace(/[ ,.]/g, '')
-      );
-      this.unitPriceText = this.unitPrice.toLocaleString('id');
+      this[textVar] = e;
+      if (!this[textVar]) {
+        this[textVar] = '0';
+      }
+      this[numVar] = parseInt(this[textVar].toString().replace(/[ ,.]/g, ''));
+
+      this[textVar] = this[numVar].toLocaleString('id');
     },
     onInputNumberQty(e) {
       this.$v.quantityText.$touch();
@@ -1072,8 +1114,7 @@ export default {
       }
     },
     async validate(status) {
-      console.log(this.editAcc);
-      if (this.editCreator) {
+      if (this.capexInfo.status == 'D') {
         this.validateCreator(status);
       } else {
         this.verifiedAcc();
@@ -1195,7 +1236,7 @@ export default {
     },
     async submitCreator(status) {
       this.dialog = false;
-      this.submitText = 'Submitting';
+
       try {
         const budgetCode = this.listBudgetCode.map((budget) => {
           return {
@@ -1223,6 +1264,8 @@ export default {
           // totalBudget: status == 'D' ? 0 : Number(this.totalBudget),
           budgetCode,
           status,
+          foreignAmount: Number(this.foreignAmount),
+          foreignCurrency: this.foreignCurrency,
         });
 
         let formData = new FormData();
@@ -1265,7 +1308,6 @@ export default {
         });
         this.overlay = false;
         this.errorMessage = err.response.data.message;
-        this.submitText = 'Submit';
       }
     },
     async submitAcc() {
@@ -1278,6 +1320,7 @@ export default {
           assetGroup: this.capexInfo.assetGroup,
           assetGenMode: this.assetGenMode,
           justification: this.justification,
+          assetNote: this.assetNote,
         });
         this.$root.$bvToast.toast(`Capex ${this.capexInfo.ID} updated`, {
           variant: 'primary',
@@ -1435,6 +1478,10 @@ export default {
     this.unitPrice = this.capexInfo.unitPrice;
     this.unitPriceText = this.unitPrice.toLocaleString('id');
 
+    this.foreignAmount = this.capexInfo.foreignAmount;
+    this.foreignAmountText = this.foreignAmount.toLocaleString('id');
+    this.foreignCurrency = this.capexInfo.foreignCurrency;
+
     this.plant = this.capexInfo.plant;
     this.storageLoc = this.capexInfo.storageLocation;
     this.assetActivityType = this.capexInfo.assetActivityType;
@@ -1442,6 +1489,7 @@ export default {
     this.assetClass = this.capexInfo.assetClass;
     this.assetGroup = this.capexInfo.assetGroup;
     this.assetGenMode = this.capexInfo.assetGenMode;
+    this.assetNote = this.capexInfo.assetNote;
 
     const asset = await axiosCapex.get(
       `/capexTrx/${this.$route.params.ID}/asset`

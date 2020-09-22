@@ -174,7 +174,7 @@
                           class="text-right"
                           inputmode="numeric"
                           :value="quantityText"
-                          @input="onInputNumberQty"
+                          @input="onInputNumber($event, $v.quantityText, 'quantityText', 'quantity')"
                           @keypress="onKeypressNumber"
                           aria-describedby="qty-feedback"
                           :state="
@@ -297,7 +297,7 @@
                             inputmode="numeric"
                             class="text-right"
                             :value="unitPriceText"
-                            @input="onInputNumber"
+                            @input="onInputNumber($event, $v.unitPriceText, 'unitPriceText', 'unitPrice')"
                             @keypress="onKeypressNumber"
                             aria-describedby="unit-price-feedback"
                             :state="
@@ -318,6 +318,25 @@
                             empty
                           </b-form-invalid-feedback>
                         </b-input-group>
+                      </b-col>
+                    </b-row>
+
+                    <b-row class="my-1">
+                      <b-col sm="4">
+                        <label>Total Amount (Foreign Currency)</label>
+                      </b-col>
+                      <b-col sm="2">
+                        <b-form-input v-model="foreignCurrency" placeholder="Currency"></b-form-input>
+                      </b-col>
+                      <b-col sm="6">
+                        <b-form-input
+                          inputmode="numeric"
+                          class="text-right"
+                          placeholder="Foreign Amount"
+                          :value="foreignAmountText"
+                          @input="onInputNumber($event, null, 'foreignAmountText', 'foreignAmount')"
+                          @keypress="onKeypressNumber"
+                        />
                       </b-col>
                     </b-row>
 
@@ -517,7 +536,7 @@ export default {
       quantityText: '0',
       serialNumber: '',
       justification: '',
-      unitPrice: null,
+      unitPrice: 0,
       unitPriceText: '0',
       totalAmountText: '0',
       unbudget: false,
@@ -546,6 +565,9 @@ export default {
       totalBudget: 0,
       listBudgetCode: [],
       files: [],
+      foreignAmountText: '',
+      foreignAmount: 0,
+      foreignCurrency: '',
     };
   },
   computed: {
@@ -644,17 +666,28 @@ export default {
       this.listBudgetCode = [];
     },
 
-    onInputNumber(e) {
-      this.$v.unitPriceText.$touch();
-      this.unitPriceText = e;
-      if (!this.unitPriceText) {
-        this.unitPriceText = '0';
+    onInputNumber(e, v, textVar, numVar) {
+      // this.$v.unitPriceText.$touch();
+      // this.unitPriceText = e;
+      // if (!this.unitPriceText) {
+      //   this.unitPriceText = '0';
+      // }
+
+      // this.unitPrice = parseInt(
+      //   this.unitPriceText.toString().replace(/[ ,.]/g, '')
+      // );
+      // this.unitPriceText = this.unitPrice.toLocaleString('id');
+      if (v) {
+        v.$touch();
       }
 
-      this.unitPrice = parseInt(
-        this.unitPriceText.toString().replace(/[ ,.]/g, '')
-      );
-      this.unitPriceText = this.unitPrice.toLocaleString('id');
+      this[textVar] = e;
+      if (!this[textVar]) {
+        this[textVar] = '0';
+      }
+      this[numVar] = parseInt(this[textVar].toString().replace(/[ ,.]/g, ''));
+
+      this[textVar] = this[numVar].toLocaleString('id');
     },
     onInputNumberQty(e) {
       this.$v.quantityText.$touch();
@@ -666,6 +699,7 @@ export default {
       this.quantity = parseInt(
         this.quantityText.toString().replace(/[ ,.]/g, '')
       );
+
       this.quantityText = this.quantity.toLocaleString('id');
     },
     onKeypressNumber(evt) {
@@ -679,7 +713,8 @@ export default {
         var key = theEvent.keyCode || theEvent.which;
         key = String.fromCharCode(key);
       }
-      var regex = /[0-9]|\./;
+      var regex = /[0-9]|,/;
+
       if (!regex.test(key)) {
         theEvent.returnValue = false;
         if (theEvent.preventDefault) theEvent.preventDefault();
@@ -768,7 +803,8 @@ export default {
             storageLocation: this.storageLoc,
             deliveryDate: this.deliveryDate ? this.deliveryDate : '0000-00-00',
             assetActivityType: this.assetActivityType,
-
+            foreignAmount: Number(this.foreignAmount),
+            foreignCurrency: this.foreignCurrency,
             status,
           },
           budgetCode,
@@ -780,15 +816,17 @@ export default {
           formData.append('files', file.file);
         });
 
-        await axiosCapex.post(
-          `capexTrx/${result.data.ID}/attachment`,
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          }
-        );
+        if (this.files.length > 0) {
+          await axiosCapex.post(
+            `capexTrx/${result.data.ID}/attachment`,
+            formData,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              },
+            }
+          );
+        }
 
         this.$root.$bvToast.toast(`Capex ${result.data.ID} created`, {
           variant: 'primary',
