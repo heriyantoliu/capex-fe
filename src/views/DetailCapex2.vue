@@ -658,7 +658,7 @@
           :requestorInfo="requestorInfo"
           :capexApprover="capexApprover"
           :purpose="purposePrint.purposeDesc"
-          :costCenter="costCenterPrint.costCenterName"
+          :costCenter="costCenterPrint"
         />
       </b-tab>
 
@@ -1258,10 +1258,13 @@ export default {
         };
       });
       this.budgetRaw = result.data.budgetInfo;
-      this.costCenterData = result.data.costCenterInfo.map((cc) => ({
-        id: cc.costCenterCode,
-        name: `${cc.costCenterCode} | ${cc.costCenterName}`,
-      }));
+      this.costCenterData = result.data.costCenterInfo.map((cc) => {
+        return {
+          ...cc,
+          id: cc.costCenterCode,
+          name: `${cc.costCenterCode} | ${cc.costCenterName}`,
+        };
+      });
       this.plantData = result.data.plantInfo.map((plant) => {
         return { id: plant.plantCode, name: plant.plantName };
       });
@@ -1387,6 +1390,11 @@ export default {
       `/capexTrx/${this.$route.params.ID}/asset`
     );
     this.listAsset = asset.data;
+
+    this.costCenterPrint = this.costCenterData.find((cc) => {
+      return cc.costCenterCode == this.capexInfo.costCenter;
+    });
+    console.log(this.costCenterPrint);
 
     // this.totalBudget = this.listBudgetCode.reduce((a, b) => {
     //     return a + b.remaining;
