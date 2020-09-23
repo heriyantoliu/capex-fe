@@ -1453,10 +1453,14 @@ export default {
             ...budget,
             code: budget.budgetCode,
             allocation: budget.amount,
+            available:
+              this.capexInfo.status == 'D'
+                ? budgetInfo.budgetRemaining
+                : budget.remaining,
             remaining:
               this.capexInfo.status == 'D'
                 ? budgetInfo.budgetRemaining - budget.amount
-                : budget.remaining,
+                : budget.remaining - budget.amount,
             amount: budgetInfo.budgetAmount,
             allocationText: budget.amount.toLocaleString('id'),
             desc: budgetInfo.budgetDesc,
