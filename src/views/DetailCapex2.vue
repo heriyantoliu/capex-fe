@@ -131,7 +131,10 @@
                           "
                         >
                           <template v-slot:first>
-                            <b-form-select-option value disabled>-- Please select an option --</b-form-select-option>
+                            <b-form-select-option value disabled>
+                              -- Please select an option
+                              --
+                            </b-form-select-option>
                           </template>
                         </b-form-select>
                         <b-form-invalid-feedback id="purpose-feedback">Please select purpose.</b-form-invalid-feedback>
@@ -180,10 +183,7 @@
                           v-if="
                             !$v.description.required && $v.description.$error
                           "
-                        >
-                          This field must not be
-                          empty.
-                        </b-form-invalid-feedback>
+                        >This field must not be empty.</b-form-invalid-feedback>
                       </b-col>
                     </b-row>
 
@@ -206,7 +206,14 @@
                           inputmode="numeric"
                           :disabled="!editCreator"
                           :value="quantityText"
-                          @input="onInputNumber($event, $v.quantityText, 'quantityText', 'quantity')"
+                          @input="
+                            onInputNumber(
+                              $event,
+                              $v.quantityText,
+                              'quantityText',
+                              'quantity'
+                            )
+                          "
                           @keypress="onKeypressNumber"
                           aria-describedby="qty-feedback"
                           :state="
@@ -319,10 +326,7 @@
                             !$v.justification.required &&
                               $v.justification.$error
                           "
-                        >
-                          This field must not be
-                          empty.
-                        </b-form-invalid-feedback>
+                        >This field must not be empty.</b-form-invalid-feedback>
                       </b-col>
                     </b-row>
 
@@ -337,7 +341,14 @@
                             class="text-right"
                             :disabled="!editCreator"
                             :value="unitPriceText"
-                            @input="onInputNumber($event, $v.unitPriceText, 'unitPriceText', 'unitPrice')"
+                            @input="
+                              onInputNumber(
+                                $event,
+                                $v.unitPriceText,
+                                'unitPriceText',
+                                'unitPrice'
+                              )
+                            "
                             @keypress="onKeypressNumber"
                             aria-describedby="unit-price-feedback"
                             :state="
@@ -353,10 +364,7 @@
                               !$v.unitPriceText.requiredNumber &&
                                 $v.unitPriceText.$error
                             "
-                          >
-                            This field must not be
-                            empty
-                          </b-form-invalid-feedback>
+                          >This field must not be empty</b-form-invalid-feedback>
                         </b-input-group>
                       </b-col>
                     </b-row>
@@ -379,7 +387,14 @@
                           placeholder="Foreign Amount"
                           :value="foreignAmountText"
                           :disabled="!editCreator"
-                          @input="onInputNumber($event, null, 'foreignAmountText', 'foreignAmount')"
+                          @input="
+                            onInputNumber(
+                              $event,
+                              null,
+                              'foreignAmountText',
+                              'foreignAmount'
+                            )
+                          "
                           @keypress="onKeypressNumber"
                         />
                       </b-col>
@@ -477,10 +492,7 @@
                             v-if="
                               !$v.storageLoc.required && $v.storageLoc.$error
                             "
-                          >
-                            Please select storage
-                            location.
-                          </b-form-invalid-feedback>
+                          >Please select storage location.</b-form-invalid-feedback>
                         </comp-select>
                       </b-col>
                     </b-row>
@@ -589,7 +601,10 @@
                           aria-describedby="asset-gen-mode-class-feedback"
                         >
                           <template v-slot:first>
-                            <b-form-select-option value disabled>-- Please select an option --</b-form-select-option>
+                            <b-form-select-option value disabled>
+                              -- Please select an option
+                              --
+                            </b-form-select-option>
                           </template>
                         </b-form-select>
                         <!-- <b-form-invalid-feedback
@@ -610,14 +625,18 @@
                         <b-form-textarea v-model="assetNote" :disabled="!editAcc" />
                       </b-col>
                     </b-row>
-                    <div v-if="capexInfo.status == 'D' || capexInfo.status == 'ACC'">
+                    <div
+                      v-if="
+                        capexInfo.status == 'D' || capexInfo.status == 'ACC'
+                      "
+                    >
                       <div v-if="editCreator || editAcc">
                         <b-row align-h="around" class="mt-3">
                           <b-col cols="4" class="text-right">
                             <b-button variant="danger">Clear</b-button>
                           </b-col>
-                          <b-col cols="4" v-if="capexInfo.status=='D'" class="text-center">
-                            <b-button variant="warning" @click="validate('D')">Save as Draft</b-button>
+                          <b-col cols="4" v-if="capexInfo.status == 'D'" class="text-center">
+                            <b-button variant="warning" @click="validate('D')">Draft</b-button>
                           </b-col>
                           <b-col cols="4" class="text-left">
                             <b-button variant="success" @click="validate('ACC')">Submit</b-button>

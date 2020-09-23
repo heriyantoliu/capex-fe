@@ -519,7 +519,7 @@ export default {
 
       if (this.listBudget) {
         return this.listBudget.reduce((a, b) => {
-          return a + (b.remaining + b.allocation);
+          return a + b.remaining;
         }, 0);
       }
 

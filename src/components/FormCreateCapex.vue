@@ -466,7 +466,7 @@
                         <b-button variant="danger">Clear</b-button>
                       </b-col>
                       <b-col cols="4" class="text-center">
-                        <b-button variant="warning" @click="validate('D')">Save as Draft</b-button>
+                        <b-button variant="warning" @click="validate('D')">Draft</b-button>
                       </b-col>
                       <b-col cols="4" class="text-left">
                         <b-button variant="success" @click="validate('ACC')">Submit</b-button>
