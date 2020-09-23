@@ -339,7 +339,7 @@
               <br />&nbsp;
               <br />&nbsp;
             </p>
-          </div>costCenterName
+          </div>
           <br />
           <table
             width="719"
@@ -519,7 +519,7 @@ export default {
 
       if (this.listBudget) {
         return this.listBudget.reduce((a, b) => {
-          return a + b.remaining;
+          return a + b.available;
         }, 0);
       }
 
