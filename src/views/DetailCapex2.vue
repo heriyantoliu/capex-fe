@@ -712,6 +712,7 @@
           :capexApprover="capexApprover"
           :purpose="purposePrint.purposeDesc"
           :costCenter="costCenterPrint"
+          :listAsset="listAsset"
         />
       </b-tab>
 
