@@ -1336,8 +1336,8 @@ export default {
       try {
         await axiosCapex.put('/capexTrx/' + this.capexInfo.ID, {
           assetClass: this.assetClass,
-          assetActivityType: this.capexInfo.assetActivityType,
-          assetGroup: this.capexInfo.assetGroup,
+          assetActivityType: this.assetActivityType,
+          assetGroup: this.assetGroup,
           assetGenMode: this.assetGenMode,
           justification: this.justification,
           assetNote: this.assetNote,
