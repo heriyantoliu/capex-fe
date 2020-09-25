@@ -5,11 +5,11 @@
       border="1px solid black"
       cellpadding="0"
       cellspacing="0"
-      style="border-style: solid;"
+      style="border-style: solid"
     >
       <tr>
         <td width="705" height="182">
-          <table width="716" border="0" style="font-size: 12px;">
+          <table width="716" border="0" style="font-size: 12px">
             <tr>
               <td width="9" height="21">
                 <span class="style18"></span>
@@ -103,7 +103,7 @@
             </tr>
           </table>
 
-          <table width="717" border="0" style="font-size: 12px;">
+          <table width="717" border="0" style="font-size: 12px">
             <tr>
               <td width="10">
                 <span class="style17">3</span>
@@ -137,7 +137,7 @@
           </table>
 
           <hr />
-          <table width="715" border="0" style="font-size: 12px;">
+          <table width="715" border="0" style="font-size: 12px">
             <tr>
               <td width="8">
                 <span class="style17">5</span>
@@ -160,7 +160,7 @@
           </table>
 
           <hr />
-          <p style="font-size: 12px;">
+          <p style="font-size: 12px">
             6
             <u>Request Description :</u>
           </p>
@@ -169,7 +169,7 @@
             border="1px solid black"
             cellspacing="0"
             cellpadding="0"
-            style="font-size: 12px;"
+            style="font-size: 12px"
           >
             <tr>
               <td width="18" rowspan="3">
@@ -232,28 +232,28 @@
               <td>
                 <span class="style25">{{ capexInfo.description }}</span>
               </td>
-              <td style="text-align: right;">
+              <td style="text-align: right">
                 <span class="style25">
                   {{ capexInfo.quantity | toCurrency }}
                 </span>
               </td>
-              <td style="text-align: right;">
+              <td style="text-align: right">
                 <span class="style25">{{ unitPrice | toCurrency }}</span>
               </td>
               <td>
                 <span class="style25">IDR</span>
               </td>
-              <td style="text-align: right;">
+              <td style="text-align: right">
                 <span class="style25">
                   {{ capexInfo.totalAmount | toCurrency }}
                 </span>
               </td>
-              <td style="text-align: right;">
+              <td style="text-align: right">
                 <template v-if="totalBudget">
                   <span class="style25">{{ totalBudget | toCurrency }}</span>
                 </template>
               </td>
-              <td style="text-align: right;">
+              <td style="text-align: right">
                 <span class="style25">{{ variant | toCurrency }}</span>
               </td>
               <td>
@@ -296,28 +296,28 @@
                   <span class="style18">Total</span>
                 </div>
               </td>
-              <td style="text-align: right;">
+              <td style="text-align: right">
                 <span class="style25">
                   {{ capexInfo.quantity | toCurrency }}
                 </span>
               </td>
-              <td style="text-align: right;">
+              <td style="text-align: right">
                 <span class="style25">{{ unitPrice | toCurrency }}</span>
               </td>
               <td>
                 <span class="style25">IDR</span>
               </td>
-              <td style="text-align: right;">
+              <td style="text-align: right">
                 <span class="style25">
                   {{ capexInfo.totalAmount | toCurrency }}
                 </span>
               </td>
-              <td style="text-align: right;">
+              <td style="text-align: right">
                 <template v-if="totalBudget">
                   <span class="style25">{{ totalBudget | toCurrency }}</span>
                 </template>
               </td>
-              <td style="text-align: right;">
+              <td style="text-align: right">
                 <span class="style25">{{ variant | toCurrency }}</span>
               </td>
               <td>
@@ -326,7 +326,7 @@
             </tr>
           </table>
 
-          <div style="font-size: 12px;">
+          <div style="font-size: 12px">
             <p class="style17">
               Total Capex (in word) : {{ capexInfo.totalAmount | inSpell }}
             </p>
@@ -355,7 +355,7 @@
             border="1px solid black"
             cellspacing="0"
             cellpadding="0"
-            style="font-size: 12px;"
+            style="font-size: 12px"
           >
             <tr>
               <td width="307">
@@ -368,7 +368,7 @@
               </td>
             </tr>
             <tr>
-              <td height="23" style="font-size: 12px; text-align:center">
+              <td height="23" style="font-size: 12px; text-align: center">
                 <br />
                 <p>
                   Digital Signed
@@ -386,7 +386,12 @@
                 <p>&nbsp;</p>
 
                 <table
-                  style="table-layout: auto; width: 100%; text-align: center; font-size: 12px;"
+                  style="
+                    table-layout: auto;
+                    width: 100%;
+                    text-align: center;
+                    font-size: 12px;
+                  "
                 >
                   <tr>
                     <td v-for="appr in director" :key="appr.username">
@@ -411,12 +416,17 @@
             <tr>
               <td>
                 <div class="style17">
-                  <p style="text-align: center;">
+                  <p style="text-align: center">
                     <strong>Reviewed by,</strong>
                   </p>
 
                   <table
-                    style="table-layout: auto; width: 100%; text-align: center; font-size: 12px;"
+                    style="
+                      table-layout: auto;
+                      width: 100%;
+                      text-align: center;
+                      font-size: 12px;
+                    "
                   >
                     <tr>
                       <td v-for="appr in reviewer" :key="appr.username">
@@ -442,12 +452,17 @@
             <tr>
               <td>
                 <div class="style17">
-                  <p style="text-align: center;">
+                  <p style="text-align: center">
                     <strong>Approved by,</strong>
                   </p>
 
                   <table
-                    style="table-layout: auto; width: 100%; text-align: center; font-size: 12px;"
+                    style="
+                      table-layout: auto;
+                      width: 100%;
+                      text-align: center;
+                      font-size: 12px;
+                    "
                   >
                     <tr>
                       <td v-for="appr in approver" :key="appr.username">
@@ -496,26 +511,26 @@ export default {
   props: {
     capexInfo: {
       type: Object,
-      required: true
+      required: true,
     },
     listBudget: {
-      type: Array
+      type: Array,
     },
     requestorInfo: {
-      type: Object
+      type: Object,
     },
     capexApprover: {
-      type: Array
+      type: Array,
     },
     purpose: {
-      type: String
+      type: String,
     },
     costCenter: {
-      type: Object
+      type: Object,
     },
     listAsset: {
-      type: Array
-    }
+      type: Array,
+    },
   },
 
   computed: {
@@ -534,20 +549,20 @@ export default {
 
       return 0;
     },
-    unitPrice: function() {
+    unitPrice: function () {
       if (!this.capexInfo.quantity) {
         return 0;
       } else {
         return this.capexInfo.totalAmount / this.capexInfo.quantity;
       }
     },
-    variant: function() {
+    variant: function () {
       if (this.totalBudget) {
         return this.totalBudget - this.capexInfo.totalAmount;
       }
       return 0;
     },
-    variantPct: function() {
+    variantPct: function () {
       if (this.variant == 0) {
         return 0;
       } else {
@@ -557,9 +572,9 @@ export default {
         return 0;
       }
     },
-    reviewer: function() {
+    reviewer: function () {
       return this.capexApprover
-        .filter(appr => {
+        .filter((appr) => {
           return (
             appr.Approver == 'SMAP010' ||
             appr.Approver == 'SMAP029' ||
@@ -567,41 +582,41 @@ export default {
           );
           // return appr.Approver == 'a';
         })
-        .map(appr => {
+        .map((appr) => {
           return { ...appr, UpdatedAt: this.toDateString(appr.UpdatedAt) };
         });
     },
-    director: function() {
+    director: function () {
       return this.capexApprover
-        .filter(appr => {
+        .filter((appr) => {
           return (
             appr.Approver == 'SMAP001' ||
-            appr.Approver == 'SMAP004' ||
+            appr.Approver == 'SMAP058' ||
             appr.Approver == 'SMAP002'
           );
           // return appr.Approver == 'd';
         })
-        .map(appr => {
+        .map((appr) => {
           return { ...appr, UpdatedAt: this.toDateString(appr.UpdatedAt) };
         });
     },
-    approver: function() {
+    approver: function () {
       return this.capexApprover
-        .filter(appr => {
+        .filter((appr) => {
           return (
             appr.Approver != 'SMAP010' &&
             appr.Approver != 'SMAP029' &&
             appr.Approver != 'SMAP006' &&
             appr.Approver != 'SMAP001' &&
-            appr.Approver != 'SMAP004' &&
+            appr.Approver != 'SMAP058' &&
             appr.Approver != 'SMAP002'
           );
           // return appr.Approver != 'a' && appr.Approver != 'd';
         })
-        .map(appr => {
+        .map((appr) => {
           return { ...appr, UpdatedAt: this.toDateString(appr.UpdatedAt) };
         });
-    }
+    },
   },
   methods: {
     toDateString(value) {
@@ -613,8 +628,8 @@ export default {
       return (
         date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
       );
-    }
-  }
+    },
+  },
 };
 </script>
 
