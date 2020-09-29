@@ -8,9 +8,20 @@
       class="mb-0"
     >
       <b-input-group size="sm">
-        <b-form-input v-model="filter" type="search" placeholder="Type to search" size="sm" />
+        <b-form-input
+          v-model="filter"
+          type="search"
+          placeholder="Type to search"
+          size="sm"
+        />
         <b-input-group-append>
-          <b-button size="sm" :disabled="!filter" @click="filter = ''" variant="primary">Clear</b-button>
+          <b-button
+            size="sm"
+            :disabled="!filter"
+            @click="filter = ''"
+            variant="primary"
+            >Clear</b-button
+          >
         </b-input-group-append>
       </b-input-group>
     </b-form-group>
@@ -49,26 +60,42 @@
         </template>
       </template>
       <template v-slot:cell(totalAmount)="data">
-        <div class="text-right">{{ data.item.totalAmount.toLocaleString() }}</div>
+        <div class="text-right">
+          {{ data.item.totalAmount.toLocaleString() }}
+        </div>
       </template>
       <template v-slot:cell(status)="data">
-        <b-badge :variant="statusColor(data.item.status)">{{ data.item.status | statusDesc }}</b-badge>
+        <b-badge :variant="statusColor(data.item.status)">{{
+          data.item.status | statusDesc
+        }}</b-badge>
       </template>
 
       <template v-slot:cell(showDetail)="data">
-        <b-button size="sm" variant="dark" @click="showDetail(data.item.ID)">Detail</b-button>
+        <b-button size="sm" variant="dark" @click="showDetail(data.item.ID)"
+          >Detail</b-button
+        >
       </template>
     </b-table>
     <br />
     <b-row v-if="massApprove && listData.length != 0">
       <b-col cols="6" class="text-left">
         <b-button-group>
-          <b-button variant="info" size="sm" @click="onSelecteAll">Select All</b-button>
-          <b-button variant="info" size="sm" @click="onClearSelected">Clear Selected</b-button>
+          <b-button variant="info" size="sm" @click="onSelecteAll"
+            >Select All</b-button
+          >
+          <b-button variant="info" size="sm" @click="onClearSelected"
+            >Clear Selected</b-button
+          >
         </b-button-group>
       </b-col>
       <b-col cols="6" class="text-right">
-        <b-button v-if="selected.length != 0" variant="primary" size="sm" @click="onApprove">Approve</b-button>
+        <b-button
+          v-if="selected.length != 0"
+          variant="primary"
+          size="sm"
+          @click="onApprove"
+          >Approve</b-button
+        >
       </b-col>
     </b-row>
     <br />
@@ -90,12 +117,12 @@ export default {
   mixins: [capexMixin],
   props: {
     listData: {
-      type: Array,
+      type: Array
     },
     massApprove: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   data() {
     return {
@@ -112,37 +139,37 @@ export default {
         {
           key: 'Selected',
           label: 'Selected',
-          sortable: false,
+          sortable: false
         },
         {
           key: 'ID',
           label: 'Capex ID',
-          sortable: true,
+          sortable: true
         },
         {
           key: 'description',
           label: 'Description',
-          sortable: true,
+          sortable: true
         },
         {
           key: 'totalAmount',
           label: 'Amount',
-          sortable: true,
+          sortable: true
         },
         {
           key: 'status',
-          label: 'Status',
+          label: 'Status'
         },
         {
           key: 'showDetail',
-          label: 'Show Detail',
+          label: 'Show Detail'
         },
         {
           key: 'message',
           label: 'Message',
-          tdClass: 'table-text-red',
-        },
-      ],
+          tdClass: 'table-text-red'
+        }
+      ]
     };
   },
 
@@ -155,12 +182,12 @@ export default {
       this.$router.push('/capex/' + id);
     },
     onSelect(items) {
-      this.selected = items.filter((item) => {
+      this.selected = items.filter(item => {
         if (item.status == 'I') {
           return true;
         } else {
           let idxTable = this.$refs.capexTable.computedItems.findIndex(
-            (itemRef) => itemRef.ID == item.ID
+            itemRef => itemRef.ID == item.ID
           );
 
           this.$refs.capexTable.unselectRow(idxTable);
@@ -199,26 +226,23 @@ export default {
           cancelTitle: 'NO',
           footerClass: 'p-2',
           hideHeaderClose: true,
-          centered: true,
+          centered: true
         }
       );
       if (result) {
         for (let capex of this.selected) {
           try {
-            console.log(capex.ID);
             await axiosCapex.patch(`/capexTrx/${capex.ID}/approve`);
-            console.log('APPROVE DONE');
             this.tableContent = this.tableContent.filter(
-              (data) => data.ID != capex.ID
+              data => data.ID != capex.ID
             );
           } catch (err) {
-            console.log('ERROR');
-            this.tableContent = this.tableContent.map((content) =>
+            this.tableContent = this.tableContent.map(content =>
               content.ID != capex.ID
                 ? content
                 : {
                     ...content,
-                    message: err.response.data.message,
+                    message: err.response.data.message
                   }
             );
           }
@@ -235,29 +259,29 @@ export default {
         // });
         // this.$router.push('/waitAppr');
       }
-    },
+    }
   },
 
   watch: {
-    listData: function () {
+    listData: function() {
       this.totalRows = this.listData.length;
-      this.tableContent = this.listData.map((data) => ({
+      this.tableContent = this.listData.map(data => ({
         ...data,
-        message: '',
+        message: ''
       }));
-    },
+    }
   },
 
   created() {
     if (!this.massApprove) {
       this.fields = this.fields.filter(
-        (field) =>
+        field =>
           field.key != 'Selected' &&
           field.key != 'showDetail' &&
           field.key != 'message'
       );
     }
-  },
+  }
 };
 </script>
 
