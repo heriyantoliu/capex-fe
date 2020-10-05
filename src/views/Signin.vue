@@ -67,7 +67,7 @@ export default {
       username: '',
       password: '',
       message: '',
-      signinText: 'Sign In'
+      signinText: 'Sign In',
     };
   },
   methods: {
@@ -76,17 +76,18 @@ export default {
       this.$store
         .dispatch('login', {
           username: this.username,
-          password: this.password
+          password: this.password,
         })
         .then(() => {
           this.$router.push(this.$route.query.redirect || '/');
         })
-        .catch(err => {
+        .catch((err) => {
           this.signinText = 'Sign In';
-          this.message = err;
+
+          this.message = err.data.message;
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -59,6 +59,9 @@
           <span class="sr-only">Not selected</span>
         </template>
       </template>
+      <template v-slot:cell(type)="data">
+        {{ data.item.budgetType == 'B' ? 'Budget' : 'Unbudgeted' }}
+      </template>
       <template v-slot:cell(totalAmount)="data">
         <div class="text-right">
           {{ data.item.totalAmount.toLocaleString() }}
@@ -117,12 +120,12 @@ export default {
   mixins: [capexMixin],
   props: {
     listData: {
-      type: Array
+      type: Array,
     },
     massApprove: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
@@ -139,37 +142,42 @@ export default {
         {
           key: 'Selected',
           label: 'Selected',
-          sortable: false
+          sortable: false,
         },
         {
           key: 'ID',
           label: 'Capex ID',
-          sortable: true
+          sortable: true,
         },
         {
           key: 'description',
           label: 'Description',
-          sortable: true
+          sortable: true,
+        },
+        {
+          key: 'type',
+          label: 'Budget Type',
+          sortable: true,
         },
         {
           key: 'totalAmount',
           label: 'Amount',
-          sortable: true
+          sortable: true,
         },
         {
           key: 'status',
-          label: 'Status'
+          label: 'Status',
         },
         {
           key: 'showDetail',
-          label: 'Show Detail'
+          label: 'Show Detail',
         },
         {
           key: 'message',
           label: 'Message',
-          tdClass: 'table-text-red'
-        }
-      ]
+          tdClass: 'table-text-red',
+        },
+      ],
     };
   },
 
@@ -182,12 +190,12 @@ export default {
       this.$router.push('/capex/' + id);
     },
     onSelect(items) {
-      this.selected = items.filter(item => {
+      this.selected = items.filter((item) => {
         if (item.status == 'I') {
           return true;
         } else {
           let idxTable = this.$refs.capexTable.computedItems.findIndex(
-            itemRef => itemRef.ID == item.ID
+            (itemRef) => itemRef.ID == item.ID
           );
 
           this.$refs.capexTable.unselectRow(idxTable);
@@ -226,7 +234,7 @@ export default {
           cancelTitle: 'NO',
           footerClass: 'p-2',
           hideHeaderClose: true,
-          centered: true
+          centered: true,
         }
       );
       if (result) {
@@ -234,15 +242,15 @@ export default {
           try {
             await axiosCapex.patch(`/capexTrx/${capex.ID}/approve`);
             this.tableContent = this.tableContent.filter(
-              data => data.ID != capex.ID
+              (data) => data.ID != capex.ID
             );
           } catch (err) {
-            this.tableContent = this.tableContent.map(content =>
+            this.tableContent = this.tableContent.map((content) =>
               content.ID != capex.ID
                 ? content
                 : {
                     ...content,
-                    message: err.response.data.message
+                    message: err.response.data.message,
                   }
             );
           }
@@ -259,29 +267,29 @@ export default {
         // });
         // this.$router.push('/waitAppr');
       }
-    }
+    },
   },
 
   watch: {
-    listData: function() {
+    listData: function () {
       this.totalRows = this.listData.length;
-      this.tableContent = this.listData.map(data => ({
+      this.tableContent = this.listData.map((data) => ({
         ...data,
-        message: ''
+        message: '',
       }));
-    }
+    },
   },
 
   created() {
     if (!this.massApprove) {
       this.fields = this.fields.filter(
-        field =>
+        (field) =>
           field.key != 'Selected' &&
           field.key != 'showDetail' &&
           field.key != 'message'
       );
     }
-  }
+  },
 };
 </script>
 

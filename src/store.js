@@ -54,34 +54,41 @@ export default new Vuex.Store({
     },
 
     async login({ commit }, authData) {
-      try {
-        const accountResp = await axiosCapex.post('/login', null, {
-          auth: {
-            username: authData.username,
-            password: authData.password
-          }
-        });
-        localStorage.setItem('token', accountResp.data.token);
-        localStorage.setItem('userId', accountResp.data.id);
-        localStorage.setItem('username', accountResp.data.username);
-        localStorage.setItem('name', accountResp.data.name);
-        localStorage.setItem('email', accountResp.data.email);
-        commit('setToken', accountResp.data.token);
+      return new Promise((resolve, reject) => {
+        let user = {};
+        axiosCapex
+          .post('/login', null, {
+            auth: {
+              username: authData.username,
+              password: authData.password
+            }
+          })
+          .then(res => {
+            localStorage.setItem('token', res.data.token);
+            localStorage.setItem('userId', res.data.id);
+            localStorage.setItem('username', res.data.username);
+            localStorage.setItem('name', res.data.name);
+            localStorage.setItem('email', res.data.email);
+            commit('setToken', res.data.token);
+            user = { ...res.data };
 
-        const rolesResp = await axiosCapex.get(
-          `/user/${accountResp.data.username}/roles`
-        );
-        commit('authUser', {
-          userId: accountResp.data.id,
-          username: accountResp.data.username,
-          name: accountResp.data.name,
-          role: rolesResp.data.role,
-          email: accountResp.data.email
-        });
-        return; //accountResp.data;
-      } catch (err) {
-        throw new Error(err);
-      }
+            return axiosCapex.get(`/user/${res.data.username}/roles`);
+          })
+          .then(res => {
+            commit('authUser', {
+              userId: user.id,
+              username: user.username,
+              name: user.name,
+              role: res.data.role,
+              email: user.email
+            });
+            resolve();
+          })
+          .catch(err => {
+            console.log(err.response);
+            reject(err.response);
+          });
+      });
     },
 
     async tryAutoLogin({ commit }) {
