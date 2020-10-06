@@ -358,142 +358,59 @@
             style="font-size: 12px"
           >
             <tr>
-              <td width="307">
-                <div align="center">
-                  <span class="style19">Requistioner</span>
-                </div>
-              </td>
-              <td width="394">
-                <div align="center" class="style19">Final Approved</div>
-              </td>
+              <th></th>
+              <th>Nama</th>
+              <th>Approval</th>
+              <th>Tanggal</th>
             </tr>
             <tr>
-              <td height="23" style="font-size: 12px; text-align: center">
-                <br />
-                <p>
-                  Digital Signed
-                  <br />
-                  {{ requestorInfo.Name }}
-                  <br />
-                  {{ toDateString(capexInfo.CreatedAt) }}
-                </p>
-              </td>
-              <td rowspan="3">
-                <p>&nbsp;</p>
-                <p>&nbsp;</p>
-                <p>&nbsp;</p>
-                <p>&nbsp;</p>
-                <p>&nbsp;</p>
+              <td>Requestioner</td>
+              <td>{{ requestorInfo.Name }}</td>
+              <td>Approved</td>
+              <td>{{ toDateString(capexInfo.CreatedAt) }}</td>
+            </tr>
 
-                <table
-                  style="
-                    table-layout: auto;
-                    width: 100%;
-                    text-align: center;
-                    font-size: 12px;
-                  "
-                >
-                  <tr>
-                    <td v-for="appr in director" :key="appr.username">
-                      {{ appr.Status == 'A' ? 'Digital signed' : '&nbsp;' }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td v-for="appr in director" :key="appr.username">
-                      <u>{{ appr.Name }}</u>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td v-for="appr in director" :key="appr.username">
-                      {{ appr.Status == 'A' ? appr.UpdatedAt : '&nbsp;' }}
-                      <br />
-                      <p>&nbsp;</p>
-                    </td>
-                  </tr>
-                </table>
+            <tr v-for="(appr, index) in reviewer" :key="appr.username">
+              <td>{{ index == 0 ? 'Reviewed by' : '' }}</td>
+              <td>{{ appr.Name }}</td>
+              <td>
+                {{
+                  appr.status == 'A'
+                    ? 'Approved'
+                    : appr.status == 'R'
+                    ? 'Rejected'
+                    : ''
+                }}
               </td>
+              <td>{{ appr.status != '' ? appr.UpdatedAt : '' }}</td>
             </tr>
-            <tr>
+            <tr v-for="(appr, index) in approver" :key="appr.username">
+              <td>{{ index == 0 ? 'Approved by' : '' }}</td>
+              <td>{{ appr.Name }}</td>
               <td>
-                <div class="style17">
-                  <p style="text-align: center">
-                    <strong>Reviewed by,</strong>
-                  </p>
-
-                  <table
-                    style="
-                      table-layout: auto;
-                      width: 100%;
-                      text-align: center;
-                      font-size: 12px;
-                    "
-                  >
-                    <tr>
-                      <td v-for="appr in reviewer" :key="appr.username">
-                        {{ appr.Status == 'A' ? 'Digital signed' : '&nbsp;' }}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td v-for="appr in reviewer" :key="appr.username">
-                        <u>{{ appr.Name }}</u>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td v-for="appr in reviewer" :key="appr.username">
-                        {{ appr.Status == 'A' ? appr.UpdatedAt : '&nbsp;' }}
-                        <br />
-                        <p>&nbsp;</p>
-                      </td>
-                    </tr>
-                  </table>
-                </div>
+                {{
+                  appr.status == 'A'
+                    ? 'Approved'
+                    : appr.status == 'R'
+                    ? 'Rejected'
+                    : ''
+                }}
               </td>
+              <td>{{ appr.status != '' ? appr.UpdatedAt : '' }}</td>
             </tr>
-            <tr>
+            <tr v-for="(appr, index) in director" :key="appr.username">
+              <td>{{ index == 0 ? 'Final Approved' : '' }}</td>
+              <td>{{ appr.Name }}</td>
               <td>
-                <div class="style17">
-                  <p style="text-align: center">
-                    <strong>Approved by,</strong>
-                  </p>
-
-                  <table
-                    style="
-                      table-layout: auto;
-                      width: 100%;
-                      text-align: center;
-                      font-size: 12px;
-                    "
-                  >
-                    <tr>
-                      <td v-for="appr in approver" :key="appr.username">
-                        {{ appr.Status == 'A' ? 'Digital signed' : '&nbsp;' }}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td v-for="appr in approver" :key="appr.username">
-                        <u>{{ appr.Name }}</u>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td v-for="appr in approver" :key="appr.username">
-                        {{ appr.Status == 'A' ? appr.UpdatedAt : '&nbsp;' }}
-                        <br />
-                        <p>&nbsp;</p>
-                      </td>
-                    </tr>
-                  </table>
-                </div>
+                {{
+                  appr.status == 'A'
+                    ? 'Approved'
+                    : appr.status == 'R'
+                    ? 'Rejected'
+                    : ''
+                }}
               </td>
-            </tr>
-            <tr>
-              <td>
-                <div align="center" class="style19">Mgr/GM/Unit Head</div>
-              </td>
-              <td>
-                <div align="center">
-                  <span class="style19">BOD</span>
-                </div>
-              </td>
+              <td>{{ appr.status != '' ? appr.UpdatedAt : '' }}</td>
             </tr>
           </table>
 
