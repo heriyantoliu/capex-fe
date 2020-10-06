@@ -369,48 +369,50 @@
               <td>Approved</td>
               <td>{{ toDateString(capexInfo.CreatedAt) }}</td>
             </tr>
-
             <tr v-for="(appr, index) in reviewer" :key="appr.username">
               <td>{{ index == 0 ? 'Reviewed by' : '' }}</td>
               <td>{{ appr.Name }}</td>
               <td>
                 {{
-                  appr.status == 'A'
+                  appr.Status == 'A'
                     ? 'Approved'
-                    : appr.status == 'R'
+                    : appr.Status == 'R'
                     ? 'Rejected'
                     : ''
                 }}
               </td>
-              <td>{{ appr.status != '' ? appr.UpdatedAt : '' }}</td>
+              <td>{{ appr.Status != '' ? appr.UpdatedAt : '' }}</td>
             </tr>
+            {{
+              approver
+            }}
             <tr v-for="(appr, index) in approver" :key="appr.username">
               <td>{{ index == 0 ? 'Approved by' : '' }}</td>
               <td>{{ appr.Name }}</td>
               <td>
                 {{
-                  appr.status == 'A'
+                  appr.Status == 'A'
                     ? 'Approved'
-                    : appr.status == 'R'
+                    : appr.Status == 'R'
                     ? 'Rejected'
                     : ''
                 }}
               </td>
-              <td>{{ appr.status != '' ? appr.UpdatedAt : '' }}</td>
+              <td>{{ appr.Status != '' ? appr.UpdatedAt : '' }}</td>
             </tr>
             <tr v-for="(appr, index) in director" :key="appr.username">
               <td>{{ index == 0 ? 'Final Approved' : '' }}</td>
               <td>{{ appr.Name }}</td>
               <td>
                 {{
-                  appr.status == 'A'
+                  appr.Status == 'A'
                     ? 'Approved'
-                    : appr.status == 'R'
+                    : appr.Status == 'R'
                     ? 'Rejected'
                     : ''
                 }}
               </td>
-              <td>{{ appr.status != '' ? appr.UpdatedAt : '' }}</td>
+              <td>{{ appr.Status != '' ? appr.UpdatedAt : '' }}</td>
             </tr>
           </table>
 
