@@ -364,18 +364,20 @@
               <th>Tanggal</th>
             </tr>
             <tr>
-              <td>Requestioner</td>
-              <td>{{ requestorInfo.Name }}</td>
-              <td>Approved</td>
-              <td style="text-align: right">
+              <td style="padding: 10px">Requestioner</td>
+              <td style="padding: 10px">{{ requestorInfo.Name }}</td>
+              <td style="padding: 10px">Approved</td>
+              <td style="text-align: right; padding: 10px">
                 {{ toDateString(capexInfo.CreatedAt) }}
               </td>
             </tr>
 
             <tr v-for="(appr, index) in reviewer" :key="appr.username">
-              <td>{{ index == 0 ? 'Reviewed by' : '' }}</td>
-              <td>{{ appr.Name }}</td>
-              <td>
+              <td style="padding: 10px">
+                {{ index == 0 ? 'Reviewed by' : '' }}
+              </td>
+              <td style="padding: 10px">{{ appr.Name }}</td>
+              <td style="padding: 10px">
                 {{
                   appr.Status == 'A'
                     ? 'Approved'
@@ -384,15 +386,17 @@
                     : ''
                 }}
               </td>
-              <td style="text-align: right">
+              <td style="text-align: right; padding: 10px">
                 {{ appr.Status != '' ? appr.UpdatedAt : '' }}
               </td>
             </tr>
 
             <tr v-for="(appr, index) in approver" :key="appr.username">
-              <td>{{ index == 0 ? 'Approved by' : '' }}</td>
-              <td>{{ appr.Name }}</td>
-              <td>
+              <td style="padding: 10px">
+                {{ index == 0 ? 'Approved by' : '' }}
+              </td>
+              <td style="padding: 10px">{{ appr.Name }}</td>
+              <td style="padding: 10px">
                 {{
                   appr.Status == 'A'
                     ? 'Approved'
@@ -401,15 +405,17 @@
                     : ''
                 }}
               </td>
-              <td style="text-align: right">
+              <td style="text-align: right; padding: 10px">
                 {{ appr.Status != '' ? appr.UpdatedAt : '' }}
               </td>
             </tr>
 
             <tr v-for="(appr, index) in director" :key="appr.username">
-              <td>{{ index == 0 ? 'Final Approved' : '' }}</td>
-              <td>{{ appr.Name }}</td>
-              <td>
+              <td style="padding: 10px">
+                {{ index == 0 ? 'Final Approved' : '' }}
+              </td>
+              <td style="padding: 10px">{{ appr.Name }}</td>
+              <td style="padding: 10px">
                 {{
                   appr.Status == 'A'
                     ? 'Approved'
@@ -417,8 +423,11 @@
                     ? 'Rejected'
                     : ''
                 }}
+                <div v-if="appr.Approver == 'SMAP002'">
+                  <br /><br /><br /><br /><br /><br />
+                </div>
               </td>
-              <td style="text-align: right">
+              <td style="text-align: right; padding: 10px">
                 {{ appr.Status != '' ? appr.UpdatedAt : '' }}
               </td>
             </tr>
