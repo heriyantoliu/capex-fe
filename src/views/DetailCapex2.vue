@@ -777,6 +777,9 @@
       <b-tab title="Attachment">
         <list-attachment v-model="files" :disabled="!editCreator" />
       </b-tab>
+      <b-tab title="Message">
+        <message :id="$route.params.ID" />
+      </b-tab>
     </b-tabs>
     <b-modal
       id="reject-note-modal"
@@ -808,6 +811,7 @@ import Print from '../components/Print';
 import ListTableAppr from '../components/ListTableAppr';
 import ListAsset from '../components/ListAsset';
 import ListAttachment from '../components/ListAttachment';
+import Message from '../components/Message';
 
 const requiredNumber = value => {
   if (value == '0') {
@@ -823,7 +827,8 @@ export default {
     Print,
     ListTableAppr,
     ListAsset,
-    ListAttachment
+    ListAttachment,
+    Message
   },
   mixins: [capexMixin],
   filters: {
