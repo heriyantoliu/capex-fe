@@ -372,9 +372,9 @@
               </td>
             </tr>
 
-            <tr v-for="(appr, index) in reviewer" :key="appr.username">
+            <tr v-for="(appr, index) in approver" :key="appr.username">
               <td style="padding: 10px">
-                {{ index == 0 ? 'Reviewed by' : '' }}
+                {{ index == 0 ? 'Approved by' : '' }}
               </td>
               <td style="padding: 10px">{{ appr.Name }}</td>
               <td style="padding: 10px">
@@ -391,9 +391,9 @@
               </td>
             </tr>
 
-            <tr v-for="(appr, index) in approver" :key="appr.username">
+            <tr v-for="(appr, index) in reviewer" :key="appr.username">
               <td style="padding: 10px">
-                {{ index == 0 ? 'Approved by' : '' }}
+                {{ index == 0 ? 'Reviewed by' : '' }}
               </td>
               <td style="padding: 10px">{{ appr.Name }}</td>
               <td style="padding: 10px">
@@ -447,26 +447,26 @@ export default {
   props: {
     capexInfo: {
       type: Object,
-      required: true,
+      required: true
     },
     listBudget: {
-      type: Array,
+      type: Array
     },
     requestorInfo: {
-      type: Object,
+      type: Object
     },
     capexApprover: {
-      type: Array,
+      type: Array
     },
     purpose: {
-      type: String,
+      type: String
     },
     costCenter: {
-      type: Object,
+      type: Object
     },
     listAsset: {
-      type: Array,
-    },
+      type: Array
+    }
   },
 
   computed: {
@@ -485,20 +485,20 @@ export default {
 
       return 0;
     },
-    unitPrice: function () {
+    unitPrice: function() {
       if (!this.capexInfo.quantity) {
         return 0;
       } else {
         return this.capexInfo.totalAmount / this.capexInfo.quantity;
       }
     },
-    variant: function () {
+    variant: function() {
       if (this.totalBudget) {
         return this.totalBudget - this.capexInfo.totalAmount;
       }
       return 0;
     },
-    variantPct: function () {
+    variantPct: function() {
       if (this.variant == 0) {
         return 0;
       } else {
@@ -508,9 +508,9 @@ export default {
         return 0;
       }
     },
-    reviewer: function () {
+    reviewer: function() {
       return this.capexApprover
-        .filter((appr) => {
+        .filter(appr => {
           return (
             appr.Approver == 'SMAP010' ||
             appr.Approver == 'SMAP029' ||
@@ -518,13 +518,13 @@ export default {
           );
           // return appr.Approver == 'a';
         })
-        .map((appr) => {
+        .map(appr => {
           return { ...appr, UpdatedAt: this.toDateString(appr.UpdatedAt) };
         });
     },
-    director: function () {
+    director: function() {
       return this.capexApprover
-        .filter((appr) => {
+        .filter(appr => {
           return (
             appr.Approver == 'SMAP001' ||
             appr.Approver == 'SMAP058' ||
@@ -532,13 +532,13 @@ export default {
           );
           // return appr.Approver == 'd';
         })
-        .map((appr) => {
+        .map(appr => {
           return { ...appr, UpdatedAt: this.toDateString(appr.UpdatedAt) };
         });
     },
-    approver: function () {
+    approver: function() {
       return this.capexApprover
-        .filter((appr) => {
+        .filter(appr => {
           return (
             appr.Approver != 'SMAP010' &&
             appr.Approver != 'SMAP029' &&
@@ -549,10 +549,10 @@ export default {
           );
           // return appr.Approver != 'a' && appr.Approver != 'd';
         })
-        .map((appr) => {
+        .map(appr => {
           return { ...appr, UpdatedAt: this.toDateString(appr.UpdatedAt) };
         });
-    },
+    }
   },
   methods: {
     toDateString(value) {
@@ -564,8 +564,8 @@ export default {
       return (
         date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
       );
-    },
-  },
+    }
+  }
 };
 </script>
 
