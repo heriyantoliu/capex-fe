@@ -2,6 +2,7 @@
   <div class="m-content">
     <b-tabs>
       <b-tab title="Information">
+        {{ editJustificationOnly }}
         <b-overlay :show="overlay" rounded="sm">
           <form
             class="m-form"
@@ -34,7 +35,9 @@
                   >
                   <b-button
                     v-if="
-                      (capexInfo.status == 'D' &&
+                      ((capexInfo.status == 'D' ||
+                        capexInfo.status == 'I' ||
+                        capexInfo.status == 'ACC') &&
                         capexInfo.createdBy == currentUser) ||
                         (capexInfo.status == 'I' &&
                           capexInfo.nextApproval == currentUser)
@@ -325,7 +328,12 @@
                       <b-col sm="8">
                         <b-form-textarea
                           v-model="justification"
-                          :disabled="!editCreator && !editAcc && !editApprover"
+                          :disabled="
+                            !editCreator &&
+                              !editAcc &&
+                              !editApprover &&
+                              !editJustificationOnly
+                          "
                           aria-describedby="justification-feedback"
                           :state="
                             ($v.justification.required ||
@@ -662,32 +670,38 @@
                         />
                       </b-col>
                     </b-row>
-                    <div
-                      v-if="
-                        capexInfo.status == 'D' || capexInfo.status == 'ACC'
-                      "
-                    >
-                      <div v-if="editCreator || editAcc">
-                        <b-row align-h="around" class="mt-3">
-                          <b-col cols="4" class="text-right">
-                            <b-button variant="danger">Clear</b-button>
-                          </b-col>
-                          <b-col
-                            cols="4"
-                            v-if="capexInfo.status == 'D'"
-                            class="text-center"
+
+                    <div v-if="editCreator || editAcc || editJustificationOnly">
+                      <b-row align-h="around" class="mt-3">
+                        <b-col cols="4" class="text-right">
+                          <b-button variant="danger">Clear</b-button>
+                        </b-col>
+                        <b-col
+                          cols="4"
+                          v-if="capexInfo.status == 'D'"
+                          class="text-center"
+                        >
+                          <b-button variant="warning" @click="validate('D')"
+                            >Draft</b-button
                           >
-                            <b-button variant="warning" @click="validate('D')"
-                              >Draft</b-button
-                            >
-                          </b-col>
-                          <b-col cols="4" class="text-left">
-                            <b-button variant="success" @click="validate('ACC')"
-                              >Submit</b-button
-                            >
-                          </b-col>
-                        </b-row>
-                      </div>
+                        </b-col>
+                        <b-col cols="4" class="text-left">
+                          <b-button
+                            v-if="editAcc || editCreator"
+                            variant="success"
+                            @click="validate('ACC')"
+                            >Submit</b-button
+                          >
+                        </b-col>
+                        <b-col cols="4" class="text-left">
+                          <b-button
+                            v-if="editJustificationOnly"
+                            variant="success"
+                            @click="updateJustification"
+                            >Update</b-button
+                          >
+                        </b-col>
+                      </b-row>
                     </div>
 
                     <div
@@ -883,6 +897,7 @@ export default {
       editAcc: false,
       editCreator: false,
       editApprover: false,
+      editJustificationOnly: false,
       costCenterPrint: {},
       purposePrint: {},
       budgetInfo: {},
@@ -988,10 +1003,33 @@ export default {
         case 'D':
           this.editCreator = true;
           break;
+        case 'ACC':
+          if (this.capexInfo.createdBy == this.currentUser) {
+            this.editJustificationOnly = true;
+          }
+          break;
         case 'I':
-          this.editApprover = true;
+          if (this.capexInfo.createdBy == this.currentUser) {
+            this.editJustificationOnly = true;
+          } else if (this.capexInfo.nextApproval == this.currentUser) {
+            this.editApprover = true;
+          }
           break;
       }
+    },
+    async updateJustification() {
+      await axiosCapex.put(`capexTrx/${this.capexInfo.ID}/justification`, {
+        justification: this.justification
+      });
+      this.$root.$bvToast.toast(`Capex ${this.capexInfo.ID} updated`, {
+        variant: 'primary',
+        toastClass: 'sm_toast',
+        bodyClass: 'sm_toast__body ',
+        noCloseButton: true,
+        toaster: 'b-toaster-bottom-center',
+        autoHideDelay: 3000
+      });
+      this.$router.push('/myCapex');
     },
     async replicate() {
       try {
