@@ -10,19 +10,29 @@
               <b-row>
                 <b-col sm="2">Cost Center:</b-col>
                 <b-col sm="10">
-                  <b-form-input size="sm" v-model="costCenter" placeholder="Cost Center" trim></b-form-input>
+                  <b-form-input
+                    size="sm"
+                    v-model="costCenter"
+                    placeholder="Cost Center"
+                    trim
+                  ></b-form-input>
                 </b-col>
               </b-row>
               <b-row>
                 <b-col sm="2">Budget Code:</b-col>
                 <b-col sm="10">
-                  <b-form-input size="sm" v-model="budgetCode" placeholder="Budget Code" trim></b-form-input>
+                  <b-form-input
+                    size="sm"
+                    v-model="budgetCode"
+                    placeholder="Budget Code"
+                    trim
+                  ></b-form-input>
                 </b-col>
               </b-row>
             </b-container>
 
             <hr />
-
+            {{ totalAmount }}
             <b-table
               ref="listCapex"
               :fields="fields"
@@ -38,23 +48,29 @@
               @filtered="onFiltered"
             >
               <template v-slot:cell(quantity)="data">
-                <div
-                  class="text-right"
-                >{{ data.item.quantity.toLocaleString() }} {{ data.item.uom }}</div>
+                <div class="text-right">
+                  {{ data.item.quantity.toLocaleString() }} {{ data.item.uom }}
+                </div>
               </template>
               <template v-slot:cell(totalAmount)="data">
-                <div class="text-right">{{ data.item.totalAmount.toLocaleString() }}</div>
+                <div class="text-right">
+                  {{ data.item.totalAmount.toLocaleString() }}
+                </div>
               </template>
 
               <template v-slot:cell(status)="data">
-                <b-badge
-                  :variant="statusColor(data.item.status)"
-                >{{ data.item.status | statusDesc }}</b-badge>
+                <b-badge :variant="statusColor(data.item.status)">{{
+                  data.item.status | statusDesc
+                }}</b-badge>
+              </template>
+
+              <template v-slot:cell(budgetType)="data">
+                {{ data.item.budgetType == 'B' ? 'Budget' : 'Unbudgeted' }}
               </template>
 
               <template v-slot:custom-foot>
                 <tr>
-                  <td colspan="6" class="text-center">
+                  <td colspan="7" class="text-center">
                     <strong>TOTAL</strong>
                   </td>
                   <td class="text-right">
@@ -78,28 +94,29 @@ export default {
   data() {
     return {
       fields: [
-        { key: 'ID', label: 'Capex ID' },
+        { key: 'id', label: 'Capex ID' },
         { key: 'costCenter', label: 'Cost Center' },
-        { key: 'budgetApprovalCode', label: 'Budget Code' },
-        { key: 'budget.description', label: 'Budget Description' },
+        { key: 'budgetCode', label: 'Budget Code' },
+        { key: 'budgetDesc', label: 'Budget Description' },
+        { key: 'budgetType', label: 'Budget Type' },
         { key: 'description', label: 'Description Capex' },
         { key: 'quantity', label: 'Quantity' },
-        { key: 'totalAmount', label: 'Amount' },
-        { key: 'status', label: 'Status' },
+        { key: 'amount', label: 'Amount' },
+        { key: 'status', label: 'Status' }
       ],
       listCapex: [],
       costCenter: '',
       budgetCode: '',
-      totalAmount: 0,
+      totalAmount: 0
     };
   },
   computed: {
     criteria() {
       return {
         costCenter: this.costCenter,
-        budgetCode: this.budgetCode,
+        budgetCode: this.budgetCode
       };
-    },
+    }
   },
   methods: {
     onSelect(items) {
@@ -121,29 +138,22 @@ export default {
       return true;
     },
     onFiltered(filteredItems) {
-      this.totalAmount = filteredItems.reduce((a, b) => a + b.totalAmount, 0);
-    },
+      this.totalAmount = filteredItems.reduce((a, b) => a + b.amount, 0);
+    }
   },
 
   async created() {
-    let result = await axiosCapex.get('/budget');
-    let listBudget = result.data;
-
-    result = await axiosCapex.get('/capexTrx');
-    this.listCapex = result.data.map((capex) => {
+    const result = await axiosCapex.get('/report/capex-trx');
+    this.listCapex = result.data.map(capex => {
       return {
         ...capex,
         budgetApprovalCode:
-          capex.budgetApprovalCode != ''
-            ? capex.budgetApprovalCode
-            : 'Unbudget',
-        budget: listBudget.find((budget) => {
-          return budget.code == capex.budgetApprovalCode;
-        }),
+          capex.budgetApprovalCode != '' ? capex.budgetApprovalCode : 'Unbudget'
       };
     });
-    this.totalAmount = this.listCapex.reduce((a, b) => a + b.totalAmount, 0);
-  },
+
+    this.totalAmount = this.listCapex.reduce((a, b) => a + b.amount, 0);
+  }
 };
 </script>
 
