@@ -1,8 +1,7 @@
 <template>
   <div class="m-content">
     <b-tabs>
-      <b-tab title="Information">
-        {{ editJustificationOnly }}
+      <b-tab title="Information">        
         <b-overlay :show="overlay" rounded="sm">
           <form
             class="m-form"
