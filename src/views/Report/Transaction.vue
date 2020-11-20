@@ -32,7 +32,7 @@
             </b-container>
 
             <hr />
-            {{ totalAmount }}
+
             <b-table
               ref="listCapex"
               :fields="fields"
@@ -120,7 +120,7 @@ export default {
   },
   methods: {
     onSelect(items) {
-      this.$router.push(`/capex/${items[0].ID}`);
+      this.$router.push(`/capex/${items[0].id}`);
     },
     filterFn(item, criteria) {
       if (criteria.costCenter) {
