@@ -128,10 +128,14 @@
             </tr>
             <tr>
               <td />
-              <td>
+              <td v-if="listBudget.length < 5" colspan="7">
                 <div v-for="budget in listBudget" :key="budget.budgetCode">
                   {{ budget.desc }}
                 </div>
+              </td>
+
+              <td v-else>
+                Terlampir pada sistem
               </td>
             </tr>
           </table>
