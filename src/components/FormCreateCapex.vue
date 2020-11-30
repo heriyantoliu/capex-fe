@@ -25,7 +25,11 @@
                         <label>Budget Owner Name</label>
                       </b-col>
                       <b-col sm="8">
-                        <b-form-input size disabled v-model="budgetOwnerInfo.ownerName"></b-form-input>
+                        <b-form-input
+                          size
+                          disabled
+                          v-model="budgetOwnerInfo.ownerName"
+                        ></b-form-input>
                       </b-col>
                     </b-row>
 
@@ -34,7 +38,11 @@
                         <label>Budget Owner Position</label>
                       </b-col>
                       <b-col sm="8">
-                        <b-form-input size disabled v-model="budgetOwnerInfo.position"></b-form-input>
+                        <b-form-input
+                          size
+                          disabled
+                          v-model="budgetOwnerInfo.position"
+                        ></b-form-input>
                       </b-col>
                     </b-row>
                     <b-row class="my-1">
@@ -42,7 +50,11 @@
                         <label>Budget Owner Payroll ID</label>
                       </b-col>
                       <b-col sm="8">
-                        <b-form-input size disabled v-model="budgetOwnerInfo.payrollID"></b-form-input>
+                        <b-form-input
+                          size
+                          disabled
+                          v-model="budgetOwnerInfo.payrollID"
+                        ></b-form-input>
                       </b-col>
                     </b-row>
                     <b-row class="my-1">
@@ -60,9 +72,9 @@
                               : false
                           "
                         >
-                          <b-form-invalid-feedback
-                            id="cost-center-feedback"
-                          >Please select Cost Center.</b-form-invalid-feedback>
+                          <b-form-invalid-feedback id="cost-center-feedback"
+                            >Please select Cost Center.</b-form-invalid-feedback
+                          >
                         </comp-select>
                       </b-col>
                     </b-row>
@@ -74,7 +86,9 @@
               <div class="m-portlet__head">
                 <div class="m-portlet__head-caption">
                   <div class="m-portlet__head-title">
-                    <h3 class="m-portlet__head-text">Capital Expenditure Information</h3>
+                    <h3 class="m-portlet__head-text">
+                      Capital Expenditure Information
+                    </h3>
                   </div>
                 </div>
               </div>
@@ -100,10 +114,15 @@
                           "
                         >
                           <template v-slot:first>
-                            <b-form-select-option value disabled>-- Please select an option --</b-form-select-option>
+                            <b-form-select-option value disabled
+                              >-- Please select an option
+                              --</b-form-select-option
+                            >
                           </template>
                         </b-form-select>
-                        <b-form-invalid-feedback id="purpose-feedback">Please select purpose.</b-form-invalid-feedback>
+                        <b-form-invalid-feedback id="purpose-feedback"
+                          >Please select purpose.</b-form-invalid-feedback
+                        >
                       </b-col>
                     </b-row>
 
@@ -112,7 +131,9 @@
                         <label>Budget Type</label>
                       </b-col>
                       <b-col sm="8">
-                        <b-form-checkbox v-model="unbudget">Unbudgetted</b-form-checkbox>
+                        <b-form-checkbox v-model="unbudget"
+                          >Unbudgetted</b-form-checkbox
+                        >
                       </b-col>
                     </b-row>
 
@@ -150,8 +171,7 @@
                             !$v.description.required && $v.description.$error
                           "
                         >
-                          This field must not be
-                          empty.
+                          This field must not be empty.
                         </b-form-invalid-feedback>
                       </b-col>
                     </b-row>
@@ -161,7 +181,10 @@
                         <label>Serial Number</label>
                       </b-col>
                       <b-col sm="8">
-                        <b-form-input size v-model="serialNumber"></b-form-input>
+                        <b-form-input
+                          size
+                          v-model="serialNumber"
+                        ></b-form-input>
                       </b-col>
                     </b-row>
 
@@ -174,7 +197,14 @@
                           class="text-right"
                           inputmode="numeric"
                           :value="quantityText"
-                          @input="onInputNumber($event, $v.quantityText, 'quantityText', 'quantity')"
+                          @input="
+                            onInputNumber(
+                              $event,
+                              $v.quantityText,
+                              'quantityText',
+                              'quantity'
+                            )
+                          "
                           @keypress="onKeypressNumber"
                           aria-describedby="qty-feedback"
                           :state="
@@ -190,9 +220,10 @@
                           id="qty-feedback"
                           v-if="
                             !$v.quantityText.requiredNumber &&
-                              $v.quantityText.$error
+                            $v.quantityText.$error
                           "
-                        >This field must not be empty</b-form-invalid-feedback>
+                          >This field must not be empty</b-form-invalid-feedback
+                        >
                       </b-col>
                     </b-row>
 
@@ -212,7 +243,8 @@
                           <b-form-invalid-feedback
                             id="uom-feedback"
                             v-if="!$v.uom.required && $v.uom.$error"
-                          >Please select UoM.</b-form-invalid-feedback>
+                            >Please select UoM.</b-form-invalid-feedback
+                          >
                         </comp-select>
                         <!-- <b-form-select
                       size
@@ -242,7 +274,11 @@
                         <label>Delivery Date</label>
                       </b-col>
                       <b-col sm="8">
-                        <b-form-datepicker locale="id" type="date" v-model="deliveryDate"></b-form-datepicker>
+                        <b-form-datepicker
+                          locale="id"
+                          type="date"
+                          v-model="deliveryDate"
+                        ></b-form-datepicker>
                       </b-col>
                     </b-row>
 
@@ -267,7 +303,7 @@
                           id="justification-feedback"
                           v-if="
                             !$v.justification.minLength &&
-                              $v.justification.$error
+                            $v.justification.$error
                           "
                         >
                           Field A must have at least
@@ -278,11 +314,10 @@
                           id="justification-feedback"
                           v-if="
                             !$v.justification.required &&
-                              $v.justification.$error
+                            $v.justification.$error
                           "
                         >
-                          This field must not be
-                          empty.
+                          This field must not be empty.
                         </b-form-invalid-feedback>
                       </b-col>
                     </b-row>
@@ -297,7 +332,14 @@
                             inputmode="numeric"
                             class="text-right"
                             :value="unitPriceText"
-                            @input="onInputNumber($event, $v.unitPriceText, 'unitPriceText', 'unitPrice')"
+                            @input="
+                              onInputNumber(
+                                $event,
+                                $v.unitPriceText,
+                                'unitPriceText',
+                                'unitPrice'
+                              )
+                            "
                             @keypress="onKeypressNumber"
                             aria-describedby="unit-price-feedback"
                             :state="
@@ -311,11 +353,10 @@
                             id="unit-price-feedback"
                             v-if="
                               !$v.unitPriceText.requiredNumber &&
-                                $v.unitPriceText.$error
+                              $v.unitPriceText.$error
                             "
                           >
-                            This field must not be
-                            empty
+                            This field must not be empty
                           </b-form-invalid-feedback>
                         </b-input-group>
                       </b-col>
@@ -326,7 +367,10 @@
                         <label>Total Amount (Foreign Currency)</label>
                       </b-col>
                       <b-col sm="2">
-                        <b-form-input v-model="foreignCurrency" placeholder="Currency"></b-form-input>
+                        <b-form-input
+                          v-model="foreignCurrency"
+                          placeholder="Currency"
+                        ></b-form-input>
                       </b-col>
                       <b-col sm="6">
                         <b-form-input
@@ -334,7 +378,14 @@
                           class="text-right"
                           placeholder="Foreign Amount"
                           :value="foreignAmountText"
-                          @input="onInputNumber($event, null, 'foreignAmountText', 'foreignAmount')"
+                          @input="
+                            onInputNumber(
+                              $event,
+                              null,
+                              'foreignAmountText',
+                              'foreignAmount'
+                            )
+                          "
                           @keypress="onKeypressNumber"
                         />
                       </b-col>
@@ -405,7 +456,8 @@
                           <b-form-invalid-feedback
                             id="plant-feedback"
                             v-if="!$v.plant.required && $v.plant.$error"
-                          >Please select plant.</b-form-invalid-feedback>
+                            >Please select plant.</b-form-invalid-feedback
+                          >
                         </comp-select>
                       </b-col>
                     </b-row>
@@ -431,8 +483,7 @@
                               !$v.storageLoc.required && $v.storageLoc.$error
                             "
                           >
-                            Please select storage
-                            location.
+                            Please select storage location.
                           </b-form-invalid-feedback>
                         </comp-select>
                       </b-col>
@@ -457,7 +508,10 @@
                         <label>Asset Type Activity</label>
                       </b-col>
                       <b-col sm="8">
-                        <comp-select :options="actTypeInfo" v-model="assetActivityType" />
+                        <comp-select
+                          :options="actTypeInfo"
+                          v-model="assetActivityType"
+                        />
                       </b-col>
                     </b-row>
 
@@ -466,10 +520,14 @@
                         <b-button variant="danger">Clear</b-button>
                       </b-col>
                       <b-col cols="4" class="text-center">
-                        <b-button variant="warning" @click="validate('D')">Draft</b-button>
+                        <b-button variant="warning" @click="validate('D')"
+                          >Draft</b-button
+                        >
                       </b-col>
                       <b-col cols="4" class="text-left">
-                        <b-button variant="success" @click="validate('ACC')">Submit</b-button>
+                        <b-button variant="success" @click="validate('ACC')"
+                          >Submit</b-button
+                        >
                       </b-col>
                     </b-row>
                   </b-container>
@@ -854,52 +912,47 @@ export default {
     },
   },
   created() {
-    axiosCapex
-      .get('/createInfo')
-      .then((result) => {
-        this.purposeData = result.data.purposeInfo.map((purpose) => {
-          return {
-            id: purpose.purposeID,
-            name: purpose.purposeDesc,
-          };
-        });
-        this.budgetRaw = result.data.budgetInfo;
-        this.costCenterData = result.data.costCenterInfo.map((cc) => ({
-          id: cc.costCenterCode,
-          name: `${cc.costCenterCode} | ${cc.costCenterName}`,
-        }));
-        this.plantData = result.data.plantInfo.map((plant) => {
-          return { id: plant.plantCode, name: plant.plantName };
-        });
-        this.storageLocData = result.data.slocInfo.map((sloc) => {
-          return { id: sloc.slocCode, name: sloc.slocName };
-        });
-        this.uomData = result.data.uomInfo.map((uom) => {
-          return {
-            id: uom.uom,
-            name: uom.desc,
-          };
-        });
-        this.actTypeInfo = result.data.actTypeInfo.map((actType) => {
-          return {
-            id: actType.actTypeCode,
-            name: actType.actTypeDesc,
-          };
-        });
-        this.budgetApprovalCodeData = this.budgetRaw.map((budget) => {
-          return {
-            ...budget,
-            budgetDesc: `${budget.budgetCode} | ${budget.budgetDesc}`,
-            name: `${budget.budgetCode} | ${budget.budgetDesc}`,
-            id: budget.budgetCode,
-          };
-        });
-
-        this.actTypeInfo.unshift({ id: null, name: '' });
-      })
-      .catch((err) => {
-        console.log(err);
+    axiosCapex.get('/createInfo').then((result) => {
+      this.purposeData = result.data.purposeInfo.map((purpose) => {
+        return {
+          id: purpose.purposeID,
+          name: purpose.purposeDesc,
+        };
       });
+      this.budgetRaw = result.data.budgetInfo;
+      this.costCenterData = result.data.costCenterInfo.map((cc) => ({
+        id: cc.costCenterCode,
+        name: `${cc.costCenterCode} | ${cc.costCenterName}`,
+      }));
+      this.plantData = result.data.plantInfo.map((plant) => {
+        return { id: plant.plantCode, name: plant.plantName };
+      });
+      this.storageLocData = result.data.slocInfo.map((sloc) => {
+        return { id: sloc.slocCode, name: sloc.slocName };
+      });
+      this.uomData = result.data.uomInfo.map((uom) => {
+        return {
+          id: uom.uom,
+          name: uom.desc,
+        };
+      });
+      this.actTypeInfo = result.data.actTypeInfo.map((actType) => {
+        return {
+          id: actType.actTypeCode,
+          name: actType.actTypeDesc,
+        };
+      });
+      this.budgetApprovalCodeData = this.budgetRaw.map((budget) => {
+        return {
+          ...budget,
+          budgetDesc: `${budget.budgetCode} | ${budget.budgetDesc}`,
+          name: `${budget.budgetCode} | ${budget.budgetDesc}`,
+          id: budget.budgetCode,
+        };
+      });
+
+      this.actTypeInfo.unshift({ id: null, name: '' });
+    });
   },
 };
 </script>
