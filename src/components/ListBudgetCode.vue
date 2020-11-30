@@ -6,7 +6,13 @@
           <h3 class="m-portlet__head-text">List Budget Code</h3>
         </div>
       </div>
-      <b-button v-if="!disabled" variant="primary" class="my-3 text-right" v-b-modal.budget-data>Add</b-button>
+      <b-button
+        v-if="!disabled"
+        variant="primary"
+        class="my-3 text-right"
+        v-b-modal.budget-data
+        >Add</b-button
+      >
     </div>
     <div class="m-portlet__body">
       <div class="m-form__section m-form__section--first">
@@ -29,13 +35,19 @@
             <b-col sm="12">
               <b-table-lite bordered striped :fields="fields" :items="listItem">
                 <template v-slot:cell(amount)="data">
-                  <div class="text-right">{{ data.item.amount.toLocaleString('id') }}</div>
+                  <div class="text-right">
+                    {{ data.item.amount.toLocaleString('id') }}
+                  </div>
                 </template>
                 <template v-slot:cell(available)="data">
-                  <div class="text-right">{{ data.item.available.toLocaleString('id') }}</div>
+                  <div class="text-right">
+                    {{ data.item.available.toLocaleString('id') }}
+                  </div>
                 </template>
                 <template v-slot:cell(remaining)="data">
-                  <div class="text-right">{{ data.item.remaining.toLocaleString('id') }}</div>
+                  <div class="text-right">
+                    {{ data.item.remaining.toLocaleString('id') }}
+                  </div>
                 </template>
                 <template v-slot:cell(allocationText)="data">
                   <b-form-input
@@ -57,7 +69,8 @@
                     size="sm"
                     variant="danger"
                     @click="onDelete(data.item.code)"
-                  >Delete</b-button>
+                    >Delete</b-button
+                  >
                 </template>
                 <template v-slot:custom-foot>
                   <tr>
@@ -65,7 +78,9 @@
                       <strong>TOTAL</strong>
                     </td>
                     <td class="text-right">
-                      <strong>{{ totalAllocation.toLocaleString('id') }}</strong>
+                      <strong>{{
+                        totalAllocation.toLocaleString('id')
+                      }}</strong>
                     </td>
                   </tr>
                 </template>
@@ -81,15 +96,26 @@
           title="Pilih budget code"
           @ok="onSelectedBudgetCode"
         >
-          <b-form-group label="Cost Center" invalid-feedback="cost center belum di pilih">
-            <comp-select :options="costCenterData" v-model="selectedCostCenter"></comp-select>
+          <b-form-group
+            label="Cost Center"
+            invalid-feedback="cost center belum di pilih"
+          >
+            <comp-select
+              :options="costCenterData"
+              v-model="selectedCostCenter"
+            ></comp-select>
           </b-form-group>
 
-          <b-form-group label="Budget Code" invalid-feedback="Budget code belum di pilih">
+          {{ selectedBudgetCode }}
+          <b-form-group
+            label="Budget Code"
+            invalid-feedback="Budget code belum di pilih"
+          >
             <comp-select
               idHTML="budget-code"
               :options="filterBudgetCode"
-              v-model="selectedBudgetCode"
+              :value="selectedBudgetCode"
+              @selected="getSelected"
             ></comp-select>
           </b-form-group>
         </b-modal>
@@ -102,35 +128,35 @@
 import compSelect from './Select';
 export default {
   components: {
-    compSelect,
+    compSelect
   },
   props: {
     budgetCodeData: {
       type: Array,
-      required: false,
+      required: false
     },
     costCenterData: {
       type: Array,
-      required: false,
+      required: false
     },
     listBudgetCode: {
       type: Array,
-      required: true,
+      required: true
     },
     amount: {
       type: Number,
       required: false,
-      default: 0,
+      default: 0
     },
     disabled: {
       type: Boolean,
       required: false,
-      default: false,
-    },
+      default: false
+    }
   },
   model: {
     prop: 'listBudgetCode',
-    event: 'onChange',
+    event: 'onChange'
   },
   data() {
     return {
@@ -142,12 +168,12 @@ export default {
         { key: 'available', label: 'Available' },
         { key: 'remaining', label: 'Remaining' },
         { key: 'allocationText', label: 'Allocation' },
-        { key: 'action', label: 'Action' },
+        { key: 'action', label: 'Action' }
       ],
       selectedBudgetCode: '',
       selectedCostCenter: '',
       totalAllocation: 0,
-      filterBudgetCode: [],
+      filterBudgetCode: []
     };
   },
 
@@ -162,25 +188,28 @@ export default {
       if (newValue != oldValue) {
         this.selectedBudgetCode = '';
       }
-      this.filterBudgetCode = this.budgetCodeData.filter((budget) => {
+      this.filterBudgetCode = this.budgetCodeData.filter(budget => {
         return budget.costCenter === newValue;
       });
-    },
+    }
   },
 
   methods: {
     onDelete(code) {
-      this.listItem = this.listItem.filter((item) => {
+      this.listItem = this.listItem.filter(item => {
         return item.code != code;
       });
       this.$emit('onChange', this.listItem);
+    },
+    getSelected(value) {
+      console.log(value);
     },
     onSelectedBudgetCode() {
       if (!this.selectedBudgetCode) {
         return;
       }
 
-      const existingBudgetCode = this.listItem.find((budget) => {
+      const existingBudgetCode = this.listItem.find(budget => {
         return budget.code == this.selectedBudgetCode;
       });
 
@@ -188,7 +217,7 @@ export default {
         return;
       }
 
-      const budgetCode = this.budgetCodeData.find((budget) => {
+      const budgetCode = this.budgetCodeData.find(budget => {
         return budget.id == this.selectedBudgetCode;
       });
 
@@ -200,7 +229,7 @@ export default {
         used: budgetCode.budgetAmount - budgetCode.budgetRemaining,
         remaining: budgetCode.budgetRemaining,
         allocationText: '0',
-        allocation: 0,
+        allocation: 0
       });
       this.$emit('onChange', this.listItem);
     },
@@ -244,14 +273,14 @@ export default {
     },
     formatter(value) {
       return value.toLocaleString('id');
-    },
+    }
   },
   created() {
     this.listItem = this.listBudgetCode;
     this.totalAllocation = this.listItem.reduce((a, b) => {
       return a + b.allocation;
     }, 0);
-  },
+  }
 };
 </script>
 

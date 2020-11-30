@@ -100,6 +100,7 @@ export default {
 
   computed: {
     filteredOptions() {
+      // console.log('FILTERED');
       const filtered = [];
       const regOption = new RegExp(this.searchFilter, 'ig');
       for (const option of this.options) {
@@ -107,6 +108,7 @@ export default {
           if (filtered.length < this.maxItem) filtered.push(option);
         }
       }
+
       return filtered;
     }
   },
@@ -115,6 +117,7 @@ export default {
       this.selected = option;
       this.optionsShown = false;
       this.searchFilter = this.selected.name;
+      // console.log(this.selected.id);
 
       this.$emit('selected', this.selected.id);
     },
@@ -125,6 +128,7 @@ export default {
       }
     },
     exit() {
+      // console.log('exit', this.selected.id);
       if (!this.selected.id) {
         this.selected = {};
         this.searchFilter = '';
@@ -136,12 +140,14 @@ export default {
     },
     // Selecting when pressing Enter
     keyMonitor: function(event) {
+      // console.log('keymonitor');
       if (event.key === 'Enter' && this.filteredOptions[0])
         this.selectOption(this.filteredOptions[0]);
     }
   },
   watch: {
     searchFilter() {
+      // console.log('searchfilter');
       if (this.filteredOptions.length === 0) {
         this.selected = {};
       } else {
@@ -150,6 +156,7 @@ export default {
       this.$emit('filter', this.searchFilter);
     },
     value() {
+      // console.log('value');
       if (this.value) {
         this.searchFilter = this.options.find(opt => {
           return opt.id == this.value;
