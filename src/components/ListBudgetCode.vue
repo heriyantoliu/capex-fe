@@ -106,16 +106,23 @@
             ></comp-select>
           </b-form-group>
 
+          {{ selectedBudgetCode.id }}
           <b-form-group
             label="Budget Code"
             invalid-feedback="Budget code belum di pilih"
           >
-            <comp-select
+            <!-- <comp-select
               idHTML="budget-code"
               :options="filterBudgetCode"
               :value="selectedBudgetCode"
               @selected="getSelected"
-            ></comp-select>
+            ></comp-select> -->
+            <v-select
+              :options="filterBudgetCode"
+              label="name"
+              code="id"
+              v-model="selectedBudgetCode"
+            ></v-select>
           </b-form-group>
         </b-modal>
       </div>
@@ -125,9 +132,12 @@
 
 <script>
 import compSelect from './Select';
+import vSelect from 'vue-select';
+import 'vue-select/dist/vue-select.css';
 export default {
   components: {
-    compSelect
+    compSelect,
+    vSelect
   },
   props: {
     budgetCodeData: {

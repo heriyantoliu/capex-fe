@@ -108,7 +108,6 @@ export default {
           if (filtered.length < this.maxItem) filtered.push(option);
         }
       }
-
       return filtered;
     }
   },
@@ -117,7 +116,7 @@ export default {
       this.selected = option;
       this.optionsShown = false;
       this.searchFilter = this.selected.name;
-      // console.log(this.selected.id);
+      console.log(this.selected.id);
 
       this.$emit('selected', this.selected.id);
     },
