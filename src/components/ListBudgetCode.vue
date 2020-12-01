@@ -106,7 +106,6 @@
             ></comp-select>
           </b-form-group>
 
-          {{ selectedBudgetCode }}
           <b-form-group
             label="Budget Code"
             invalid-feedback="Budget code belum di pilih"
@@ -202,7 +201,7 @@ export default {
       this.$emit('onChange', this.listItem);
     },
     getSelected(value) {
-      console.log(value);
+      this.selectedBudgetCode = value;
     },
     onSelectedBudgetCode() {
       if (!this.selectedBudgetCode) {
