@@ -100,13 +100,18 @@
             label="Cost Center"
             invalid-feedback="cost center belum di pilih"
           >
-            <comp-select
+            <!-- <comp-select
               :options="costCenterData"
               v-model="selectedCostCenter"
-            ></comp-select>
+            ></comp-select> -->
+            <v-select
+              :options="costCenterData"
+              label="name"
+              code="id"
+              v-model="selectedCostCenter"
+            ></v-select>
           </b-form-group>
 
-          {{ selectedBudgetCode.id }}
           <b-form-group
             label="Budget Code"
             invalid-feedback="Budget code belum di pilih"
@@ -131,12 +136,12 @@
 </template>
 
 <script>
-import compSelect from './Select';
+// import compSelect from './Select';
 import vSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
 export default {
   components: {
-    compSelect,
+    // compSelect,
     vSelect
   },
   props: {
@@ -198,7 +203,7 @@ export default {
         this.selectedBudgetCode = '';
       }
       this.filterBudgetCode = this.budgetCodeData.filter(budget => {
-        return budget.costCenter === newValue;
+        return budget.costCenter === newValue.id;
       });
     }
   },
@@ -214,29 +219,31 @@ export default {
       this.selectedBudgetCode = value;
     },
     onSelectedBudgetCode() {
-      if (!this.selectedBudgetCode) {
-        return;
-      }
+      // if (!this.selectedBudgetCode) {
+      //   return;
+      // }
 
-      const existingBudgetCode = this.listItem.find(budget => {
-        return budget.code == this.selectedBudgetCode;
-      });
+      // const existingBudgetCode = this.listItem.find(budget => {
+      //   return budget.code == this.selectedBudgetCode.id;
+      // });
 
-      if (existingBudgetCode) {
-        return;
-      }
+      // if (existingBudgetCode) {
+      //   return;
+      // }
 
-      const budgetCode = this.budgetCodeData.find(budget => {
-        return budget.id == this.selectedBudgetCode;
-      });
+      // const budgetCode = this.budgetCodeData.find(budget => {
+      //   return budget.id == this.selectedBudgetCode.id;
+      // });
 
       this.listItem.push({
-        code: budgetCode.id,
-        costCenter: budgetCode.costCenter,
-        amount: budgetCode.budgetAmount,
-        available: budgetCode.budgetRemaining,
-        used: budgetCode.budgetAmount - budgetCode.budgetRemaining,
-        remaining: budgetCode.budgetRemaining,
+        code: this.selectedBudgetCode.id,
+        costCenter: this.selectedBudgetCode.costCenter,
+        amount: this.selectedBudgetCode.budgetAmount,
+        available: this.selectedBudgetCode.budgetRemaining,
+        used:
+          this.selectedBudgetCode.budgetAmount -
+          this.selectedBudgetCode.budgetRemaining,
+        remaining: this.selectedBudgetCode.budgetRemaining,
         allocationText: '0',
         allocation: 0
       });
