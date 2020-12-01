@@ -184,8 +184,8 @@ export default {
         { key: 'allocationText', label: 'Allocation' },
         { key: 'action', label: 'Action' }
       ],
-      selectedBudgetCode: '',
-      selectedCostCenter: '',
+      selectedBudgetCode: {},
+      selectedCostCenter: {},
       totalAllocation: 0,
       filterBudgetCode: []
     };
@@ -223,13 +223,13 @@ export default {
       //   return;
       // }
 
-      // const existingBudgetCode = this.listItem.find(budget => {
-      //   return budget.code == this.selectedBudgetCode.id;
-      // });
+      const existingBudgetCode = this.listItem.find(budget => {
+        return budget.code == this.selectedBudgetCode.id;
+      });
 
-      // if (existingBudgetCode) {
-      //   return;
-      // }
+      if (existingBudgetCode) {
+        return;
+      }
 
       // const budgetCode = this.budgetCodeData.find(budget => {
       //   return budget.id == this.selectedBudgetCode.id;
@@ -247,6 +247,8 @@ export default {
         allocationText: '0',
         allocation: 0
       });
+      this.selectedBudgetCode = {};
+      this.selectedCostCenter = {};
       this.$emit('onChange', this.listItem);
     },
     onInputAllocation(e, idx) {
