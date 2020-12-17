@@ -95,18 +95,24 @@
           :hide-header-close="true"
           title="Pilih budget code"
           @ok="onSelectedBudgetCode"
+          @cancel="clearSelection"
         >
           <b-form-group
             label="Cost Center"
             invalid-feedback="cost center belum di pilih"
           >
-            <comp-select
+            <!-- <comp-select
               :options="costCenterData"
               v-model="selectedCostCenter"
-            ></comp-select>
+            ></comp-select> -->
+
+            <v-select
+              :options="costCenterData"
+              label="name"
+              v-model="selectedCostCenter"
+            />
           </b-form-group>
 
-          {{ selectedBudgetCode.id }}
           <b-form-group
             label="Budget Code"
             invalid-feedback="Budget code belum di pilih"
@@ -117,12 +123,12 @@
               :value="selectedBudgetCode"
               @selected="getSelected"
             ></comp-select> -->
+
             <v-select
               :options="filterBudgetCode"
               label="name"
-              code="id"
               v-model="selectedBudgetCode"
-            ></v-select>
+            />
           </b-form-group>
         </b-modal>
       </div>
@@ -131,12 +137,12 @@
 </template>
 
 <script>
-import compSelect from './Select';
+// import compSelect from './Select';
 import vSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
 export default {
   components: {
-    compSelect,
+    // compSelect,
     vSelect
   },
   props: {
@@ -179,8 +185,8 @@ export default {
         { key: 'allocationText', label: 'Allocation' },
         { key: 'action', label: 'Action' }
       ],
-      selectedBudgetCode: '',
-      selectedCostCenter: '',
+      selectedBudgetCode: { name: '' },
+      selectedCostCenter: { name: '' },
       totalAllocation: 0,
       filterBudgetCode: []
     };
@@ -194,16 +200,21 @@ export default {
       }, 0);
     },
     selectedCostCenter(newValue, oldValue) {
-      if (newValue != oldValue) {
-        this.selectedBudgetCode = '';
+      if (newValue.id != oldValue.id) {
+        this.selectedBudgetCode = { name: '' };
       }
       this.filterBudgetCode = this.budgetCodeData.filter(budget => {
-        return budget.costCenter === newValue;
+        return budget.costCenter === newValue.id;
       });
     }
   },
 
   methods: {
+    clearSelection() {
+      this.selectedBudgetCode = {};
+      this.selectedCostCenter = {};
+      this.filterBudgetCode = [];
+    },
     onDelete(code) {
       this.listItem = this.listItem.filter(item => {
         return item.code != code;
@@ -214,12 +225,12 @@ export default {
       this.selectedBudgetCode = value;
     },
     onSelectedBudgetCode() {
-      if (!this.selectedBudgetCode) {
+      if (!this.selectedBudgetCode.id) {
         return;
       }
 
       const existingBudgetCode = this.listItem.find(budget => {
-        return budget.code == this.selectedBudgetCode;
+        return budget.code == this.selectedBudgetCode.id;
       });
 
       if (existingBudgetCode) {
@@ -227,7 +238,7 @@ export default {
       }
 
       const budgetCode = this.budgetCodeData.find(budget => {
-        return budget.id == this.selectedBudgetCode;
+        return budget.id == this.selectedBudgetCode.id;
       });
 
       this.listItem.push({
@@ -240,6 +251,8 @@ export default {
         allocationText: '0',
         allocation: 0
       });
+      this.selectedBudgetCode = { name: '' };
+      this.selectedCostCenter = { name: '' };
       this.$emit('onChange', this.listItem);
     },
     onInputAllocation(e, idx) {

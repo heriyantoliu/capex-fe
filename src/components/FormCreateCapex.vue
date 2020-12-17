@@ -59,6 +59,18 @@
                     </b-row>
                     <b-row class="my-1">
                       <b-col sm="4">
+                        <label>Year*</label>
+                      </b-col>
+                      <b-col sm="8">
+                        <b-form-input
+                          type="number"
+                          disabled
+                          v-model="year"
+                        ></b-form-input>
+                      </b-col>
+                    </b-row>
+                    <b-row class="my-1">
+                      <b-col sm="4">
                         <label>Cost Center*</label>
                       </b-col>
                       <b-col sm="8">
@@ -220,7 +232,7 @@
                           id="qty-feedback"
                           v-if="
                             !$v.quantityText.requiredNumber &&
-                            $v.quantityText.$error
+                              $v.quantityText.$error
                           "
                           >This field must not be empty</b-form-invalid-feedback
                         >
@@ -303,7 +315,7 @@
                           id="justification-feedback"
                           v-if="
                             !$v.justification.minLength &&
-                            $v.justification.$error
+                              $v.justification.$error
                           "
                         >
                           Field A must have at least
@@ -314,7 +326,7 @@
                           id="justification-feedback"
                           v-if="
                             !$v.justification.required &&
-                            $v.justification.$error
+                              $v.justification.$error
                           "
                         >
                           This field must not be empty.
@@ -353,7 +365,7 @@
                             id="unit-price-feedback"
                             v-if="
                               !$v.unitPriceText.requiredNumber &&
-                              $v.unitPriceText.$error
+                                $v.unitPriceText.$error
                             "
                           >
                             This field must not be empty
@@ -555,6 +567,27 @@
         <list-attachment v-model="files" />
       </b-tab>
     </b-tabs>
+
+    <b-modal
+      ref="modal-year"
+      id="modal-year"
+      :hide-header-close="true"
+      :no-close-on-esc="true"
+      :no-close-on-backdrop="true"
+      title="Pilih tahun"
+      @ok="onSelectedYear"
+      @cancel="onCancel"
+    >
+      <b-form-group :invalid-feedback="yearModalMessage" :state="yearState">
+        <b-form-input
+          type="number"
+          label="Year"
+          v-model="year"
+          :state="yearState"
+          required
+        ></b-form-input>
+      </b-form-group>
+    </b-modal>
   </div>
 </template>
 
@@ -565,7 +598,7 @@ import compSelect from './Select';
 import ListBudgetCode from './ListBudgetCode';
 import ListAttachment from './ListAttachment';
 
-const requiredNumber = (value) => {
+const requiredNumber = value => {
   if (value == '0') {
     return false;
   }
@@ -576,12 +609,12 @@ export default {
   components: {
     compSelect,
     ListBudgetCode,
-    ListAttachment,
+    ListAttachment
   },
   filters: {
     separator(value) {
       return value.toLocaleString('ID');
-    },
+    }
   },
   data() {
     return {
@@ -605,6 +638,7 @@ export default {
       purpose: '',
       budgetApprovalCode: '',
       budgetApprovalCodeData: [],
+      year: new Date().getFullYear(),
       uomData: [],
       uom: '',
       plantData: [],
@@ -626,6 +660,8 @@ export default {
       foreignAmountText: '',
       foreignAmount: 0,
       foreignCurrency: '',
+      yearState: null,
+      yearModalMessage: ''
     };
   },
   computed: {
@@ -646,7 +682,7 @@ export default {
       }
 
       return this.unitPrice * this.quantity;
-    },
+    }
   },
   watch: {
     costCenter(newValue, oldValue) {
@@ -667,45 +703,81 @@ export default {
         this.listBudgetCode = [];
       }
     },
+
     listBudgetCode() {
       this.totalBudget = this.listBudgetCode.reduce((a, b) => {
         return a + b.remaining;
       }, 0);
-    },
+    }
   },
   validations: {
     costCenter: {
-      required,
+      required
     },
     purpose: {
-      required,
+      required
     },
     description: {
       required,
-      minLength: minLength(10),
+      minLength: minLength(10)
     },
     justification: {
       required,
-      minLength: minLength(10),
+      minLength: minLength(10)
     },
 
     unitPriceText: {
-      requiredNumber,
+      requiredNumber
     },
     quantityText: {
-      requiredNumber,
+      requiredNumber
     },
     uom: {
-      required,
+      required
     },
     plant: {
-      required,
+      required
     },
     storageLoc: {
-      required,
-    },
+      required
+    }
   },
   methods: {
+    onSelectedYear(modalEvt) {
+      modalEvt.preventDefault();
+      this.yearState = null;
+      this.yearModalMessage = '';
+      const currentYear = new Date().getFullYear();
+      if (this.year < currentYear) {
+        this.yearModalMessage = `Budget hanya untuk tahun ${currentYear} keatas`;
+      }
+      this.budgetApprovalCodeData = [];
+      axiosCapex.get(`/budget?year=${this.year}`).then(result => {
+        this.budgetApprovalCodeData = result.data.map(budget => {
+          return {
+            ...budget,
+            budgetDesc: `${budget.code} | ${budget.description}`,
+            name: `${budget.code} | ${budget.description}`,
+            id: budget.code
+          };
+        });
+        if (this.budgetApprovalCodeData.length === 0) {
+          console.log('fail');
+          this.yearModalMessage = `Tidak ada budget untuk tahun ${this.year}`;
+          this.yearState = false;
+          return;
+        }
+        this.$nextTick(() => {
+          this.$bvModal.hide('modal-year');
+        });
+      });
+
+      // this.$bvModal.hide('modal-year');
+    },
+    onCancel() {
+      this.$router.push('/');
+    },
+
     reset() {
       this.costCenter = '';
       this.purpose = '';
@@ -794,7 +866,7 @@ export default {
               okVariant: 'danger',
               headerClass: 'p-2 border-bottom-0',
               footerClass: 'p-2 border-top-0',
-              centered: true,
+              centered: true
             });
             return;
           }
@@ -813,7 +885,7 @@ export default {
               cancelTitle: 'NO',
               footerClass: 'p-2',
               hideHeaderClose: true,
-              centered: true,
+              centered: true
             }
           );
           if (result) {
@@ -828,7 +900,7 @@ export default {
             okVariant: 'danger',
             headerClass: 'p-2 border-bottom-0',
             footerClass: 'p-2 border-top-0',
-            centered: true,
+            centered: true
           });
           this.overlay = false;
         }
@@ -838,11 +910,11 @@ export default {
       this.dialog = false;
       this.submitText = 'Submitting';
       try {
-        const budgetCode = this.listBudgetCode.map((budget) => {
+        const budgetCode = this.listBudgetCode.map(budget => {
           return {
             budgetCode: budget.code,
             costCenter: budget.costCenter,
-            amount: Number(budget.allocation),
+            amount: Number(budget.allocation)
           };
         });
         let result = await axiosCapex.post('/capexTrx', {
@@ -863,14 +935,14 @@ export default {
             assetActivityType: this.assetActivityType,
             foreignAmount: Number(this.foreignAmount),
             foreignCurrency: this.foreignCurrency,
-            status,
+            status
           },
-          budgetCode,
+          budgetCode
         });
 
         let formData = new FormData();
 
-        this.files.forEach((file) => {
+        this.files.forEach(file => {
           formData.append('files', file.file);
         });
 
@@ -880,8 +952,8 @@ export default {
             formData,
             {
               headers: {
-                'Content-Type': 'multipart/form-data',
-              },
+                'Content-Type': 'multipart/form-data'
+              }
             }
           );
         }
@@ -892,7 +964,7 @@ export default {
           bodyClass: 'sm_toast__body ',
           noCloseButton: true,
           toaster: 'b-toaster-bottom-center',
-          autoHideDelay: 3000,
+          autoHideDelay: 3000
         });
         this.$router.push('/capex/' + result.data.ID);
       } catch (err) {
@@ -903,57 +975,60 @@ export default {
           okVariant: 'danger',
           headerClass: 'p-2 border-bottom-0',
           footerClass: 'p-2 border-top-0',
-          centered: true,
+          centered: true
         });
         this.overlay = false;
         this.errorMessage = err.response.data.message;
         this.submitText = 'Submit';
       }
-    },
+    }
   },
-  created() {
-    axiosCapex.get('/createInfo').then((result) => {
-      this.purposeData = result.data.purposeInfo.map((purpose) => {
-        return {
-          id: purpose.purposeID,
-          name: purpose.purposeDesc,
-        };
-      });
-      this.budgetRaw = result.data.budgetInfo;
-      this.costCenterData = result.data.costCenterInfo.map((cc) => ({
-        id: cc.costCenterCode,
-        name: `${cc.costCenterCode} | ${cc.costCenterName}`,
-      }));
-      this.plantData = result.data.plantInfo.map((plant) => {
-        return { id: plant.plantCode, name: plant.plantName };
-      });
-      this.storageLocData = result.data.slocInfo.map((sloc) => {
-        return { id: sloc.slocCode, name: sloc.slocName };
-      });
-      this.uomData = result.data.uomInfo.map((uom) => {
-        return {
-          id: uom.uom,
-          name: uom.desc,
-        };
-      });
-      this.actTypeInfo = result.data.actTypeInfo.map((actType) => {
-        return {
-          id: actType.actTypeCode,
-          name: actType.actTypeDesc,
-        };
-      });
-      this.budgetApprovalCodeData = this.budgetRaw.map((budget) => {
-        return {
-          ...budget,
-          budgetDesc: `${budget.budgetCode} | ${budget.budgetDesc}`,
-          name: `${budget.budgetCode} | ${budget.budgetDesc}`,
-          id: budget.budgetCode,
-        };
-      });
 
-      this.actTypeInfo.unshift({ id: null, name: '' });
-    });
+  mounted() {
+    this.$refs['modal-year'].show();
   },
+  async created() {
+    const result = await axiosCapex.get(`/createInfo?year=${this.year}`);
+    this.purposeData = result.data.purposeInfo.map(purpose => {
+      return {
+        id: purpose.purposeID,
+        name: purpose.purposeDesc
+      };
+    });
+    this.budgetRaw = result.data.budgetInfo;
+    this.costCenterData = result.data.costCenterInfo.map(cc => ({
+      id: cc.costCenterCode,
+      name: `${cc.costCenterCode} | ${cc.costCenterName}`
+    }));
+    this.plantData = result.data.plantInfo.map(plant => {
+      return { id: plant.plantCode, name: plant.plantName };
+    });
+    this.storageLocData = result.data.slocInfo.map(sloc => {
+      return { id: sloc.slocCode, name: sloc.slocName };
+    });
+    this.uomData = result.data.uomInfo.map(uom => {
+      return {
+        id: uom.uom,
+        name: uom.desc
+      };
+    });
+    this.actTypeInfo = result.data.actTypeInfo.map(actType => {
+      return {
+        id: actType.actTypeCode,
+        name: actType.actTypeDesc
+      };
+    });
+    this.budgetApprovalCodeData = this.budgetRaw.map(budget => {
+      return {
+        ...budget,
+        budgetDesc: `${budget.budgetCode} | ${budget.budgetDesc}`,
+        name: `${budget.budgetCode} | ${budget.budgetDesc}`,
+        id: budget.budgetCode
+      };
+    });
+
+    this.actTypeInfo.unshift({ id: null, name: '' });
+  }
 };
 </script>
 
