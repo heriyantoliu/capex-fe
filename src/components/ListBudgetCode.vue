@@ -251,6 +251,7 @@ export default {
         allocationText: '0',
         allocation: 0
       });
+      console.log(this.listItem);
       this.selectedBudgetCode = { name: '' };
       this.selectedCostCenter = { name: '' };
       this.$emit('onChange', this.listItem);

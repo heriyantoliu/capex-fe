@@ -59,7 +59,7 @@
                     </b-row>
                     <b-row class="my-1">
                       <b-col sm="4">
-                        <label>Year*</label>
+                        <label>Year</label>
                       </b-col>
                       <b-col sm="8">
                         <b-form-input
@@ -750,22 +750,17 @@ export default {
       const currentYear = new Date().getFullYear();
       if (this.year < currentYear) {
         this.yearModalMessage = `Budget hanya untuk tahun ${currentYear} keatas`;
+        this.yearState = false;
+        return;
       }
       this.budgetApprovalCodeData = [];
       axiosCapex.get(`/budget?year=${this.year}`).then(result => {
-        this.budgetApprovalCodeData = result.data.map(budget => {
-          return {
-            ...budget,
-            budgetDesc: `${budget.code} | ${budget.description}`,
-            name: `${budget.code} | ${budget.description}`,
-            id: budget.code
-          };
-        });
-        if (this.budgetApprovalCodeData.length === 0) {
+        if (result.data.length === 0) {
           this.yearModalMessage = `Tidak ada budget untuk tahun ${this.year}`;
           this.yearState = false;
           return;
         }
+        this.initFetch(this.year);
         this.$nextTick(() => {
           this.$bvModal.hide('modal-year');
         });
@@ -919,6 +914,7 @@ export default {
         let result = await axiosCapex.post('/capexTrx', {
           capex: {
             costCenter: this.costCenter,
+            year: this.year,
             purpose: this.purpose,
             budgetType: this.unbudget == false ? 'B' : 'U',
             description: this.description,
@@ -980,54 +976,57 @@ export default {
         this.errorMessage = err.response.data.message;
         this.submitText = 'Submit';
       }
+    },
+
+    async initFetch(year) {
+      const result = await axiosCapex.get(`/createInfo?year=${year}`);
+      this.purposeData = result.data.purposeInfo.map(purpose => {
+        return {
+          id: purpose.purposeID,
+          name: purpose.purposeDesc
+        };
+      });
+      this.budgetRaw = result.data.budgetInfo;
+      this.costCenterData = result.data.costCenterInfo.map(cc => ({
+        id: cc.costCenterCode,
+        name: `${cc.costCenterCode} | ${cc.costCenterName}`
+      }));
+      this.plantData = result.data.plantInfo.map(plant => {
+        return { id: plant.plantCode, name: plant.plantName };
+      });
+      this.storageLocData = result.data.slocInfo.map(sloc => {
+        return { id: sloc.slocCode, name: sloc.slocName };
+      });
+      this.uomData = result.data.uomInfo.map(uom => {
+        return {
+          id: uom.uom,
+          name: uom.desc
+        };
+      });
+      this.actTypeInfo = result.data.actTypeInfo.map(actType => {
+        return {
+          id: actType.actTypeCode,
+          name: actType.actTypeDesc
+        };
+      });
+      this.budgetApprovalCodeData = this.budgetRaw.map(budget => {
+        return {
+          ...budget,
+          budgetDesc: `${budget.budgetCode} | ${budget.budgetDesc}`,
+          name: `${budget.budgetCode} | ${budget.budgetDesc}`,
+          id: budget.budgetCode
+        };
+      });
+      this.actTypeInfo.unshift({ id: null, name: '' });
     }
   },
 
   mounted() {
     this.$refs['modal-year'].show();
-  },
-  async created() {
-    const result = await axiosCapex.get(`/createInfo?year=${this.year}`);
-    this.purposeData = result.data.purposeInfo.map(purpose => {
-      return {
-        id: purpose.purposeID,
-        name: purpose.purposeDesc
-      };
-    });
-    this.budgetRaw = result.data.budgetInfo;
-    this.costCenterData = result.data.costCenterInfo.map(cc => ({
-      id: cc.costCenterCode,
-      name: `${cc.costCenterCode} | ${cc.costCenterName}`
-    }));
-    this.plantData = result.data.plantInfo.map(plant => {
-      return { id: plant.plantCode, name: plant.plantName };
-    });
-    this.storageLocData = result.data.slocInfo.map(sloc => {
-      return { id: sloc.slocCode, name: sloc.slocName };
-    });
-    this.uomData = result.data.uomInfo.map(uom => {
-      return {
-        id: uom.uom,
-        name: uom.desc
-      };
-    });
-    this.actTypeInfo = result.data.actTypeInfo.map(actType => {
-      return {
-        id: actType.actTypeCode,
-        name: actType.actTypeDesc
-      };
-    });
-    this.budgetApprovalCodeData = this.budgetRaw.map(budget => {
-      return {
-        ...budget,
-        budgetDesc: `${budget.budgetCode} | ${budget.budgetDesc}`,
-        name: `${budget.budgetCode} | ${budget.budgetDesc}`,
-        id: budget.budgetCode
-      };
-    });
-
-    this.actTypeInfo.unshift({ id: null, name: '' });
   }
+  // async created() {
+
+  // }
 };
 </script>
 

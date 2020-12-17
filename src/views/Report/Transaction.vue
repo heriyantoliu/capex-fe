@@ -63,9 +63,9 @@
                   {{ data.item.quantity.toLocaleString() }} {{ data.item.uom }}
                 </div>
               </template>
-              <template v-slot:cell(totalAmount)="data">
+              <template v-slot:cell(amount)="data">
                 <div class="text-right">
-                  {{ data.item.totalAmount.toLocaleString() }}
+                  {{ data.item.amount.toLocaleString() }}
                 </div>
               </template>
 
