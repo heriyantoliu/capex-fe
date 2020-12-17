@@ -6,18 +6,8 @@ import Dashboard from './views/Dashboard';
 import Signin from './views/Signin';
 import Policy from './views/Policy';
 
-import CreateCapex from './views/CreateCapex';
-import ListCapex from './views/ListCapex';
 import DetailCapex from './views/DetailCapex2';
 import ApprCapex from './views/ListApprCapex';
-import ACCCapex from './views/ListACCCapex';
-
-import ReportBudget from './views/Report/Budget';
-import ReportTransaction from './views/Report/Transaction';
-
-import Profile from './views/Profile';
-import ListReplicate from './views/ListReplicate';
-import NotFound from './views/NotFound';
 
 Vue.use(Router);
 
@@ -37,17 +27,33 @@ const router = new Router({
         }
       },
       children: [
-        { path: 'create', name: 'create', component: CreateCapex },
+        {
+          path: 'create',
+          name: 'create',
+          component: () => import('./views/CreateCapex.vue')
+        },
         { path: '', name: 'SOP', component: Policy },
-        { path: 'myCapex', name: 'myCapex', component: ListCapex },
+        {
+          path: 'myCapex',
+          name: 'myCapex',
+          component: () => import('./views/ListCapex.vue')
+        },
         { path: 'waitAppr', name: 'waitCapex', component: ApprCapex },
         {
           path: 'replicate',
           name: 'replicate',
-          component: ListReplicate
+          component: () => import('./views/ListReplicate.vue')
         },
-        { path: 'accAppr', name: 'accCapex', component: ACCCapex },
-        { path: 'profile/:ID', name: 'profile', component: Profile },
+        {
+          path: 'accAppr',
+          name: 'accCapex',
+          component: () => import('./views/ListACCCapex.vue')
+        },
+        {
+          path: 'profile/:ID',
+          name: 'profile',
+          component: () => import('./views/Profile.vue')
+        },
         {
           path: '/capex/:ID',
           name: 'capexDet',
@@ -56,12 +62,12 @@ const router = new Router({
         {
           path: '/report/budget',
           name: 'reportBudget',
-          component: ReportBudget
+          component: () => import('./views/Report/Budget.vue')
         },
         {
           path: '/report/transaction',
           name: 'reportTransaction',
-          component: ReportTransaction
+          component: () => import('./views/Report/Transaction.vue')
         }
       ]
     },
@@ -74,7 +80,7 @@ const router = new Router({
     {
       path: '*',
       name: 'errorPage',
-      component: NotFound
+      component: () => import('./views/NotFound.vue')
     }
   ]
 });

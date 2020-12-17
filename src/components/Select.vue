@@ -116,7 +116,6 @@ export default {
       this.selected = option;
       this.optionsShown = false;
       this.searchFilter = this.selected.name;
-      console.log(this.selected.id);
 
       this.$emit('selected', this.selected.id);
     },

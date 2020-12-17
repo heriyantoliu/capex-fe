@@ -762,7 +762,6 @@ export default {
           };
         });
         if (this.budgetApprovalCodeData.length === 0) {
-          console.log('fail');
           this.yearModalMessage = `Tidak ada budget untuk tahun ${this.year}`;
           this.yearState = false;
           return;
