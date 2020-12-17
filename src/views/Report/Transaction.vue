@@ -29,6 +29,18 @@
                   ></b-form-input>
                 </b-col>
               </b-row>
+              <b-row>
+                <b-col sm="2">Year* :</b-col>
+                <b-col sm="10">
+                  <b-form-input
+                    size="sm"
+                    v-model="year"
+                    type="number"
+                    placeholder="Year"
+                    trim
+                  ></b-form-input>
+                </b-col>
+              </b-row>
             </b-container>
 
             <hr />
@@ -55,6 +67,12 @@
               <template v-slot:cell(totalAmount)="data">
                 <div class="text-right">
                   {{ data.item.totalAmount.toLocaleString() }}
+                </div>
+              </template>
+
+              <template v-slot:cell(actualAmount)="data">
+                <div class="text-right">
+                  {{ data.item.actualAmount.toLocaleString() }}
                 </div>
               </template>
 
@@ -102,12 +120,14 @@ export default {
         { key: 'description', label: 'Description Capex' },
         { key: 'quantity', label: 'Quantity' },
         { key: 'amount', label: 'Amount' },
+        { key: 'actualAmount', label: 'Actual Amount' },
         { key: 'status', label: 'Status' }
       ],
       listCapex: [],
       costCenter: '',
       budgetCode: '',
-      totalAmount: 0
+      totalAmount: 0,
+      year: new Date().getFullYear()
     };
   },
   computed: {
@@ -130,7 +150,7 @@ export default {
       }
 
       if (criteria.budgetCode) {
-        if (!item.budgetApprovalCode.includes(criteria.budgetCode)) {
+        if (!item.budgetCode.includes(criteria.budgetCode)) {
           return false;
         }
       }
@@ -139,20 +159,35 @@ export default {
     },
     onFiltered(filteredItems) {
       this.totalAmount = filteredItems.reduce((a, b) => a + b.amount, 0);
+    },
+    async fetchCapexTrx(year) {
+      const result = await axiosCapex.get(`/report/capex-trx?year=${year}`);
+      this.listCapex = result.data.map(capex => {
+        return {
+          ...capex,
+          budgetApprovalCode:
+            capex.budgetApprovalCode != ''
+              ? capex.budgetApprovalCode
+              : 'Unbudget'
+        };
+      });
+
+      this.totalAmount = this.listCapex.reduce((a, b) => a + b.amount, 0);
+    }
+  },
+
+  watch: {
+    year(value) {
+      this.listCapex = [];
+      this.totalAmount = 0;
+      if (value) {
+        this.fetchCapexTrx(value);
+      }
     }
   },
 
   async created() {
-    const result = await axiosCapex.get('/report/capex-trx');
-    this.listCapex = result.data.map(capex => {
-      return {
-        ...capex,
-        budgetApprovalCode:
-          capex.budgetApprovalCode != '' ? capex.budgetApprovalCode : 'Unbudget'
-      };
-    });
-
-    this.totalAmount = this.listCapex.reduce((a, b) => a + b.amount, 0);
+    this.fetchCapexTrx(this.year);
   }
 };
 </script>
