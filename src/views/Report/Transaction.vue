@@ -6,10 +6,10 @@
           <div class="m-portlet__body">
             <h1>List Capex Transaction</h1>
             <br />
-            <b-container>
+            <b-container fluid>
               <b-row>
                 <b-col sm="2">Cost Center:</b-col>
-                <b-col sm="10">
+                <b-col sm="4">
                   <b-form-input
                     size="sm"
                     v-model="costCenter"
@@ -17,10 +17,8 @@
                     trim
                   ></b-form-input>
                 </b-col>
-              </b-row>
-              <b-row>
                 <b-col sm="2">Budget Code:</b-col>
-                <b-col sm="10">
+                <b-col sm="4">
                   <b-form-input
                     size="sm"
                     v-model="budgetCode"
@@ -29,6 +27,7 @@
                   ></b-form-input>
                 </b-col>
               </b-row>
+
               <b-row>
                 <b-col sm="2">Year* :</b-col>
                 <b-col sm="10">
@@ -112,7 +111,7 @@ export default {
   data() {
     return {
       fields: [
-        { key: 'id', label: 'Capex ID' },
+        { key: 'id', label: 'Capex ID', sortable: true },
         { key: 'costCenter', label: 'Cost Center' },
         { key: 'budgetCode', label: 'Budget Code' },
         { key: 'budgetDesc', label: 'Budget Description' },
