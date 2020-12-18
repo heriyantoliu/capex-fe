@@ -31,6 +31,7 @@
             </b-col>
           </b-row>
           <hr />
+
           <b-row>
             <b-col sm="12">
               <b-table-lite bordered striped :fields="fields" :items="listItem">

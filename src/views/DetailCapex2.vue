@@ -1592,16 +1592,16 @@ export default {
             allocation: budget.amount,
             available:
               this.capexInfo.status == 'D'
-                ? budgetInfo.budgetRemaining
+                ? budgetInfo.remaining
                 : budget.remaining,
             remaining:
               this.capexInfo.status == 'D'
-                ? budgetInfo.budgetRemaining - budget.amount
+                ? budgetInfo.remaining - budget.amount
                 : budget.remaining - budget.amount,
             amount: budgetInfo.budgetAmount,
             allocationText: budget.amount.toLocaleString('id'),
             desc: budgetInfo.budgetDesc,
-            used: budgetInfo.budgetAmount - budgetInfo.budgetRemaining
+            used: budgetInfo.budgetAmount - budgetInfo.remaining
           };
         });
       } catch (err) {

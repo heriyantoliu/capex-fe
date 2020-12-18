@@ -685,15 +685,15 @@ export default {
     }
   },
   watch: {
-    costCenter(newValue, oldValue) {
-      if (newValue != oldValue) {
-        this.budgetApprovalCode = '';
-        this.totalBudget = 0;
+    // costCenter(newValue, oldValue) {
+    //   if (newValue != oldValue) {
+    //     this.budgetApprovalCode = '';
+    //     this.totalBudget = 0;
 
-        this.budgetOwnerInfo = {};
-        this.listBudgetCode = [];
-      }
-    },
+    //     this.budgetOwnerInfo = {};
+    //     this.listBudgetCode = [];
+    //   }
+    // },
     unbudget() {
       if (this.unbudget) {
         this.budgetApprovalCode = '';
@@ -914,7 +914,7 @@ export default {
         let result = await axiosCapex.post('/capexTrx', {
           capex: {
             costCenter: this.costCenter,
-            year: this.year,
+            year: Number(this.year),
             purpose: this.purpose,
             budgetType: this.unbudget == false ? 'B' : 'U',
             description: this.description,
