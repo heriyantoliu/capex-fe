@@ -238,9 +238,9 @@ export default {
         return;
       }
 
-      const budgetCode = this.budgetCodeData.find((budget) => {
-        return budget.id == this.selectedBudgetCode.id;
-      });
+      // const budgetCode = this.budgetCodeData.find((budget) => {
+      //   return budget.id == this.selectedBudgetCode.id;
+      // });
 
       this.listItem.push({
         code: this.selectedBudgetCode.id,
@@ -254,7 +254,7 @@ export default {
         allocationText: '0',
         allocation: 0,
       });
-      console.log(this.listItem);
+
       this.selectedBudgetCode = { name: '' };
       this.selectedCostCenter = { name: '' };
       this.$emit('onChange', this.listItem);
