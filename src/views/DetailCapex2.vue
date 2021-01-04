@@ -1,7 +1,7 @@
 <template>
   <div class="m-content">
     <b-tabs>
-      <b-tab title="Information">        
+      <b-tab title="Information">
         <b-overlay :show="overlay" rounded="sm">
           <form
             class="m-form"
@@ -84,6 +84,18 @@
                         <b-form-input
                           disabled
                           :value="requestorInfo.Name"
+                        ></b-form-input>
+                      </b-col>
+                    </b-row>
+
+                    <b-row class="my-1">
+                      <b-col sm="4">
+                        <label>Year</label>
+                      </b-col>
+                      <b-col sm="8">
+                        <b-form-input
+                          disabled
+                          :value="capexInfo.year"
                         ></b-form-input>
                       </b-col>
                     </b-row>
@@ -1472,8 +1484,8 @@ export default {
         this.overlay = false;
       }
     },
-    async getCreateInfo() {
-      const result = await axiosCapex.get('/createInfo');
+    async getCreateInfo(year) {
+      const result = await axiosCapex.get(`/createInfo?year=${year}`);
 
       this.purposeData = result.data.purposeInfo.map(purpose => {
         return {
@@ -1521,14 +1533,15 @@ export default {
           name: ag.assetGrpDesc
         };
       });
-      this.budgetApprovalCodeData = this.budgetRaw.map(budget => {
-        return {
-          ...budget,
-          budgetDesc: `${budget.budgetCode} | ${budget.budgetDesc}`,
-          name: `${budget.budgetCode} | ${budget.budgetDesc}`,
-          id: budget.budgetCode
-        };
-      });
+
+      // this.budgetApprovalCodeData = this.budgetRaw.map(budget => {
+      //   return {
+      //     ...budget,
+      //     budgetDesc: `${budget.budgetCode} | ${budget.budgetDesc}`,
+      //     name: `${budget.budgetCode} | ${budget.budgetDesc}`,
+      //     id: budget.budgetCode
+      //   };
+      // });
 
       this.actTypeInfo.unshift({ id: null, name: '' });
 
@@ -1553,6 +1566,21 @@ export default {
           };
         });
 
+        const masterBudget = await axiosCapex.get(
+          `/budget?year=${this.capexInfo.year}`
+        );
+
+        this.budgetApprovalCodeData = masterBudget.data.map(budget => {
+          return {
+            ...budget,
+            budgetAmount: budget.amount,
+            budgetCode: budget.code,
+            budgetDesc: `${budget.code} | ${budget.description}`,
+            name: `${budget.code} | ${budget.description}`,
+            id: budget.code
+          };
+        });
+
         this.listBudgetCode = result.data.budget.map(budget => {
           const budgetInfo = this.budgetApprovalCodeData.find(bc => {
             return bc.budgetCode == budget.budgetCode;
@@ -1564,16 +1592,16 @@ export default {
             allocation: budget.amount,
             available:
               this.capexInfo.status == 'D'
-                ? budgetInfo.budgetRemaining
+                ? budgetInfo.remaining
                 : budget.remaining,
             remaining:
               this.capexInfo.status == 'D'
-                ? budgetInfo.budgetRemaining - budget.amount
+                ? budgetInfo.remaining - budget.amount
                 : budget.remaining - budget.amount,
             amount: budgetInfo.budgetAmount,
             allocationText: budget.amount.toLocaleString('id'),
             desc: budgetInfo.budgetDesc,
-            used: budgetInfo.budgetAmount - budgetInfo.budgetRemaining
+            used: budgetInfo.budgetAmount - budgetInfo.remaining
           };
         });
       } catch (err) {
@@ -1588,61 +1616,66 @@ export default {
         });
         this.$router.push('/');
       }
+    },
+
+    async initCapex() {
+      await this.fetchCapex(this.$route.params.ID);
+      await this.getCreateInfo(this.capexInfo.year);
+
+      this.costCenter = this.capexInfo.costCenter;
+      this.purpose = this.capexInfo.purpose;
+      this.unbudget = this.capexInfo.budgetType == 'U' ? true : false;
+      this.description = this.capexInfo.description;
+      this.serialNumber = this.capexInfo.serialNumber;
+      this.quantity = this.capexInfo.quantity;
+      this.quantityText = this.quantity.toLocaleString('id');
+      this.uom = this.capexInfo.uom;
+      this.deliveryDate = this.capexInfo.deliveryDate;
+      this.deliveryDate =
+        this.capexInfo.deliveryDate == '0001-01-01T00:00:00Z'
+          ? null
+          : this.capexInfo.deliveryDate;
+      this.justification = this.capexInfo.justification;
+      this.unitPrice = this.capexInfo.unitPrice;
+      this.unitPriceText = this.unitPrice.toLocaleString('id');
+
+      this.foreignAmount = this.capexInfo.foreignAmount;
+      this.foreignAmountText = this.foreignAmount.toLocaleString('id');
+      this.foreignCurrency = this.capexInfo.foreignCurrency;
+
+      this.plant = this.capexInfo.plant;
+      this.storageLoc = this.capexInfo.storageLocation;
+      this.assetActivityType = this.capexInfo.assetActivityType;
+
+      this.assetClass = this.capexInfo.assetClass;
+      this.assetGroup = this.capexInfo.assetGroup;
+      this.assetGenMode = this.capexInfo.assetGenMode;
+      this.assetNote = this.capexInfo.assetNote;
+
+      const asset = await axiosCapex.get(
+        `/capexTrx/${this.$route.params.ID}/asset`
+      );
+      this.listAsset = asset.data;
+
+      this.costCenterPrint = this.costCenterData.find(cc => {
+        return cc.costCenterCode == this.capexInfo.costCenter;
+      });
+
+      // this.totalBudget = this.listBudgetCode.reduce((a, b) => {
+      //     return a + b.remaining;
+      //   }, 0);
+      // console.log(this.totalBudget)
+      if (this.capexInfo.status == 'D') {
+        this.totalBudget = this.listBudgetCode.reduce((a, b) => {
+          return a + b.remaining + b.allocation;
+        }, 0);
+      } else {
+        this.totalBudget = this.capexInfo.totalBudget;
+      }
     }
   },
-  async created() {
-    await this.getCreateInfo();
-    await this.fetchCapex(this.$route.params.ID);
-    this.costCenter = this.capexInfo.costCenter;
-    this.purpose = this.capexInfo.purpose;
-    this.unbudget = this.capexInfo.budgetType == 'U' ? true : false;
-    this.description = this.capexInfo.description;
-    this.serialNumber = this.capexInfo.serialNumber;
-    this.quantity = this.capexInfo.quantity;
-    this.quantityText = this.quantity.toLocaleString('id');
-    this.uom = this.capexInfo.uom;
-    this.deliveryDate = this.capexInfo.deliveryDate;
-    this.deliveryDate =
-      this.capexInfo.deliveryDate == '0001-01-01T00:00:00Z'
-        ? null
-        : this.capexInfo.deliveryDate;
-    this.justification = this.capexInfo.justification;
-    this.unitPrice = this.capexInfo.unitPrice;
-    this.unitPriceText = this.unitPrice.toLocaleString('id');
-
-    this.foreignAmount = this.capexInfo.foreignAmount;
-    this.foreignAmountText = this.foreignAmount.toLocaleString('id');
-    this.foreignCurrency = this.capexInfo.foreignCurrency;
-
-    this.plant = this.capexInfo.plant;
-    this.storageLoc = this.capexInfo.storageLocation;
-    this.assetActivityType = this.capexInfo.assetActivityType;
-
-    this.assetClass = this.capexInfo.assetClass;
-    this.assetGroup = this.capexInfo.assetGroup;
-    this.assetGenMode = this.capexInfo.assetGenMode;
-    this.assetNote = this.capexInfo.assetNote;
-
-    const asset = await axiosCapex.get(
-      `/capexTrx/${this.$route.params.ID}/asset`
-    );
-    this.listAsset = asset.data;
-
-    this.costCenterPrint = this.costCenterData.find(cc => {
-      return cc.costCenterCode == this.capexInfo.costCenter;
-    });
-
-    // this.totalBudget = this.listBudgetCode.reduce((a, b) => {
-    //     return a + b.remaining;
-    //   }, 0);
-    // console.log(this.totalBudget)
-    if (this.capexInfo.status == 'D') {
-      this.totalBudget = this.listBudgetCode.reduce((a, b) => {
-        return a + b.remaining + b.allocation;
-      }, 0);
-    } else {
-      this.totalBudget = this.capexInfo.totalBudget;
-    }
+  created() {
+    this.initCapex();
   }
 };
 </script>

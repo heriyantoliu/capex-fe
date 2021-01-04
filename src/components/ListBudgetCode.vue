@@ -31,6 +31,7 @@
             </b-col>
           </b-row>
           <hr />
+
           <b-row>
             <b-col sm="12">
               <b-table-lite bordered striped :fields="fields" :items="listItem">
@@ -95,6 +96,7 @@
           :hide-header-close="true"
           title="Pilih budget code"
           @ok="onSelectedBudgetCode"
+          @cancel="clearSelection"
         >
           <b-form-group
             label="Cost Center"
@@ -104,12 +106,12 @@
               :options="costCenterData"
               v-model="selectedCostCenter"
             ></comp-select> -->
+
             <v-select
               :options="costCenterData"
               label="name"
-              code="id"
               v-model="selectedCostCenter"
-            ></v-select>
+            />
           </b-form-group>
 
           <b-form-group
@@ -122,12 +124,12 @@
               :value="selectedBudgetCode"
               @selected="getSelected"
             ></comp-select> -->
+
             <v-select
               :options="filterBudgetCode"
               label="name"
-              code="id"
               v-model="selectedBudgetCode"
-            ></v-select>
+            />
           </b-form-group>
         </b-modal>
       </div>
@@ -142,35 +144,35 @@ import 'vue-select/dist/vue-select.css';
 export default {
   components: {
     // compSelect,
-    vSelect
+    vSelect,
   },
   props: {
     budgetCodeData: {
       type: Array,
-      required: false
+      required: false,
     },
     costCenterData: {
       type: Array,
-      required: false
+      required: false,
     },
     listBudgetCode: {
       type: Array,
-      required: true
+      required: true,
     },
     amount: {
       type: Number,
       required: false,
-      default: 0
+      default: 0,
     },
     disabled: {
       type: Boolean,
       required: false,
-      default: false
-    }
+      default: false,
+    },
   },
   model: {
     prop: 'listBudgetCode',
-    event: 'onChange'
+    event: 'onChange',
   },
   data() {
     return {
@@ -182,12 +184,12 @@ export default {
         { key: 'available', label: 'Available' },
         { key: 'remaining', label: 'Remaining' },
         { key: 'allocationText', label: 'Allocation' },
-        { key: 'action', label: 'Action' }
+        { key: 'action', label: 'Action' },
       ],
-      selectedBudgetCode: {},
-      selectedCostCenter: {},
+      selectedBudgetCode: { name: '' },
+      selectedCostCenter: { name: '' },
       totalAllocation: 0,
-      filterBudgetCode: []
+      filterBudgetCode: [],
     };
   },
 
@@ -199,18 +201,23 @@ export default {
       }, 0);
     },
     selectedCostCenter(newValue, oldValue) {
-      if (newValue != oldValue) {
-        this.selectedBudgetCode = '';
+      if (newValue.id != oldValue.id) {
+        this.selectedBudgetCode = { name: '' };
       }
-      this.filterBudgetCode = this.budgetCodeData.filter(budget => {
+      this.filterBudgetCode = this.budgetCodeData.filter((budget) => {
         return budget.costCenter === newValue.id;
       });
-    }
+    },
   },
 
   methods: {
+    clearSelection() {
+      this.selectedBudgetCode = {};
+      this.selectedCostCenter = {};
+      this.filterBudgetCode = [];
+    },
     onDelete(code) {
-      this.listItem = this.listItem.filter(item => {
+      this.listItem = this.listItem.filter((item) => {
         return item.code != code;
       });
       this.$emit('onChange', this.listItem);
@@ -219,11 +226,11 @@ export default {
       this.selectedBudgetCode = value;
     },
     onSelectedBudgetCode() {
-      // if (!this.selectedBudgetCode) {
-      //   return;
-      // }
+      if (!this.selectedBudgetCode.id) {
+        return;
+      }
 
-      const existingBudgetCode = this.listItem.find(budget => {
+      const existingBudgetCode = this.listItem.find((budget) => {
         return budget.code == this.selectedBudgetCode.id;
       });
 
@@ -231,9 +238,9 @@ export default {
         return;
       }
 
-      // const budgetCode = this.budgetCodeData.find(budget => {
-      //   return budget.id == this.selectedBudgetCode.id;
-      // });
+      const budgetCode = this.budgetCodeData.find((budget) => {
+        return budget.id == this.selectedBudgetCode.id;
+      });
 
       this.listItem.push({
         code: this.selectedBudgetCode.id,
@@ -245,10 +252,11 @@ export default {
           this.selectedBudgetCode.budgetRemaining,
         remaining: this.selectedBudgetCode.budgetRemaining,
         allocationText: '0',
-        allocation: 0
+        allocation: 0,
       });
-      this.selectedBudgetCode = {};
-      this.selectedCostCenter = {};
+      console.log(this.listItem);
+      this.selectedBudgetCode = { name: '' };
+      this.selectedCostCenter = { name: '' };
       this.$emit('onChange', this.listItem);
     },
     onInputAllocation(e, idx) {
@@ -291,14 +299,14 @@ export default {
     },
     formatter(value) {
       return value.toLocaleString('id');
-    }
+    },
   },
   created() {
     this.listItem = this.listBudgetCode;
     this.totalAllocation = this.listItem.reduce((a, b) => {
       return a + b.allocation;
     }, 0);
-  }
+  },
 };
 </script>
 
