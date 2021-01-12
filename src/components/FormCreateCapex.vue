@@ -504,6 +504,7 @@
                 </div>
               </div>
             </div>
+
             <div class="m-portlet">
               <div class="m-portlet__head">
                 <div class="m-portlet__head-caption">
@@ -908,7 +909,8 @@ export default {
           return {
             budgetCode: budget.code,
             costCenter: budget.costCenter,
-            amount: Number(budget.allocation)
+            amount: Number(budget.allocation),
+            mainBudget: budget.mainBudget
           };
         });
         let result = await axiosCapex.post('/capexTrx', {

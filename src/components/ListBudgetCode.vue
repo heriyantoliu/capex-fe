@@ -31,7 +31,6 @@
             </b-col>
           </b-row>
           <hr />
-
           <b-row>
             <b-col sm="12">
               <b-table-lite bordered striped :fields="fields" :items="listItem">
@@ -62,6 +61,12 @@
                     autocomplete="off"
                     :disabled="disabled"
                   ></b-form-input>
+                </template>
+
+                <template v-slot:cell(mainBudget)="data">
+                  <div class="text-center">
+                    <b-form-checkbox v-model="data.item.mainBudget" disabled />
+                  </div>
                 </template>
 
                 <template v-slot:cell(action)="data">
@@ -144,35 +149,35 @@ import 'vue-select/dist/vue-select.css';
 export default {
   components: {
     // compSelect,
-    vSelect,
+    vSelect
   },
   props: {
     budgetCodeData: {
       type: Array,
-      required: false,
+      required: false
     },
     costCenterData: {
       type: Array,
-      required: false,
+      required: false
     },
     listBudgetCode: {
       type: Array,
-      required: true,
+      required: true
     },
     amount: {
       type: Number,
       required: false,
-      default: 0,
+      default: 0
     },
     disabled: {
       type: Boolean,
       required: false,
-      default: false,
-    },
+      default: false
+    }
   },
   model: {
     prop: 'listBudgetCode',
-    event: 'onChange',
+    event: 'onChange'
   },
   data() {
     return {
@@ -180,16 +185,17 @@ export default {
       fields: [
         { key: 'code', label: 'Budget Code' },
         { key: 'costCenter', label: 'Cost Center' },
-        { key: 'amount', label: 'Amount' },
+        { key: 'amount', label: 'Amount Budget' },
         { key: 'available', label: 'Available' },
         { key: 'remaining', label: 'Remaining' },
         { key: 'allocationText', label: 'Allocation' },
-        { key: 'action', label: 'Action' },
+        { key: 'mainBudget', label: 'Main Budget' },
+        { key: 'action', label: 'Action' }
       ],
       selectedBudgetCode: { name: '' },
       selectedCostCenter: { name: '' },
       totalAllocation: 0,
-      filterBudgetCode: [],
+      filterBudgetCode: []
     };
   },
 
@@ -204,10 +210,16 @@ export default {
       if (newValue.id != oldValue.id) {
         this.selectedBudgetCode = { name: '' };
       }
-      this.filterBudgetCode = this.budgetCodeData.filter((budget) => {
+      this.filterBudgetCode = this.budgetCodeData.filter(budget => {
         return budget.costCenter === newValue.id;
       });
-    },
+
+      if (this.listItem.length >= 1) {
+        this.filterBudgetCode = this.filterBudgetCode.filter(budget => {
+          return !budget.switched;
+        });
+      }
+    }
   },
 
   methods: {
@@ -217,9 +229,15 @@ export default {
       this.filterBudgetCode = [];
     },
     onDelete(code) {
-      this.listItem = this.listItem.filter((item) => {
-        return item.code != code;
-      });
+      const selectedBudgetCode = this.listItem.find(item => item.code == code);
+      if (selectedBudgetCode.mainBudget) {
+        this.listItem = [];
+      } else {
+        this.listItem = this.listItem.filter(item => {
+          return item.code != code;
+        });
+      }
+
       this.$emit('onChange', this.listItem);
     },
     getSelected(value) {
@@ -230,7 +248,7 @@ export default {
         return;
       }
 
-      const existingBudgetCode = this.listItem.find((budget) => {
+      const existingBudgetCode = this.listItem.find(budget => {
         return budget.code == this.selectedBudgetCode.id;
       });
 
@@ -253,6 +271,7 @@ export default {
         remaining: this.selectedBudgetCode.budgetRemaining,
         allocationText: '0',
         allocation: 0,
+        mainBudget: this.listItem.length == 0 ? true : false
       });
 
       this.selectedBudgetCode = { name: '' };
@@ -299,14 +318,14 @@ export default {
     },
     formatter(value) {
       return value.toLocaleString('id');
-    },
+    }
   },
   created() {
     this.listItem = this.listBudgetCode;
     this.totalAllocation = this.listItem.reduce((a, b) => {
       return a + b.allocation;
     }, 0);
-  },
+  }
 };
 </script>
 

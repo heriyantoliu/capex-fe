@@ -6,7 +6,7 @@ import Dashboard from './views/Dashboard';
 import Signin from './views/Signin';
 import Policy from './views/Policy';
 
-import DetailCapex from './views/DetailCapex2';
+import DetailCapex from './views/DetailCapex';
 import ApprCapex from './views/ListApprCapex';
 
 Vue.use(Router);
