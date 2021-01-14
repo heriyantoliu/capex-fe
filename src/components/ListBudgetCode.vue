@@ -14,6 +14,7 @@
         >Add</b-button
       >
     </div>
+
     <div class="m-portlet__body">
       <div class="m-form__section m-form__section--first">
         <b-container fluid>
@@ -34,6 +35,11 @@
           <b-row>
             <b-col sm="12">
               <b-table-lite bordered striped :fields="fields" :items="listItem">
+                <template v-slot:cell(quantity)="data">
+                  <div class="text-right">
+                    {{ data.item.quantity.toLocaleString('id') }}
+                  </div>
+                </template>
                 <template v-slot:cell(amount)="data">
                   <div class="text-right">
                     {{ data.item.amount.toLocaleString('id') }}
@@ -80,7 +86,7 @@
                 </template>
                 <template v-slot:custom-foot>
                   <tr>
-                    <td colspan="5" class="text-center">
+                    <td colspan="6" class="text-center">
                       <strong>TOTAL</strong>
                     </td>
                     <td class="text-right">
@@ -185,6 +191,7 @@ export default {
       fields: [
         { key: 'code', label: 'Budget Code' },
         { key: 'costCenter', label: 'Cost Center' },
+        { key: 'quantity', label: 'Quantity' },
         { key: 'amount', label: 'Amount Budget' },
         { key: 'available', label: 'Available' },
         { key: 'remaining', label: 'Remaining' },
@@ -271,7 +278,8 @@ export default {
         remaining: this.selectedBudgetCode.budgetRemaining,
         allocationText: '0',
         allocation: 0,
-        mainBudget: this.listItem.length == 0 ? true : false
+        mainBudget: this.listItem.length == 0 ? true : false,
+        quantity: this.selectedBudgetCode.quantity
       });
 
       this.selectedBudgetCode = { name: '' };

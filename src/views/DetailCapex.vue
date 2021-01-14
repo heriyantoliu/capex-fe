@@ -1603,7 +1603,8 @@ export default {
             amount: budgetInfo.budgetAmount,
             allocationText: budget.amount.toLocaleString('id'),
             desc: budgetInfo.budgetDesc,
-            used: budgetInfo.budgetAmount - budgetInfo.remaining
+            used: budgetInfo.budgetAmount - budgetInfo.remaining,
+            quantity: budgetInfo.quantity
           };
         });
       } catch (err) {
