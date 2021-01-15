@@ -310,7 +310,7 @@ export default {
       });
 
       if (this.mainBudget) {
-        this.mainBudget = '';
+        this.mainBudget = false;
         this.disableMainBudget = true;
       }
 
