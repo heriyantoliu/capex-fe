@@ -142,6 +142,12 @@
               v-model="selectedBudgetCode"
             />
           </b-form-group>
+          <b-form-checkbox
+            v-model="mainBudget"
+            @change="toggleMainBudget"
+            :disabled="disableMainBudget"
+            >Main</b-form-checkbox
+          >
         </b-modal>
       </div>
     </div>
@@ -202,7 +208,9 @@ export default {
       selectedBudgetCode: { name: '' },
       selectedCostCenter: { name: '' },
       totalAllocation: 0,
-      filterBudgetCode: []
+      filterBudgetCode: [],
+      mainBudget: true,
+      disableMainBudget: false
     };
   },
 
@@ -214,6 +222,7 @@ export default {
       }, 0);
     },
     selectedCostCenter(newValue, oldValue) {
+      console.log('selected cost center');
       if (newValue.id != oldValue.id) {
         this.selectedBudgetCode = { name: '' };
       }
@@ -221,7 +230,7 @@ export default {
         return budget.costCenter === newValue.id;
       });
 
-      if (this.listItem.length >= 1) {
+      if (!this.mainBudget) {
         this.filterBudgetCode = this.filterBudgetCode.filter(budget => {
           return !budget.switched;
         });
@@ -230,6 +239,22 @@ export default {
   },
 
   methods: {
+    toggleMainBudget(checked) {
+      this.filterBudgetCode = [];
+      this.selectedBudgetCode = { name: '' };
+
+      if (this.selectedCostCenter.id) {
+        this.filterBudgetCode = this.budgetCodeData.filter(budget => {
+          if (!checked) {
+            return (
+              budget.costCenter === this.selectedCostCenter.id &&
+              !budget.switched
+            );
+          }
+          return budget.costCenter === this.selectedCostCenter.id;
+        });
+      }
+    },
     clearSelection() {
       this.selectedBudgetCode = {};
       this.selectedCostCenter = {};
@@ -239,6 +264,8 @@ export default {
       const selectedBudgetCode = this.listItem.find(item => item.code == code);
       if (selectedBudgetCode.mainBudget) {
         this.listItem = [];
+        this.disableMainBudget = false;
+        this.mainBudget = true;
       } else {
         this.listItem = this.listItem.filter(item => {
           return item.code != code;
@@ -278,9 +305,14 @@ export default {
         remaining: this.selectedBudgetCode.budgetRemaining,
         allocationText: '0',
         allocation: 0,
-        mainBudget: this.listItem.length == 0 ? true : false,
+        mainBudget: this.mainBudget,
         quantity: this.selectedBudgetCode.quantity
       });
+
+      if (this.mainBudget) {
+        this.mainBudget = '';
+        this.disableMainBudget = true;
+      }
 
       this.selectedBudgetCode = { name: '' };
       this.selectedCostCenter = { name: '' };
