@@ -81,6 +81,12 @@
                 }}</b-badge>
               </template>
 
+              <template v-slot:cell(switched)="data">
+                <div class="text-center">
+                  <b-form-checkbox v-model="data.item.switched" disabled />
+                </div>
+              </template>
+
               <template v-slot:cell(budgetType)="data">
                 {{ data.item.budgetType == 'B' ? 'Budget' : 'Unbudgeted' }}
               </template>
@@ -120,6 +126,7 @@ export default {
         { key: 'quantity', label: 'Quantity' },
         { key: 'amount', label: 'Amount' },
         { key: 'actualAmount', label: 'Actual Amount' },
+        { key: 'switched', label: 'Switched' },
         { key: 'status', label: 'Status' }
       ],
       listCapex: [],
