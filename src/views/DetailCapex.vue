@@ -72,6 +72,12 @@
                           :variant="statusColor(capexInfo.status)"
                           style="font-size: 17.6px"
                           >{{ capexInfo.status | statusDesc }}</b-badge
+                        >{{ ' ' }}
+                        <b-badge
+                          v-if="capexInfo.switched"
+                          variant="primary"
+                          style="font-size: 17.6px"
+                          >Switched</b-badge
                         >
                       </b-col>
                     </b-row>
