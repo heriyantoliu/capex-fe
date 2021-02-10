@@ -1327,6 +1327,30 @@ export default {
     async validateCreator(status) {
       this.$v.$touch();
       if (!this.$v.$invalid) {
+        if (
+          (this.purpose == 'A1' ||
+            this.purpose == 'A2' ||
+            this.purpose == 'A4' ||
+            this.purpose == 'A6') &&
+          this.totalAmount >= 1000000000
+        ) {
+          const businessCaseAttachment = this.files.find(file => {
+            return file.category == 'Business Case';
+          });
+          if (!businessCaseAttachment) {
+            this.$bvModal.msgBoxOk('Lampiran business case belum tersedia', {
+              title: 'Error',
+              size: 'sm',
+              buttonSize: 'sm',
+              okVariant: 'danger',
+              headerClass: 'p-2 border-bottom-0',
+              footerClass: 'p-2 border-top-0',
+              centered: true
+            });
+            return;
+          }
+        }
+
         if (this.costCenter && !this.unbudget) {
           let totalSplitAllocation = this.listBudgetCode.reduce((a, b) => {
             return a + b.allocation;
@@ -1416,6 +1440,16 @@ export default {
         });
 
         let formData = new FormData();
+
+        this.files.forEach(file => {
+          formData.append(
+            'rawData',
+            JSON.stringify({
+              name: file.name,
+              category: file.category
+            })
+          );
+        });
 
         const newAttachments = this.files.filter(file => {
           return file.new;
