@@ -73,7 +73,10 @@
             </div>
           </div>
 
-          <div class="m-stack__item m-stack__item--fluid m-header-head" id="m_header_nav">
+          <div
+            class="m-stack__item m-stack__item--fluid m-header-head"
+            id="m_header_nav"
+          >
             <button
               class="m-aside-header-menu-mobile-close m-aside-header-menu-mobile-close--skin-dark"
               id="m_aside_header_menu_mobile_close_btn"
@@ -130,7 +133,8 @@
                             <div class="m-card-user__details">
                               <span
                                 class="m-card-user__name m--font-weight-500"
-                              >{{ $store.state.name }}</span>
+                                >{{ $store.state.name }}</span
+                              >
                               <!-- <span
                                 href
                                 class="m-card-user__email m--font-weight-300"
@@ -138,7 +142,9 @@
                               <button
                                 class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder"
                                 @click="logout"
-                              >Logout</button>
+                              >
+                                Logout
+                              </button>
                             </div>
                           </div>
                         </div>
@@ -157,7 +163,9 @@
                                 >
                                   <span class="m-nav__link-title">
                                     <span class="m-nav__link-wrap">
-                                      <span class="m-nav__link-text">My Profile</span>
+                                      <span class="m-nav__link-text"
+                                        >My Profile</span
+                                      >
                                     </span>
                                   </span>
                                 </router-link>
@@ -178,7 +186,9 @@
       </div>
     </header>
 
-    <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body">
+    <div
+      class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body"
+    >
       <button
         class="m-aside-left-close m-aside-left-close--skin-dark"
         id="m_aside_left_close_btn"
@@ -214,6 +224,16 @@
                   </span>
                 </span>
               </router-link>
+
+              <router-link to="/user-guide" class="m-menu__link">
+                <i class="m-menu__link-icon flaticon-line-graph"></i>
+                <span class="m-menu__link-title">
+                  <span class="m-menu__link-wrap">
+                    <span class="m-menu__link-text">User Guide</span>
+                    <span class="m-menu__link-badge"></span>
+                  </span>
+                </span>
+              </router-link>
               <!-- </a> -->
             </li>
             <li class="m-menu__section">
@@ -230,7 +250,10 @@
               <a href="javascript:;" class="m-menu__link m-menu__toggle">
                 <i class="m-menu__link-icon flaticon-file-1"></i>
                 <span class="m-menu__link-text">Capex</span>
-                <i class="m-menu__ver-arrow la la-angle-up" v-if="capexMenuDropdownOpen"></i>
+                <i
+                  class="m-menu__ver-arrow la la-angle-up"
+                  v-if="capexMenuDropdownOpen"
+                ></i>
                 <i class="m-menu__ver-arrow la la-angle-right" v-else></i>
               </a>
               <div
@@ -243,18 +266,26 @@
               >
                 <span class="m-menu__arrow"></span>
                 <ul class="m-menu__subnav">
-                  <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+                  <li
+                    class="m-menu__item m-menu__item--active"
+                    aria-haspopup="true"
+                  >
                     <!-- <a href="/create" class="m-menu__link"> -->
                     <router-link to="/waitAppr" class="m-menu__link">
                       <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                         <span></span>
                       </i>
-                      <span class="m-menu__link-text">Waiting My Approval/Verification</span>
+                      <span class="m-menu__link-text"
+                        >Waiting My Approval/Verification</span
+                      >
                     </router-link>
                     <!-- </a> -->
                   </li>
 
-                  <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+                  <li
+                    class="m-menu__item m-menu__item--active"
+                    aria-haspopup="true"
+                  >
                     <!-- <a href="/create" class="m-menu__link"> -->
                     <router-link to="/replicate" class="m-menu__link">
                       <i class="m-menu__link-bullet m-menu__link-bullet--dot">
@@ -265,13 +296,18 @@
                     <!-- </a> -->
                   </li>
 
-                  <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+                  <li
+                    class="m-menu__item m-menu__item--active"
+                    aria-haspopup="true"
+                  >
                     <!-- <a href="/create" class="m-menu__link"> -->
                     <router-link to="/create" class="m-menu__link">
                       <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                         <span></span>
                       </i>
-                      <span class="m-menu__link-text">Create Capex Request</span>
+                      <span class="m-menu__link-text"
+                        >Create Capex Request</span
+                      >
                     </router-link>
                     <!-- </a> -->
                   </li>
@@ -290,7 +326,10 @@
               <a href="javascript:;" class="m-menu__link m-menu__toggle">
                 <i class="m-menu__link-icon flaticon-file-1"></i>
                 <span class="m-menu__link-text">Report</span>
-                <i v-if="reportMenuDropdownOpen" class="m-menu__ver-arrow la la-angle-up"></i>
+                <i
+                  v-if="reportMenuDropdownOpen"
+                  class="m-menu__ver-arrow la la-angle-up"
+                ></i>
                 <i v-else class="m-menu__ver-arrow la la-angle-right"></i>
               </a>
               <div
@@ -303,7 +342,10 @@
               >
                 <span class="m-menu__arrow"></span>
                 <ul class="m-menu__subnav">
-                  <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+                  <li
+                    class="m-menu__item m-menu__item--active"
+                    aria-haspopup="true"
+                  >
                     <!-- <a href="/create" class="m-menu__link"> -->
                     <router-link to="/report/budget" class="m-menu__link">
                       <i class="m-menu__link-bullet m-menu__link-bullet--dot">
@@ -314,7 +356,10 @@
                     <!-- </a> -->
                   </li>
 
-                  <li class="m-menu__item m-menu__item--active" aria-haspopup="true">
+                  <li
+                    class="m-menu__item m-menu__item--active"
+                    aria-haspopup="true"
+                  >
                     <!-- <a href="/create" class="m-menu__link"> -->
                     <router-link to="/report/transaction" class="m-menu__link">
                       <i class="m-menu__link-bullet m-menu__link-bullet--dot">
@@ -330,8 +375,15 @@
           </ul>
         </div>
       </div>
-      <div class="m-aside-left-overlay" v-if="showLeftPanelMobile == true" @click="contentClicked"></div>
-      <div class="m-grid__item m-grid__item--fluid m-wrapper" @click="contentClicked">
+      <div
+        class="m-aside-left-overlay"
+        v-if="showLeftPanelMobile == true"
+        @click="contentClicked"
+      ></div>
+      <div
+        class="m-grid__item m-grid__item--fluid m-wrapper"
+        @click="contentClicked"
+      >
         <router-view></router-view>
       </div>
     </div>
@@ -353,15 +405,15 @@ export default {
       showLeftPanelMobile: false,
       styleCapexMenuDropdown: {
         display: 'none',
-        overflow: 'hidden',
-      },
+        overflow: 'hidden'
+      }
     };
   },
 
   computed: {
     hasReportAuthorization() {
       return this.$store.getters.findRole('REPORT');
-    },
+    }
   },
 
   methods: {
@@ -427,8 +479,8 @@ export default {
       //   "m-brand--minimize",
       //   "m-aside-left--minimize"
       // );
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -68,6 +68,11 @@ const router = new Router({
           path: '/report/transaction',
           name: 'reportTransaction',
           component: () => import('./views/Report/Transaction.vue')
+        },
+        {
+          path: '/user-guide',
+          name: 'userGuide',
+          component: () => import('./views/userGuide.vue')
         }
       ]
     },
