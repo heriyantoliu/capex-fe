@@ -234,6 +234,18 @@
                   </span>
                 </span>
               </router-link>
+
+              <router-link to="/sop-asset-capex" class="m-menu__link">
+                <i class="m-menu__link-icon flaticon-line-graph"></i>
+                <span class="m-menu__link-title">
+                  <span class="m-menu__link-wrap">
+                    <span class="m-menu__link-text"
+                      >Prosedur Fixed Asset & Capex</span
+                    >
+                    <span class="m-menu__link-badge"></span>
+                  </span>
+                </span>
+              </router-link>
               <!-- </a> -->
             </li>
             <li class="m-menu__section">

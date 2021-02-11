@@ -73,6 +73,11 @@ const router = new Router({
           path: '/user-guide',
           name: 'userGuide',
           component: () => import('./views/userGuide.vue')
+        },
+        {
+          path: '/sop-asset-capex',
+          name: 'sopAssetCapex',
+          component: () => import('./views/sopAssetCapex.vue')
         }
       ]
     },

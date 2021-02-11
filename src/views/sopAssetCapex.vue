@@ -1,7 +1,7 @@
 <template>
   <div>
     <embed
-      src="./assets/capex-user-guide.pdf"
+      src="./assets/sop-asset-capex.pdf"
       type="application/pdf"
       width="100%"
       height="100%"
